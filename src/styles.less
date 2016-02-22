@@ -1,0 +1,341 @@
+grid-component, grid-component-checkbox {
+  display: block;
+  position: relative;
+  @dark-border: 1px solid hsl(0, 0%, 40%);
+  @light-border: 1px solid hsl(0, 0%, 75%);
+  @border-radius: 5px;
+
+  /* Removing Rounded corner */
+  @row-hover-outline: 2px solid #1581F4;
+  // Old color   3px solid #d3f0fe;
+  //
+  @row-hover-background: #d3f0fe;
+  @header-background: linear-gradient(to top, #7e7e83, #afafb4);
+  @parent-background: #e4e4e4;
+  @child-background: #f6f6f6;
+  @selected-background: #50A2F2;
+  // old color#d3f0fe !important;
+  //
+  @odd-row-background: #F0F0F0;
+  //#D7D7D7;
+  @even-row-background: #F9F9F9;
+  //#F3F3F3;
+  @font-color: hsl(0, 0%, 0%);
+  @disclosure-symbol: '▶︎';
+
+  .grid-wrapper {
+    border-radius: 5px;
+    overflow: scroll;
+    position: relative;
+    clear: both;
+
+
+    tbody {
+      /* this is used for dynamic column uiType="Filesize" (see grid-component.js helper "column") */
+      .tooltip-message {
+        margin-left: 0 !important;
+        top: -12px;
+        left: -50px;
+        background-color: white;
+        border: 1px solid rgba(0, 0, 0, .3);
+        height: 20px;
+        line-height: 20px;
+        font-size: 12px !important;
+        padding: 0 5px;
+        border-radius: 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+      }
+      tr:first-child .tooltip-message {
+        top: 6px;
+      }
+
+      // Make the bottom corners round when there is no footer:
+      &.round-bottom {
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
+      }
+    }
+  }
+
+  div.grid-tools {
+    min-height: 25px;
+
+    // page size dropdown (to push down floating controls for the smaller screen size):
+    > select {
+      margin-bottom: 10px;
+    }
+
+    /* For the multi-select component */
+    .multi-select {
+      position: relative;
+      top: -8px;
+      margin-right: 6px;
+
+      multi-select.file-type-selector {
+        button.btn {
+          width: 120px;
+        }
+        ul {
+          width: 120px;
+          min-width: 120px;
+        }
+      }
+
+      & > label {
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    > .btn-download, > div.pull-right > .btn-download {
+      height: 20px;
+      width: 20px;
+      cursor: pointer;
+      display: inline-block;
+      position: relative;
+      top: -7px;
+
+      img {
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  table {
+    display: block;
+    width: 100%;
+    border-spacing: 0;
+    border-right: 1px solid #a1a1a1;
+    border-radius: 5px;
+    color: @font-color;
+
+    td:last-child, th:last-child {
+      padding-right: 15px;
+    }
+
+    thead {
+      border-top-left-radius: @border-radius;
+      border-top-right-radius: @border-radius;
+      line-height: 17px;
+    }
+    tbody {
+      background: #F6F6F6 !important;
+      border-bottom: @light-border;
+      border-left: 1px solid #bfbfbf;
+      overflow-y: overlay; // "overlay" is for Safari
+
+      tr {
+
+        line-height: 1.15em;
+
+        // don't set height or max-height:
+        min-height: 22px;
+
+        &.parent:nth-child(even) {
+          background: @even-row-background;
+        }
+        &.parent:nth-child(odd) {
+          background: @odd-row-background;
+        }
+        &.selected {
+          background: @selected-background !important;
+          color: white;
+
+          a {
+            color: rgb(181, 239, 255);
+          }
+        }
+        &.even-row {
+          background: @even-row-background;
+          // !important;
+        }
+        &.odd-row {
+          background: @odd-row-background;
+          // !important;
+        }
+        &:hover, &.parent:hover {
+          //outline: @row-hover-outline;
+          background: @row-hover-background;
+        }
+        &.hidden {
+          display: none;
+        }
+        td {
+          padding: 4px 6px;
+          border-right: @light-border;
+          //border-bottom: 1px solid #FFFFFF !important;
+
+          &:first-child {
+            //border-left: 1px solid #FFFFFF !important;
+          }
+          &:last-child {
+            border-right: 1px solid #FFFFFF !important;
+          }
+          p {
+            margin: 0;
+            padding: 0;
+          }
+        }
+      }
+    }
+    tfoot {
+      border-bottom-left-radius: @border-radius;
+      border-bottom-right-radius: @border-radius;
+      line-height: 17px;
+
+      td.no-right-border {
+        border-right-color: transparent;
+      }
+      tr {
+        background: none;
+
+        &:first-child {
+          background: @header-background;
+        }
+        &.footer-details {
+          color: black;
+
+          td {
+            border-color: #C8C8C8;
+            border-right-color: transparent;
+          }
+        }
+      }
+    }
+    tfoot {
+      td {
+        white-space: nowrap;
+      }
+    }
+    thead, tbody, tfoot {
+      display: block;
+
+      tr {
+        display: -webkit-flex;
+        width: 100%;
+      }
+      th {
+        .arrow {
+          font-size: 8px;
+        }
+      }
+      th, td {
+        -webkit-flex-basis: 210px;
+        flex-basis: 210px;
+        flex-grow: 1;
+        -webkit-flex-grow: 1;
+        min-width: 0px;
+
+        &.cell-checkbox, &.col-checkbox, &.col-expand {
+          -webkit-flex: none;
+          flex: none;
+          max-width: 25px;
+          min-width: 25px;
+          padding-top: 2px;
+          padding-bottom: 2px;
+        }
+        &.col-expand {
+          .open-toggle {
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+    tbody, tfoot {
+      tr.child {
+        background-color: white;
+        color: @font-color;
+
+        & td {
+          border-right: 1px solid transparent;
+        }
+        &.visible {
+          display: table-row;
+        }
+      }
+    }
+    thead {
+      background: @header-background;
+    }
+    thead, tfoot {
+      color: white;
+      border-left: 1px solid #868080;
+
+      th, td {
+        font-family: "MyriadPro-Regular";
+        font-size: 12px;
+        font-weight: normal;
+        padding: 4px 6px;
+        //border-right: @dark-border;
+        border-right: 1px solid #868080;
+        //border-top: @dark-border;
+        border-bottom: @light-border;
+
+        &:first-child {
+          //border-left: @dark-border;
+        }
+        &:last-child {
+          border-right: 0px solid #868080;
+        }
+        & .sort-arrow {
+          font-size: .5em;
+        }
+      }
+      tr.child {
+        display: none;
+
+        &.visible {
+          display: table-row;
+        }
+        th, td {
+          color: #000;
+        }
+      }
+    }
+    span.open-toggle, span.open-toggle-all {
+      display: inline-block;
+
+      &:before {
+        content: @disclosure-symbol;
+      }
+    }
+    tr.open span.open-toggle, tr.open span.open-toggle-all {
+      transform: rotate(90deg);
+      -webkit-transform: rotate(90deg);
+      -moz-transform: rotate(90deg);
+      -ms-transform: rotate(90deg);
+    }
+    .child.visible {
+      background: #fff;
+      //border: 1px solid #bfbfbf;
+
+      &.selected {
+        background: @selected-background !important;
+      }
+    }
+  }
+}
+
+.page, grid-component, grid-component-checkbox {
+  .grand-total {
+    text-align: right;
+    padding-right: 10px;
+    margin-bottom: 10px;
+
+    h3:nth-child(1) {
+      font-size: 1.2em;
+      margin-bottom: 4px;
+      padding-bottom: 2px;
+      font-weight: bold;
+    }
+    h4 {
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 2px;
+      font-weight: normal;
+    }
+  }
+  .align-right {
+    text-align: right;
+  }
+}

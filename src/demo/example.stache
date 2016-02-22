@@ -1,0 +1,61 @@
+<!-- Refer to the grid-component documentation for usage. -->
+
+
+{{#if isToolbarShown}}
+<div class="tools">
+  <grid-filter filter="{filter}">
+    <button can-click="filterByDate">filter by date</button>
+    <input type="text" can-value="{searchtext}">
+    hasCheckboxes={{hasCheckboxes}}
+  </grid-filter>
+</div>
+{{/if}}
+
+<table>
+  <thead>
+    <tr>
+      {{#if hasCheckboxes}}
+        <th class="cell-checkbox"><input type="checkbox" {($checked)}="isHeaderChecked"></th>
+      {{/if}}
+
+      {{! TODO: review (too verbose) }}
+      <th can-click="{sortBy 'period'}">Period {{{sortArrow 'period'}}}</th>
+      <th can-click="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
+      <th can-click="{sortBy 'sales'}">Sales {{{sortArrow 'sales'}}}</th>
+      <th can-click="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
+      <th can-click="{sortBy 'accrualModel'}">Accrual Model {{{sortArrow 'accrualModel'}}}</th>
+      <th can-click="{sortBy 'currency'}">Currency {{{sortArrow 'currency'}}}</th>
+      <th can-click="{sortBy 'estRevenue'}">Est Revenue {{{sortArrow 'estRevenue'}}}</th>
+      <th can-click="{sortBy 'estListener'}">Est Listener hrs {{{sortArrow 'estListener'}}}</th>
+      <th can-click="{sortBy 'estPlayCount'}">Est Play count {{{sortArrow 'estPlayCount'}}}</th>
+      <th can-click="{sortBy 'fileSize'}">File Size {{{sortArrow 'fileSize'}}}</th>
+    </tr>
+  </thead>
+
+  <!-- 
+    This table will be live bound to a can.List.  When we change the content inside the can.List, the
+    table data will automatically update to reflect the changes.
+  -->
+  <tbody>
+    {{#each rows}}
+      <tr class="{{^if isVisible}}hidden{{/if}}">
+        {{#if hasCheckboxes}}
+          <td class="cell-checkbox"><input type="checkbox" {($checked)}="isChecked" {{#isDisabled}}disabled{{/isDisabled}} {{data "row"}}></td>
+        {{/if}}
+
+        <td>{{period}}</td>
+        <td>{{region}}</td>
+        <td>{{sales}}</td>
+        <td>{{country}}</td>
+        <td>{{accrualModel}}</td>
+        <td>{{currency}}</td>
+        <td>{{estRevenue}}</td>
+        <td>{{estListener}}</td>
+        <td>{{estPlayCount}}</td>
+        <td>{{fileSize}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+

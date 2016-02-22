@@ -1,0 +1,45 @@
+<!-- BEGIN STACHE TEMPLATE FOR DEMO -->
+<script type="text/stache" id="demo" can-autorender>
+  <can-import from="components/grid-component/" />
+  <can-import from="components/grid-component/styles.less!" />
+  <can-import from="components/grid-component/demo/styles.less!" />
+
+  <div class="grid-container">
+    <grid-component rows="{rows}">
+      {{>example.stache}}
+    </grid-component>
+  </div>
+</script>
+<!-- END STACHE TEMPLATE FOR DEMO -->
+
+<!-- BEGIN JAVASCRIPT CODE FOR DEMO -->
+<script src="../../../node_modules/steal/steal.js"
+        main="can/view/autorender/">
+
+  import can from 'can';
+  import $ from 'jquery';
+  import _ from 'lodash';
+  import 'can/list/sort/';
+
+  /**
+   * Sets up fixture data on the viewModel for the above template.  This is the same as setting
+   * data inside the view-model.js for a grid-component.
+   */
+  $('#demo').viewModel().attr({
+    rows: _.times(300, i => {
+      return {
+        period: 'P05FY0' + (i%9 + 1),
+        region: ['Europe','America'][i<5?0:1],
+        sales: 'Sales Org',
+        country: ['Austria','Chicago'][i<5?0:1],
+        accrualModel: 'WCM',
+        currency: ['EUR','CAD','DKK'][i % 3],
+        estRevenue: '20175.28',
+        estListener: '4392952.04',
+        estPlayCount: '71963442.49',
+        isVisible: true
+      };
+    })
+  });
+</script>
+<!-- END JAVASCRIPT CODE FOR DEMO -->

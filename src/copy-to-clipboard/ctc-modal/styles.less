@@ -1,0 +1,136 @@
+copy-to-clipboard, copy-to-clipboard-data {
+  display: inline-block;
+  height:18px;
+  width:18px;
+  background-image: url(/resources/images/rn_CopyActive@2x.png);
+  background-size: cover;
+  position: relative;
+  top: -1px;
+  cursor: pointer;
+  
+  div.clickable{
+    display: block;
+    height:18px;
+    width:18px;
+  }
+  
+  &:hover{
+    background-image: url(/resources/images/rn_CopySelected@2x.png);
+  }
+}
+
+
+
+
+.clipboard-modal{
+  display:block;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  min-width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.8);
+  transition: all 0.5s;
+  overflow: hidden;
+  
+  .copyclipboard{
+    width: 1200px;
+    height: 500px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: #fff;
+    margin: -250px 0px 0px -600px;
+    -webkit-background-clip: padding-box;
+    background-clip: padding-box;
+    border: 1px solid #C6C6C6;
+    border-radius: 6px;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+  }
+  .title{
+    font-size: 12px;
+    background: #eee;
+    height: 32px;
+    border-bottom: 1px solid #c6c6c6;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    
+    span{
+      position: relative;
+      top: -3px;
+    }
+    button{
+      position: relative;
+      top: -5px;
+      margin-left: 5px;
+    }
+  }
+  .ctc-content{
+    overflow: scroll;
+    height: 468px;
+    padding:10px;
+    
+    table{
+      width:100%;
+      background:none;
+      border:0;
+      border-collapse: separate;
+      border-spacing: 5px;
+      display: table;
+      
+      .checkbox, input {
+        display:none;
+      }
+      td:not(.hide-on-approvals), th:not(.hide-on-approvals) {
+        display: table-cell;
+      }
+      th.expandable-parent, td.expandable-parent{
+        display:none
+      }
+      tbody{
+        height: auto;
+        
+        tr:nth-child(even){
+          background:none;
+        }
+        tr:nth-child(odd){
+          background:none;
+        }
+      }
+      thead, tbody, tfoot{
+        display: table-row-group;
+      }
+      thead, tbody, tfoot, tr, th, td{
+        background:none !important;
+        color:#000;
+        border:0;
+        margin:4px;
+      }
+      tr{
+        display: table-row;  
+        
+        &:hover{
+          border:none;
+        }
+      }
+      tfoot tr td{
+        position:relative;
+        top:12px;
+      }
+    }
+    input[type="radio"][disabled], input[type="checkbox"][disabled], input[type="radio"].disabled, input[type="checkbox"].disabled, fieldset[disabled] input[type="radio"], fieldset[disabled] input[type="checkbox"]{
+      display: none;
+    }
+  }
+   
+  #dynamic .copytoclipboardContainer{
+    display: block;
+  }
+
+} 

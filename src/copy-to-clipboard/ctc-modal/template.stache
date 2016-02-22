@@ -1,0 +1,10 @@
+<div class="clipboard-modal">
+  <div class='copyclipboard'>
+    <div class='title'>
+      <span>Press Command-C to copy to clipboard </span>
+      <button type="button" class="btn btn-primary btn-custom-small" can-click="selectAll">Select All</button>
+      <span class='pull-right' can-click="closeModal"> X </span>
+    </div>
+    <div class='ctc-content'>{{{content}}}<content></div>
+  </div>
+</div>

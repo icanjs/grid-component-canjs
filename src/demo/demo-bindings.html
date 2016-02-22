@@ -1,0 +1,16 @@
+<script type="text/stache" id="demo" can-autorender>
+
+  <h3>Bindings syntax</h3>
+
+  <p>TextVal: {{textVal}}<p>
+
+</script>
+
+<script src="../../../node_modules/steal/steal.js"
+        main="can/view/autorender/">
+
+  import can from 'can';
+  import $ from 'jquery';
+
+  $('#demo').viewModel().attr('textVal', '123');
+</script>

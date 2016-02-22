@@ -1,0 +1,41 @@
+<grid-filter rows="{data}"></grid-filter>
+
+<grid-component rows="{renderedData}">
+  <grid-tools>
+    Show {{filteredData.length}} or {{data.length}}
+  </grid-tools>
+  <table>
+    {{#each rows}}
+    <tr>{.}</tr>
+    {{/each}}
+  </table>
+</grid-component>
+
+
+<script>
+  var vm = new (can.Map.extend({
+    define: {
+      data: {
+        value: [{id:1, isVisible: true},{id:2, isVisible: true},{id:3, isVisible: true},{id:4, isVisible: true},{id:5, isVisible: true}]
+      },
+      filteredData: {
+        get: function(){
+          return this.attr('data').filter(function(a){
+            return a.attr('isVisible')
+          });
+        }
+      },
+      renderedData: {
+        get: function(){
+          var self = this;
+          return this.attr('filteredData').filter(function(item, i){
+            return i < self.attr('endIndex');
+          });
+        }
+      },
+      endIndex: {
+        value: 500
+      }
+    }
+  }))();
+</script>

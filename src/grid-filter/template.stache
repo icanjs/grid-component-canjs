@@ -1,0 +1,1 @@
+<input class="tokenSearch" type="text" can-value="{searchtext}">

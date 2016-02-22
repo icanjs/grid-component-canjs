@@ -1,0 +1,28 @@
+{
+  "name": "grid-component",
+  "version": "1.0.0",
+  "description": "Grid Component",
+  "main": "src/grid-component.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/icanjs/grid-component.git"
+  },
+  "author": "Bitovi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/icanjs/grid-component/issues"
+  },
+  "homepage": "https://github.com/icanjs/grid-component#readme",
+  "dependencies": {
+    "can": "^2.3.17",
+    "steal": "^0.13.2"
+  },
+  "devDependencies": {
+    "steal-qunit": "0.1.1",
+    "steal-tools": "0.13.0-pre.0",
+    "testee": "^0.2.5"
+  }
+}

@@ -1,0 +1,5 @@
+<div class="clickable" can-click="openModal"></div>
+
+{{#if modalVisible}}
+<ctc-modal modal-visible="{modalVisible}" content="{content}"></ctc-modal>
+{{/if modalVisible}}

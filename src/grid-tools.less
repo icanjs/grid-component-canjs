@@ -1,0 +1,132 @@
+/***
+
+  This a named-parameterized LESS mixin (http://lesscss.org/features/#mixins-parametric-feature-named-parameters).
+  On a page it should be used like this:
+
+  page-component {
+    grid-tools {
+      .grid-tools( @tabs: 190px, @tools-left: 150px, @tools-right: 520px, @action-buttons: 160px );
+    }
+  }
+
+***/
+
+.grid-tools-responsive(
+    @tabs: 0px,
+    @tools-left: 190px,
+    @tools-right: 520px,
+    @action-buttons: 160px,
+    @first-breakpoint: 1090px,
+    @second-breakpoint: 610px
+) {
+
+  // Widths config aliases:
+  @tabs-width: @tabs;
+  @tools-left-width: @tools-left;
+  @tools-right-width: @tools-right;
+  @buttons-width: @action-buttons;
+
+  // Action buttons spacing:
+  @tools-spacing: 20px;
+  @buttons-left: @tools-left-width + @tools-spacing;
+  @buttons-right: @tools-right-width + @tools-spacing;
+
+  margin-bottom: 5px;
+  line-height: 30px;
+
+  &.with-tabs {
+    position: absolute;
+    top: -45px;
+    left: @tabs-width;
+    right: 0;
+  }
+
+  .tooltip-message {
+    line-height: 1.4;
+  }
+
+  img {
+    cursor: pointer;
+  }
+
+  .tool, .tool > * {
+    vertical-align: middle;
+  }
+
+  .tools-left {
+    float: left;
+  }
+
+  .tools-right {
+    //float: right;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    > label {
+      position: relative;
+      top: 2px;
+    }
+  }
+
+  .action-buttons {
+    width: @buttons-width + @buttons-left + @buttons-right;
+    padding-left: @buttons-left;
+    padding-right: @buttons-right;
+    margin: 0 auto;
+  }
+
+  @media all and (max-width: @first-breakpoint) {
+
+    .tools-right {
+      position: static;
+      text-align: right;
+    }
+
+    .action-buttons {
+      padding-left: 0;
+      padding-right: 0;
+      width: @buttons-width;
+      margin: 0;
+      margin-left: @tools-left-width + @tools-spacing;
+    }
+
+    &.with-tabs {
+      position: static;
+      padding-left: 0;
+
+      .tools-left {
+        position: absolute;
+        top: -43px;
+        left: @tabs-width;
+      }
+
+      .action-buttons {
+        position: absolute;
+        top: -43px;
+        left: @tabs-width + @tools-left-width + (2 * @tools-spacing);
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media all and (max-width: @second-breakpoint) {
+    &.with-tabs {
+      padding-bottom: 5px;
+      .action-buttons {
+        left: @tabs-width;
+      }
+      .tools-left {
+        float: none;
+        position: static;
+        top: 0;
+        left: 0;
+        margin-bottom: 5px;
+      }
+      .tools-right {
+        //float: none;
+        text-align: left;
+      }
+    }
+  }
+}

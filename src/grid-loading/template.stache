@@ -1,0 +1,3 @@
+{{#if loading}}
+<div></div>
+{{/if}}

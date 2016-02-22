@@ -1,0 +1,54 @@
+<table>
+  <caption>table title and/or explanatory text</caption>
+  <thead>
+    <tr>
+      <th>header</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each rows}}
+      <tr>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+        <td>data</td>
+      </tr>
+      {{#if children}}
+      <tr>
+        <td colspan="13">
+        
+        <table>
+        {{#each children}}
+          <tr>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+            <td>data</td>
+          </tr>
+        {{/each}}
+        </table>
+        
+        </td>
+      </tr>
+      {{/if}}
+    {{/each}}
+  </tbody>
+</table>

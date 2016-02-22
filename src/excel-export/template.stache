@@ -1,0 +1,7 @@
+<can-import from="components/export-toexcel/"/>
+
+<div class="clickable"></div>
+
+{{#if excelData.exportExcelFileInfo}}
+<export-toexcel csv={excelData}></export-toexcel>
+{{/if}}

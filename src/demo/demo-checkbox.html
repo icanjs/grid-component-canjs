@@ -1,0 +1,105 @@
+<!-- BEGIN STACHE TEMPLATE FOR DEMO -->
+<script type="text/stache" id="demo" can-autorender>
+  <can-import from="components/grid-component/" />
+  <can-import from="components/grid-component/grid-filter/" />
+  <can-import from="components/grid-component/styles.less!" />
+  <can-import from="components/grid-component/demo/styles.less!" />
+
+  <h3>Grid With Checkboxes</h3>
+  <p>All rows stat</p>
+  <ul>
+    <li>Total rows: {{rows.length}}</li>
+    <li>Checked rows: {{checkedRows.length}} ({{rows.length}})</li>
+  </ul>
+  <p>Visible rows stat</p>
+  <ul>
+    <li>Visible rows: {{visibleRows.length}}</li>
+    <li>Checked visible rows: {{checkedVisibleRows.length}} ({{visibleRows.length}})</li>
+    <li>Are all visible checked: {{#if areAllVisibleChecked}}yes{{else}}no{{/if}}</li>
+  </ul>
+
+  <div class="grid-container">
+    <grid-component has-checkboxes="true"
+                    rows="{rows}"
+                    visible-rows="{visibleRows}"
+                    checked-rows="{checkedRows}"
+                    checked-visible-rows="{checkedVisibleRows}"
+                    are-all-visible-checked="{areAllVisibleChecked}">
+      <div class="grid-tools">
+        <grid-filter rows="{rows}"></grid-filter>
+      </div>
+      <div class="grid-wrapper">
+        <!-- This syntax inserts the example.stache as a subtemplate (called a partial) here. -->
+        {{>example.stache}}
+      </div>
+    </grid-component>
+  </div>
+
+  {{! If you need to iterate over the checkedRows then bind it to checked-rows-hash which would be much faster.
+      and use grid-component-checkbox }}
+  <!--ul>
+    {{#each checkedRows}}
+      <li>{{id}} - {{period}}</li>
+    {{/each}}
+  </ul-->
+</script>
+<!-- END STACHE TEMPLATE FOR DEMO -->
+
+
+<!-- BEGIN JAVASCRIPT CODE FOR DEMO -->
+<script src="../../../node_modules/steal/steal.js" main="can/view/autorender/">
+
+  import can from "can";
+  import "can/map/define/";
+  import $ from "jquery";
+  import _ from "lodash";
+
+  /* BEGIN MODEL / FIXTURE DATA FOR DEMO */
+  var Row = window.Row = can.Map.extend({
+    define: {
+      isVisible: {
+        type: 'boolean',
+        value: true
+      },
+      isChecked: {
+        type: 'boolean',
+        value: false
+      },
+      isDisabled: {
+        type: 'boolean',
+        value: false
+      }
+    }
+  });
+
+  var rows = new Row.List(_.times(30, i => {
+    return {
+      id: 'id-' + i,
+      period: 'P05FY0' + (i%9 + 1),
+      region: ['Europe','America'][i<5?0:1],
+      sales: 'Sales Org',
+      country: ['Austria','Chicago'][i<5?0:1],
+      accrualModel: 'WCM',
+      currency: ['EUR','CAD','DKK'][i % 3],
+      estRevenue: '20175.28',
+      estListener: '4392952.04',
+      estPlayCount: '71963442.49',
+      isVisible: true,
+      isDisabled: !!(i%2)
+    };
+  }));
+  /* END MODEL / FIXTURE DATA FOR DEMO */
+
+
+  /**
+   * Sets up fixture data on the viewModel for the above template.  This is the same as setting
+   * data inside the view-model.js for a grid-component.
+   */
+  $("#demo").viewModel().attr({
+    checkedRows: [],
+    visibleRows: rows,
+    areAllVisibleChecked: true,
+    rows: rows
+  });
+</script>
+<!-- END JAVASCRIPT CODE FOR DEMO -->
