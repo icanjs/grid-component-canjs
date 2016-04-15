@@ -87,7 +87,7 @@ var GridVM = {
     selectedRow: {
       value: null,
       // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
-      set: function(val){
+      set1: function(val){
         var currentRow = this.attr('selectedRow');
         currentRow && currentRow.attr('selected', '');
         val && val.attr('selected', 'selected');

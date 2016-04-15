@@ -57,50 +57,6 @@ grid-component, grid-component-checkbox {
     }
   }
 
-  div.grid-tools {
-    min-height: 25px;
-
-    // page size dropdown (to push down floating controls for the smaller screen size):
-    > select {
-      margin-bottom: 10px;
-    }
-
-    /* For the multi-select component */
-    .multi-select {
-      position: relative;
-      top: -8px;
-      margin-right: 6px;
-
-      multi-select.file-type-selector {
-        button.btn {
-          width: 120px;
-        }
-        ul {
-          width: 120px;
-          min-width: 120px;
-        }
-      }
-
-      & > label {
-        position: relative;
-        top: 1px;
-      }
-    }
-
-    > .btn-download, > div.pull-right > .btn-download {
-      height: 20px;
-      width: 20px;
-      cursor: pointer;
-      display: inline-block;
-      position: relative;
-      top: -7px;
-
-      img {
-        height: 20px;
-        width: 20px;
-      }
-    }
-  }
   table {
     display: block;
     width: 100%;
@@ -108,6 +64,7 @@ grid-component, grid-component-checkbox {
     border-right: 1px solid #a1a1a1;
     border-radius: 5px;
     color: @font-color;
+    font-size: 14px;
 
     td:last-child, th:last-child {
       padding-right: 15px;
@@ -131,10 +88,10 @@ grid-component, grid-component-checkbox {
         // don't set height or max-height:
         min-height: 22px;
 
-        &.parent:nth-child(even) {
+        &.even-odd:nth-child(even) {
           background: @even-row-background;
         }
-        &.parent:nth-child(odd) {
+        &.even-odd:nth-child(odd) {
           background: @odd-row-background;
         }
         &.selected {
@@ -313,29 +270,5 @@ grid-component, grid-component-checkbox {
         background: @selected-background !important;
       }
     }
-  }
-}
-
-.page, grid-component, grid-component-checkbox {
-  .grand-total {
-    text-align: right;
-    padding-right: 10px;
-    margin-bottom: 10px;
-
-    h3:nth-child(1) {
-      font-size: 1.2em;
-      margin-bottom: 4px;
-      padding-bottom: 2px;
-      font-weight: bold;
-    }
-    h4 {
-      font-size: 14px;
-      margin-top: 0;
-      margin-bottom: 2px;
-      font-weight: normal;
-    }
-  }
-  .align-right {
-    text-align: right;
   }
 }

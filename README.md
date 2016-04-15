@@ -1,6 +1,8 @@
 # Grid Component
 
-A template based grid component that supports sorting, row selection, paged rendering and checkboxes. Build with CanJS.
+A template based grid component that supports sorting, row selection, paged rendering and checkboxes. Built with CanJS.
+
+![Grid Demo](./dist/grid-demo.png)
 
 ## Installation
 

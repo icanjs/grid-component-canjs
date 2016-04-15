@@ -1,0 +1,62 @@
+<script type='text/stache' id="demo" can-autorender>
+    <can-import from="src/grid-component" />
+    <can-import from="src/styles.less!" />
+    <can-import from="src/demo/styles.less!" />
+    <!--<can-import from="src/demo/grid.less!" />-->
+    <!--<can-import from="grid-filter" />-->
+
+    <div class="demo-container">
+
+    <grid-component {(rows)}="rows">
+
+      <p>
+        Rows: {{rows.length}}<br>
+        Selected: {{selectedRow.country}} {{selectedRow.amount}}
+      </p>
+
+      <div class="grid-tools">
+        <grid-filter {(rows)}="rows" selected-row="{selectedRow}"></grid-filter>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th ($click)="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
+            <th ($click)="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
+            <th ($click)="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each rows}}
+            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" ($click)="selectRow">
+              <td>{{region}}</td>
+              <td>{{country}}</td>
+              <td class="amount">{{amount}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+    </grid-component>
+    </div>
+</script>
+
+<script src='../../node_modules/steal/steal.js'
+        main="can/view/autorender/">
+
+    import can from "can";
+    import $ from "jquery";
+    import _ from "lodash";
+
+    $("#demo").viewModel().attr({
+        rows: new can.List(_.times(10, i => {
+            return {
+                region: ['Europe','America'][i % 2],
+                country: ['AUT','USA','SWE','CAN'][i % 4],
+                amount: [100, 200, 300][i % 3]
+            };
+        })),
+        selectedRow: null
+    });
+</script>

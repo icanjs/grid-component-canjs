@@ -17,10 +17,13 @@
   },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
-    "can": "^2.3.17",
-    "steal": "^0.13.2"
+    "can": "^2.3.23"
   },
   "devDependencies": {
+    "babel-core": "^6.7.6",
+    "jquery": "^2.1.4",
+    "lodash": "^4.11.1",
+    "steal": "^0.13.2",
     "steal-qunit": "0.1.1",
     "steal-tools": "0.13.0-pre.0",
     "testee": "^0.2.5"

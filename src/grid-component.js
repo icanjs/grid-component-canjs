@@ -2,6 +2,7 @@ import can from 'can/';
 import 'can/map/define/';
 
 import VM from './view-model';
+import mixin from './mixins/mixin-util';
 import mixinSort from './mixins/sort';
 import { mixinSortHelpers } from './mixins/sort';
 import mixinCheckbox from './mixins/checkbox';
@@ -14,7 +15,8 @@ import mixinCheckbox from './mixins/checkbox';
  */
 can.Component.extend({
   tag: 'grid-component',
-  viewModel: Object.assign(VM, mixinSort, mixinCheckbox),
+  viewModel: mixin(VM, mixinSort, mixinCheckbox),
+  //viewModel: can.Map.extend(VM),
   events: {
     'inserted': function(){
       var self = this,

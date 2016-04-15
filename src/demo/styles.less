@@ -2,17 +2,25 @@ body {
   padding: 10px 30px;
 }
 
-#demo-container, .grid-container {
-  height: 300px;
+.demo-container {
+  width: 400px;
+  font-size: 14px;
   
   table {
-    min-width: 1200px;
 
     tbody {
-      height: 270px;
+      height: 170px;
       overflow-x: hidden;
       overflow-y: overlay;
     }
-    
+
+    th {
+      text-align: left;
+      user-select: none;
+    }
+
+    .amount {
+      text-align: right;
+    }
   }
 }
