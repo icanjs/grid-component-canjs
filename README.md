@@ -2,7 +2,7 @@
 
 A template based grid component that supports sorting, row selection, paged rendering and checkboxes. Built with CanJS.
 
-![Grid Demo](./dist/grid-demo.png)
+![Grid Demo](./dist/demo.png)
 
 ## Installation
 
@@ -12,7 +12,7 @@ npm install grid-component grid-filter --save
 
 ## Use
 
-```
+```html
 <can-import from="grid-filter" />
 
 <grid-component {(rows)}="items">
