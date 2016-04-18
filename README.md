@@ -1,5 +1,7 @@
 # Grid Component
 
+[![Join the chat at https://gitter.im/icanjs/grid-component](https://badges.gitter.im/icanjs/grid-component.svg)](https://gitter.im/icanjs/grid-component?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A template based grid component that supports sorting, row selection, paged rendering and checkboxes. Built with CanJS.
 
 ![Grid Demo](./dist/demo.png)
