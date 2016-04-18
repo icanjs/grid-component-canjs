@@ -1,1 +1,2 @@
-import './test_mixin';
+import './test_utils';
+import './test_mixins';

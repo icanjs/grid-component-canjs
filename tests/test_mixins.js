@@ -1,11 +1,15 @@
 import QUnit from 'steal-qunit';
-import VM from './view-model';
+import VM from '../src/view-model';
+import mixin from '../src/mixins/mixin-util';
+import mixinSort from '../src/mixins/sort';
+import { mixinSortHelpers } from '../src/mixins/sort';
+import mixinCheckbox from '../src/mixins/checkbox';
 
 var vm;
 
 QUnit.module('Grid viewModel', {
   beforeEach: function() {
-    vm = new VM();
+    vm = new (can.Map.extend(mixin(VM, mixinSort, mixinCheckbox)))();
   },
 
   afterEach: function() {
