@@ -1,6 +1,6 @@
 {
   "name": "grid-component",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
@@ -19,16 +19,16 @@
   },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
-    "can": "^2.3.23",
-    "lodash": "^4.11.1"
+    "can": "^2.2.9",
+    "lodash": ">=3.9.1"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
     "jquery": "^2.1.4",
     "jshint": "^2.9.1",
-    "steal": "^0.13.2",
+    "steal": ">=0.10.1",
     "steal-qunit": "0.1.1",
-    "steal-tools": "0.13.0-pre.0",
+    "steal-tools": ">=0.10.1",
     "testee": "^0.2.5"
   },
   "jshintConfig": {

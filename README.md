@@ -16,9 +16,12 @@ Feel free to [open an issue](https://github.com/icanjs/grid-component/issues) or
 npm install grid-component --save
 ```
 
-## Use
+To check out the demo:
+- install dependencies;
+- run http server on the root of the project;
+- load the demo file in browser _(src/demo/demo.html)_.
 
-Check out the demo _(src/demo/demo.html)_. More demos are coming...
+## Use
 
 ```html
 <can-import from="grid-filter" />
