@@ -1,4 +1,4 @@
-import can from 'can/';
+import can from 'can';
 import 'can/map/define/';
 import './styles.less!';
 import 'helpers/no-binding';

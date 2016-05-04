@@ -1,4 +1,4 @@
-import can from 'can/';
+import can from 'can';
 import 'can/map/define/';
 
 import VM from './view-model';
@@ -6,6 +6,7 @@ import mixin from './mixins/mixin-util';
 import mixinSort from './mixins/sort';
 import { mixinSortHelpers } from './mixins/sort';
 import mixinCheckbox from './mixins/checkbox';
+import mixinChildRows from './mixins/child-rows';
 
 /**
  * @page grid-component.grid-component Grid Component
@@ -15,7 +16,7 @@ import mixinCheckbox from './mixins/checkbox';
  */
 can.Component.extend({
   tag: 'grid-component',
-  viewModel: mixin(VM, mixinSort, mixinCheckbox),
+  viewModel: mixin(VM, mixinSort, mixinCheckbox, mixinChildRows),
   //viewModel: can.Map.extend(VM),
   events: {
     'inserted': function(){

@@ -1,4 +1,4 @@
-import can from 'can/';
+import can from 'can';
 import 'can/map/define/';
 import 'can/list/sort/';
 import _ from 'lodash';
