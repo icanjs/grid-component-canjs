@@ -1,6 +1,6 @@
 {
   "name": "grid-component",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
