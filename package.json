@@ -1,6 +1,6 @@
 {
   "name": "grid-component",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
-    "can": "^2.2.9",
+    "can": "^2.3.0-pre || ^2.3.0-beta || ^2.3.0",
     "lodash": ">=3.9.1"
   },
   "devDependencies": {
