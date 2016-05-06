@@ -52,3 +52,44 @@ To check out the demo:
 
 </grid-component>
 ```
+
+## Features
+- **Sorting**. *Mixin, by default is on*
+- Row selection.
+- Checkbox row selection. *Mixin, by default is on*
+- Expandable child rows. *Mixin, by default is on*
+- **Filtering** (with external grid-filter component)
+- Scroll-near-bottom events. To use for loading/showing more rows on scroll.
+- **Paged rendering**. A performance enhancement for cases when there are a lot of rows (n x 10K), when grid renders
+the specified amount of rows (renderPageSize) and adds a new render page when uses scrolls close to the bottom.
+Works well with sorting and filtering.
+
+## API:
+- **rows** Data source of the rows.
+
+### Configuration:
+- **renderPageSize** How many pages grid should render. To use with a lot of rows. Default 200.
+- **loadOnScroll** If ON grid will emit _scrollEventName_ when user scrolls close to the bottom.
+- **scrollThrottleInterval**
+- **scrollBottomDistance**
+- **scrollEventName** Event name. Default _grid-should-load-more_.
+
+### Read API:
+- Derived lists:
+ - **visibleRows** A derived list with rows that are not hidden by filter (row's isHidden is false).
+ - **renderedRows** List of rendered rows (to be used with renderPageSize).
+ - visibleEnabledRows
+ - **checkedRows** List of checked rows
+ - checkedVisibleRows
+ - checkedVisibleEnabledRows
+- Sorting mixin:
+ - **sortColumnName** Indicates what column the rows are sorted by.
+ - **sortAsc** Boolean, TRUE for ascending, FALSE for descending.
+- **selectedRow** The row selected by clicking.
+- Checkbox mixin:
+ - **isHeaderChecked** To be used for the header "master" checkbox.
+ - areAllVisibleChecked
+
+### Template helpers and methods:
+- **selectRow** Method for row selection
+- **sortArrow** Helper to show a sort arrow.
