@@ -37,6 +37,7 @@ can.Component.extend({
           var shouldLoadMore = distanceFromTop >= Math.min(tbodyEl.scrollHeight/2, tbodyEl.scrollHeight * (1 - scrollBottomDistance));
           if (shouldLoadMore){
             self.element.trigger(eventName);
+            self.viewModel.increaseEndIndex();
           }
         }, scrollThrottleInterval));
       }

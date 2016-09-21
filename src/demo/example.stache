@@ -37,7 +37,7 @@
     table data will automatically update to reflect the changes.
   -->
   <tbody>
-    {{#each rows}}
+    {{#each renderedRows}}
       <tr class="{{^if isVisible}}hidden{{/if}}">
         {{#if hasCheckboxes}}
           <td class="cell-checkbox"><input type="checkbox" {($checked)}="isChecked" {{#isDisabled}}disabled{{/isDisabled}} {{data "row"}}></td>

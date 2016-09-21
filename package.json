@@ -2,11 +2,12 @@
   "name": "grid-component",
   "version": "0.5.6",
   "description": "Grid Component",
-  "main": "src/grid-component.js",
+  "main": "src/demo/demo-public.js",
   "scripts": {
     "jshint": "jshint src/grid-component.js",
     "testee": "testee tests/test_unit.html --browsers firefox",
-    "test": "npm run jshint && npm run testee"
+    "test": "npm run jshint && npm run testee",
+    "build": "steal-tools"
   },
   "repository": {
     "type": "git",
@@ -20,15 +21,17 @@
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
     "can": "^2.3.0-pre || ^2.3.0-beta || ^2.3.0",
+    "jquery": "~2.1.4",
     "lodash": ">=3.9.1"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
-    "jquery": "^2.1.4",
+    "grid-filter": "^0.5.4",
     "jshint": "^2.9.1",
-    "steal": ">=0.10.1",
+    "multi-select": "^0.3.4",
+    "steal": "0.16.2",
     "steal-qunit": "0.1.1",
-    "steal-tools": ">=0.10.1",
+    "steal-tools": "0.16.1",
     "testee": "^0.2.5"
   },
   "jshintConfig": {

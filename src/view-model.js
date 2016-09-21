@@ -93,6 +93,13 @@ var GridVM = {
         val && val.attr('selected', 'selected');
         return val;
       }
+    },
+
+    /**
+     * Holds tbody DOM element (e.g. for resetScroll).
+     */
+    tbody: {
+      type: '*'
     }
   },
 
@@ -118,6 +125,41 @@ var GridVM = {
       can.batch.stop();
 
       this.attr('selectedRow', row);
+    }
+  },
+
+  /**
+   * Increases _endIndex_ by _renderPageSize_ (on scroll near bottom event).
+   */
+  increaseEndIndex(){
+    let self = this;
+    this.attr('isLoading', true);
+    if (this.attr('endIndex') < this.attr('visibleRows.length') + this.attr('renderPageSize')){
+      setTimeout(function(){
+        self.attr('endIndex', self.attr('endIndex') + self.attr('renderPageSize'));
+        console.log('new endIndex %s', self.attr('endIndex'));
+        self.attr('isLoading', false);
+      }, 10);
+    } else {
+      self.attr('isLoading', false);
+    }
+  },
+
+  /**
+   * Resets the value of _endIndex_ to the default (e.g. on filter) and
+   * scrolls to the top of the grid.
+   */
+  resetEndIndex(){
+    this.scrollToTop();
+    this.attr('endIndex', this.attr('renderPageSize'));
+  },
+
+  /**
+   * Scrolls grid body to the very top.
+   */
+  scrollToTop: function(){
+    if (this.attr('tbody')){
+      this.attr('tbody').scrollTop = 0;
     }
   }
 };

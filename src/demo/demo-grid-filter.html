@@ -1,30 +1,40 @@
 <!-- BEGIN STACHE TEMPLATE FOR DEMO -->
+<style>
+  .demo-container {
+    width: initial!important;
+  }
+</style>
 <script type="text/stache" id="demo" can-autorender>
-  <can-import from="bootstrap.css!" />
-  <can-import from="global.less!" />
-  <can-import from="components/grid-component/" />
-  <can-import from="components/grid-component/styles.less!" />
-  <can-import from="components/grid-component/demo/styles.less!" />
-  <can-import from="components/grid-component/grid-filter/" />
+  <can-import from="src/grid-component" />
+  <can-import from="src/styles.less!" />
+  <can-import from="src/demo/styles.less!" />
+  <can-import from="grid-filter/" />
 	<can-import from="multi-select" />
 
   <h3>Grid Filtering Demo</h3>
   <h4>With selected fileTypes binding: {{#each selectedFileTypes}} {{.}}, {{/each}}</h4>
   <h4>With search-terms binding: {{#searchTerms}} {{.}}, {{/searchTerms}}</h4>
-  <div class="grid-container">
-    <grid-component rows="{rows}" sort-column-name="currency" sort-asc="false"> {{! sortAsc by default is true }}
+  <div class="demo-container">
+    <grid-component rows="{data}"
+                    render-page-size="200"
+                    sort-column-name="currency"
+                    load-on-scroll="true"
+                    sort-asc="false"> {{! sortAsc by default is true }}
       <div class="grid-tools">
 
+        Show {{visibleRows.length}} of {{rows.length}} (Rendered {{renderedRows.length}})
         <span class="multi-select">
-          <label>File Type:</label> 
+          <label>File Type:</label>
           <multi-select class="file-type-selector" select-all selected-values="{selectedFileTypes}">
             {{#each fileTypes}}
               <option value="{{fileTypeId}}">{{name}}</option>
             {{/each}}
           </multi-select>
         </span>
-        
-        <grid-filter rows="{rows}" search-terms="{searchTerms}" columns=""></grid-filter>
+
+        <grid-filter rows="{rows}"
+                     search-terms="{searchTerms}"
+                     columns=""></grid-filter>
       </div>
       <div class="grid-wrapper">
         {{>example.stache}}
@@ -50,19 +60,19 @@
     searchTerms: [],
     selectedFileTypes: [],
     fileTypes: [
-      {fileTypeId: 1, name: 'Type 1'}, 
-      {fileTypeId: 2, name: 'Type 2'}, 
-      {fileTypeId: 3, name: 'Type 3'}, 
-      {fileTypeId: 4, name: 'Type 4'}, 
+      {fileTypeId: 1, name: 'Type 1'},
+      {fileTypeId: 2, name: 'Type 2'},
+      {fileTypeId: 3, name: 'Type 3'},
+      {fileTypeId: 4, name: 'Type 4'},
       {fileTypeId: 5, name: 'Type 5'}
     ],
 
     // The amount 30 is being used in the test - do not modify it (or update the test accordingly)!
-    rows: _.times(30, i => {
+    data: _.times(515, i => {
       return {
         period: 'P05FY0' + (i%9 + 1),
         region: ['Europe','America'][i<5?0:1],
-        sales: 'Sales Org Sales Org Sales Org Sales Org Sales Org Sales Org Sales Org',
+        sales: 'Sales Org',
         country: ['Austria','Chicago'][i<5?0:1],
         accrualModel: 'WCM',
         currency: ['EUR','CAD','DKK'][i % 3],
