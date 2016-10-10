@@ -130,7 +130,7 @@ QUnit.test('Mixin pagination test 2', function(assert) {
   assert.equal(vm.attr('currentPage'), 0, '3 x prev should move and keep currentPage to #0');
 
   vm.changePage(2);
-  assert.equal(vm.attr('currentPage'), 1, 'Change page to 2');
+  assert.equal(vm.attr('currentPage'), 2, 'Change page to 2');
 });
 
 QUnit.test('Mixin pagination test 2', function(assert) {

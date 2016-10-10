@@ -103,7 +103,8 @@ export default {
         let currentPage = this.attr('currentPage');
         return new can.List(_.times(this.attr('totalPages'), i => {
           return {
-            pageNumber: i + 1,
+            pageNumber: i,
+            pageTitle: i + 1,
             isActive: i === currentPage
           }
         }));
@@ -134,8 +135,8 @@ export default {
   /**
    * @method change `currentPage` to correct pagenumber
    */
-  changePage(page){
-    this.attr('currentPage', page - 1);
+  changePage(pageNumber){
+    this.attr('currentPage', pageNumber);
     return false;
   }
 };

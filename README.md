@@ -71,7 +71,7 @@ See `src/demo/demo-pagination.html` for a full example.
       <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-            <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageNumber}}</li>
+            <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
         {{/each}}
       </ul>
       <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
