@@ -39,14 +39,6 @@ export default {
       value: 0
     },
     /**
-     * If there are more than 1 pages
-     */
-    hasPages: {
-      get(){
-        return this.attr('totalPages') > 1;
-      }
-    },
-    /**
      * How many rows to show per page. Actual parameter.
      */
     rowsPerPage: {
@@ -66,6 +58,14 @@ export default {
     totalPages: {
       get(){
         return Math.ceil(this.attr('rows.length') / this.attr('rowsPerPage'));
+      }
+    },
+    /**
+     * If there are more than 1 pages
+     */
+    hasPages: {
+      get(){
+        return this.attr('totalPages') > 1;
       }
     },
     /**

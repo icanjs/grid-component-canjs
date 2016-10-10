@@ -96,14 +96,21 @@ QUnit.test('Mixin child-rows', function(assert) {
 QUnit.test('Mixin pagination', function(assert) {
   var vm = new (can.Map.extend(mixinPagination))({
     rows: _.times(24, i => i),
-    pagination: 10
+    pagination: 25
   });
 
   // page 0:
-  assert.equal(vm.attr('rowsPerPage'), 10, 'rowsPerPage is 10');
+  assert.equal(vm.attr('rowsPerPage'), 25, 'rowsPerPage is 25');
   assert.equal(vm.attr('currentPage'), 0, 'currentPage is 0');
   assert.equal(vm.attr('totalPages'), 1, 'totalPages is 1');
   assert.equal(vm.attr('hasPages'), false, 'Only 1 page, hide nav');
+
+  vm = new (can.Map.extend(mixinPagination))({
+    rows: _.times(24, i => i),
+    pagination: 10
+  });
+
+  assert.equal(vm.attr('rowsPerPage'), 10, 'rowsPerPage is 10');
   assert.equal(vm.attr('totalPages'), 3, 'totalPages is 3');
   assert.equal(vm.attr('hasPages'), true, 'More than 1 page, show nav');
   assert.deepEqual(vm.attr('pagedRows').attr(), _.times(10, i => i), 'should show 1st 10 rows');
