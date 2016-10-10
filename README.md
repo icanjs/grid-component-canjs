@@ -67,13 +67,15 @@ See `src/demo/demo-pagination.html` for a full example.
           {{/each}}
         </tbody>
       </table>
-      <button ($click)="prev()">Prev</button>
+      {{#if hasPages}}
+      <button ($click)="prev()" {{^if isPrevActive}} disable {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-          <li class="{{#if isActive}}active{{/if}}">{{pageNumber}}</li>
+            <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageNumber}}</li>
         {{/each}}
       </ul>
-      <button ($click)="next()">Next</button>
+      <button ($click)="next()" {{^if isNextActive}} disable {{/if}}>Next</button>
+      {{/if}}
     </grid-component>
 ```
 
