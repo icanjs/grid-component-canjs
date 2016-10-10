@@ -53,7 +53,7 @@ To check out the demo:
 </grid-component>
 ```
 
-### Pagination
+### Simple pagination
 See `src/demo/demo-pagination.html` for a full example.
 ```html
     <grid-component {(rows)}="items" pagination="10">
@@ -71,7 +71,9 @@ See `src/demo/demo-pagination.html` for a full example.
       <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-            <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
+          <li class="{{#if isActive}}active{{/if}}" ($click)="changePage(pageNumber)">
+            {{pageTitle}}
+          </li>
         {{/each}}
       </ul>
       <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
@@ -80,10 +82,11 @@ See `src/demo/demo-pagination.html` for a full example.
 ```
 
 ## Features
-- **Sorting**. *Mixin, by default is on*
+- **Sorting**. *Mixin, by default is on*.
+- **Simple pagination**. *Mixin, by default is on*. Includes `pagination` numeric config property of how many rows are shown per page, methods: `next`, `prev`, `changePage`.
 - Row selection.
-- Checkbox row selection. *Mixin, by default is on*
-- Expandable child rows. *Mixin, by default is on*
+- Checkbox row selection. *Mixin, by default is on*.
+- Expandable child rows. *Mixin, by default is on*.
 - **Filtering** (with external grid-filter component)
 - Scroll-near-bottom events. To use for loading/showing more rows on scroll.
 - **Paged rendering**. A performance enhancement for cases when there are a lot of rows (n x 10K), when grid renders
@@ -105,18 +108,21 @@ Works well with sorting and filtering.
 - Derived lists:
  - **visibleRows** A derived list with rows that are not hidden by filter (row's isHidden is false).
  - **renderedRows** List of rendered rows (to be used with renderPageSize).
- - **pagedRows** List of rows to show for the current page.
  - visibleEnabledRows
  - **checkedRows** List of checked rows
  - checkedVisibleRows
  - checkedVisibleEnabledRows
 - Sorting mixin:
  - **sortColumnName** Indicates what column the rows are sorted by.
- - **sortAsc** Boolean, TRUE for ascending, FALSE for descending.
+ - **sortAsc** &lt;Boolean&gt;, TRUE for ascending, FALSE for descending.
 - **selectedRow** The row selected by clicking.
 - Checkbox mixin:
  - **isHeaderChecked** To be used for the header "master" checkbox.
- - areAllVisibleChecked
+ - areAllVisibleChecked.
+- Simple pagination mixin:
+ - **pagedRows** List of rows to show for the current page.
+ - *currentPage* &lt;Number&gt; Number of the current page (starts with 0).
+ - *hasPages* &lt;Boolean&gt; Indicates whether there are pages.
 
 ### Template helpers and methods:
 - **selectRow** Method for row selection
@@ -124,3 +130,9 @@ Works well with sorting and filtering.
 Pagination:
 - **next** Method to go to the next page.
 - **prev** Method to go to the previous page.
+- **changePage** Method to set page to a particular number.
+
+## Changelog
+
+- 0.7.2 Added changePage, hasPages.
+- 0.7.0 Added simple pagination support with helpers: next(), prev(), pages object. Provide `pagination` config option with a number of how many rows to show per page. Use `pagedRows` derived list.
