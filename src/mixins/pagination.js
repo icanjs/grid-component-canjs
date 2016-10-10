@@ -39,6 +39,14 @@ export default {
       value: 0
     },
     /**
+     * If there are more than 1 pages
+     */
+    hasPages: {
+      get(){
+        return this.attr('totalPages') > 1;
+      }
+    },
+    /**
      * How many rows to show per page. Actual parameter.
      */
     rowsPerPage: {
@@ -110,6 +118,7 @@ export default {
     if (this.attr('isNextActive')){
       this.attr('currentPage', this.attr('currentPage') + 1);
     }
+    return false;
   },
 
   /**
@@ -119,5 +128,14 @@ export default {
     if (this.attr('isPrevActive')){
       this.attr('currentPage', this.attr('currentPage') - 1);
     }
+    return false;
+  },
+
+  /**
+   * @method change `currentPage` to correct pagenumber
+   */
+  changePage(page){
+    this.attr('currentPage', page - 1);
+    return false;
   }
 };
