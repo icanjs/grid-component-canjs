@@ -53,6 +53,30 @@ To check out the demo:
 </grid-component>
 ```
 
+### Pagination
+See `src/demo/demo-pagination.html` for a full example.
+```html
+    <grid-component {(rows)}="items" pagination="10">
+      <table>
+        <tbody>
+          {{#each pagedRows}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{title}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      <button ($click)="prev()">Prev</button>
+      <ul>
+        {{#each pages}}
+          <li class="{{#if isActive}}active{{/if}}">{{pageNumber}}</li>
+        {{/each}}
+      </ul>
+      <button ($click)="next()">Next</button>
+    </grid-component>
+```
+
 ## Features
 - **Sorting**. *Mixin, by default is on*
 - Row selection.
@@ -73,11 +97,13 @@ Works well with sorting and filtering.
 - **scrollThrottleInterval**
 - **scrollBottomDistance**
 - **scrollEventName** Event name. Default _grid-should-load-more_.
+- **pagination** How many rows show per page.
 
 ### Read API:
 - Derived lists:
  - **visibleRows** A derived list with rows that are not hidden by filter (row's isHidden is false).
  - **renderedRows** List of rendered rows (to be used with renderPageSize).
+ - **pagedRows** List of rows to show for the current page.
  - visibleEnabledRows
  - **checkedRows** List of checked rows
  - checkedVisibleRows
@@ -93,3 +119,6 @@ Works well with sorting and filtering.
 ### Template helpers and methods:
 - **selectRow** Method for row selection
 - **sortArrow** Helper to show a sort arrow.
+Pagination:
+- **next** Method to go to the next page.
+- **prev** Method to go to the previous page.
