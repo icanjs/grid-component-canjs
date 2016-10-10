@@ -8,7 +8,7 @@ A template based grid component that supports sorting, row selection, paged rend
 
 Feel free to [open an issue](https://github.com/icanjs/grid-component/issues) or chat with us [on gitter](https://gitter.im/icanjs/grid-component).
 
-![Grid Demo](./dist/demo.png)
+![Grid Demo](./assets/demo.png)
 
 ## Installation
 
