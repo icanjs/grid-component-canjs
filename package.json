@@ -1,6 +1,6 @@
 {
   "name": "grid-component",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
@@ -25,7 +25,6 @@
     "lodash": ">=3.9.1"
   },
   "devDependencies": {
-    "babel-core": "^6.7.6",
     "babel-polyfill": "^6.16.0",
     "grid-filter": "^0.5.4",
     "jshint": "^2.9.1",
