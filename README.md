@@ -53,7 +53,7 @@ To check out the demo:
 </grid-component>
 ```
 
-### Pagination
+### Simple pagination
 See `src/demo/demo-pagination.html` for a full example.
 ```html
     <grid-component {(rows)}="items" pagination="10">
@@ -122,3 +122,7 @@ Works well with sorting and filtering.
 Pagination:
 - **next** Method to go to the next page.
 - **prev** Method to go to the previous page.
+
+## Changelog
+
+- 0.7.0 Added simple pagination support with helpers: next(), prev(), pages object. Provide `pagination` config option with a number of how many rows to show per page. Use `pagedRows` derived list.
