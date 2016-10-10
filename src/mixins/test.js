@@ -102,7 +102,10 @@ QUnit.test('Mixin pagination', function(assert) {
   // page 0:
   assert.equal(vm.attr('rowsPerPage'), 10, 'rowsPerPage is 10');
   assert.equal(vm.attr('currentPage'), 0, 'currentPage is 0');
+  assert.equal(vm.attr('totalPages'), 1, 'totalPages is 1');
+  assert.equal(vm.attr('hasPages'), false, 'Only 1 page, hide nav');
   assert.equal(vm.attr('totalPages'), 3, 'totalPages is 3');
+  assert.equal(vm.attr('hasPages'), true, 'More than 1 page, show nav');
   assert.deepEqual(vm.attr('pagedRows').attr(), _.times(10, i => i), 'should show 1st 10 rows');
   assert.equal(vm.attr('isPrevActive'), false, 'Prev is inactive');
 
@@ -129,5 +132,8 @@ QUnit.test('Mixin pagination', function(assert) {
   vm.prev();
   vm.prev();
   assert.equal(vm.attr('currentPage'), 0, '3 x prev should move and keep currentPage to #0');
+
+  vm.changePage(2);
+  assert.equal(vm.attr('currentPage'), 1, 'Change page to 2');
 });
 
