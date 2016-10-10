@@ -1,0 +1,78 @@
+<style>
+    ul li { color: gray }
+    ul li.active { font-weight: bold; color: black }
+</style>
+
+<script type='text/stache' id="demo" can-autorender>
+    <can-import from="src/grid-component" />
+    <can-import from="src/styles.less!" />
+    <can-import from="src/demo/styles.less!" />
+
+    <div class="demo-container">
+
+    <grid-component {(rows)}="rows" pagination="10">
+
+      <p>
+        Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
+        Selected: {{selectedRow.country}} {{selectedRow.amount}}
+      </p>
+
+      <div class="grid-tools">
+        <!--<grid-filter {(rows)}="rows" selected-row="{selectedRow}"></grid-filter>-->
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="col-checkbox"><input type="checkbox" {($checked)}="isHeaderChecked"></th>
+            <th ($click)="{sortBy 'id'}">ID {{{sortArrow 'id'}}}</th>
+            <th ($click)="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
+            <th ($click)="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
+            <th ($click)="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each pagedRows}}
+            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" ($click)="selectRow">
+              <td class="col-checkbox"><input type="checkbox" {($checked)}="isChecked"/></td>
+              <td>{{id}}</td>
+              <td>{{region}}</td>
+              <td>{{country}}</td>
+              <td class="amount">{{amount}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      <button ($click)="prev()">Prev</button>
+      <ul>
+        {{#each pages}}
+            <li class="{{#if isActive}}active{{/if}}">{{pageNumber}}</li>
+        {{/each}}
+      </ul>
+      <button ($click)="next()">Next</button>
+
+    </grid-component>
+    </div>
+</script>
+
+<script src='../../node_modules/steal/steal.js'
+        main="can/view/autorender/">
+
+    import can from "can";
+    import $ from "jquery";
+    import _ from "lodash";
+
+    $("#demo").viewModel().attr({
+        rows: new can.List(_.times(24, function(i){
+            return {
+                id: i,
+                region: ['Europe','America'][i % 2],
+                country: ['AUT','USA','SWE','CAN'][i % 4],
+                amount: [100, 200, 300][i % 3]
+            };
+        })),
+        selectedRow: null
+    });
+</script>

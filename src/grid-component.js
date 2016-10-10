@@ -7,6 +7,7 @@ import mixinSort from './mixins/sort';
 import { mixinSortHelpers } from './mixins/sort';
 import mixinCheckbox from './mixins/checkbox';
 import mixinChildRows from './mixins/child-rows';
+import mixinPagination from './mixins/pagination';
 
 /**
  * @page grid-component.grid-component Grid Component
@@ -16,7 +17,7 @@ import mixinChildRows from './mixins/child-rows';
  */
 can.Component.extend({
   tag: 'grid-component',
-  viewModel: mixin(VM, mixinSort, mixinCheckbox, mixinChildRows),
+  viewModel: mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination),
   //viewModel: can.Map.extend(VM),
   events: {
     'inserted': function(){

@@ -1,10 +1,12 @@
 import QUnit from 'steal-qunit';
-import VM from '../src/view-model';
-import mixin from '../src/mixins/mixin-util';
-import mixinSort from '../src/mixins/sort';
-import { mixinSortHelpers } from '../src/mixins/sort';
-import mixinCheckbox from '../src/mixins/checkbox';
-import mixinChildRows from '../src/mixins/child-rows';
+import VM from '../view-model';
+import mixin from './mixin-util';
+import mixinSort from './sort';
+import { mixinSortHelpers } from './sort';
+import mixinCheckbox from './checkbox';
+import mixinChildRows from './child-rows';
+import mixinPagination from './pagination';
+import _ from 'lodash';
 
 var vm;
 
@@ -89,5 +91,43 @@ QUnit.test('Mixin child-rows', function(assert) {
 
   vm.toggleAllChildrenVisible();
   assert.equal(vm.attr('rows').filter(a => a.attr('childrenVisible')).length, 0, 'No rows should have children visible');
+});
+
+QUnit.test('Mixin pagination', function(assert) {
+  var vm = new (can.Map.extend(mixinPagination))({
+    rows: _.times(24, i => i),
+    pagination: 10
+  });
+
+  // page 0:
+  assert.equal(vm.attr('rowsPerPage'), 10, 'rowsPerPage is 10');
+  assert.equal(vm.attr('currentPage'), 0, 'currentPage is 0');
+  assert.equal(vm.attr('totalPages'), 3, 'totalPages is 3');
+  assert.deepEqual(vm.attr('pagedRows').attr(), _.times(10, i => i), 'should show 1st 10 rows');
+  assert.equal(vm.attr('isPrevActive'), false, 'Prev is inactive');
+
+  // page 1:
+  vm.next();
+  assert.deepEqual(vm.attr('pagedRows').attr(), _.times(10, i => i + 10), 'should show 2nd 10 rows');
+  assert.equal(vm.attr('isNextActive'), true, 'Next is active');
+  assert.equal(vm.attr('isPrevActive'), true, 'Prev is active');
+
+  // page 2:
+  vm.next();
+  assert.deepEqual(vm.attr('pagedRows').attr(), _.times(4, i => i + 20), 'should show last 4 rows');
+  assert.equal(vm.attr('isNextActive'), false, 'Next is inactive');
+
+  vm.next();
+  assert.equal(vm.attr('currentPage'), 2, 'last page should stay #2');
+
+  // page1:
+  vm.prev();
+  assert.equal(vm.attr('currentPage'), 1, 'prev should move currentPage to #1');
+
+  // page 0:
+  vm.prev();
+  vm.prev();
+  vm.prev();
+  assert.equal(vm.attr('currentPage'), 0, '3 x prev should move and keep currentPage to #0');
 });
 
