@@ -4,11 +4,15 @@
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
+    "build": "steal-tools",
     "lint": "semistandard",
     "lint:fix": "semistandard --fix",
+    "preversion": "npm run lint && npm test",
+    "release:patch": "npm version patch && make publish",
+    "release:minor": "npm version minor && make publish",
+    "release:major": "npm version major && make publish",
     "testee": "testee test/test.html --browsers firefox",
-    "test": "npm run lint && npm run testee",
-    "build": "steal-tools"
+    "test": "npm run lint && npm run testee"
   },
   "repository": {
     "type": "git",
