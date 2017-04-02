@@ -11,11 +11,11 @@ export default {
     get () {
       var last = this.checkedRowsLast; // we cannot do both: read this compute and then write it below.
       var hasChanged = true;
-      var newCheckedRows = this.rows && this.rows.length > 0 && this.rows.filter(function(row){
-          return row.isChecked;
-        }) || new DefineList();
-      if (last && last.length === newCheckedRows.length){
-        hasChanged = _.reduce(last, function(acc, row, i){
+      var newCheckedRows = (this.rows && this.rows.length > 0 && this.rows.filter(function (row) {
+        return row.isChecked;
+      })) || new DefineList();
+      if (last && last.length === newCheckedRows.length) {
+        hasChanged = _.reduce(last, function (acc, row, i) {
           return acc || !_.isEqual(row.get(), newCheckedRows[i].get());
         }, false);
       } else {
@@ -27,16 +27,16 @@ export default {
   },
   checkedVisibleRows: {
     get () {
-      return this.visibleRows && this.visibleRows.filter(function(row){
+      return this.visibleRows && this.visibleRows.filter(function (row) {
         return row.isChecked;
       });
     }
   },
   checkedVisibleEnabledRows: {
     get () {
-      return this.visibleEnabledRows && this.visibleEnabledRows.filter(function(row){
-          return row.isChecked;
-        });
+      return this.visibleEnabledRows && this.visibleEnabledRows.filter(function (row) {
+        return row.isChecked;
+      });
     }
   },
 
@@ -44,16 +44,16 @@ export default {
    * @prop {boolean} isHeaderChecked Indicator for the header checkbox (to be used with can-value for the header checkbox)
    */
   isHeaderChecked: {
-    get: function(){
+    get: function () {
       // TODO: when getter starts observing smth it makes a partial template being rerendered (e.g. breaks scroll listener).
       var isChecked = this.visibleEnabledRows.length === this.checkedVisibleEnabledRows.length;
-      //console.log('isHeaderChecked.GET: ' + isChecked);
+      // console.log('isHeaderChecked.GET: ' + isChecked);
       return isChecked;
     },
-    set: function(newVal){
-      //console.log('isHeaderChecked.SET: newVal=%s', newVal, arguments);
+    set: function (newVal) {
+      // console.log('isHeaderChecked.SET: newVal=%s', newVal, arguments);
       canBatch.start();
-      this.visibleEnabledRows && this.visibleEnabledRows.forEach(function(row){
+      this.visibleEnabledRows && this.visibleEnabledRows.forEach(function (row) {
         row.isChecked = newVal;
       });
       canBatch.stop();
@@ -81,20 +81,20 @@ export default {
   /***
    * Checkbox selection feature: push selected row into a hash map.
    */
-  checkRow: function(row){
-    var rowId = row.id,
-      isChecked = row.isChecked;
-    //console.log('checkRow()');
-    if (isChecked){
+  checkRow: function (row) {
+    const rowId = row.id;
+    const isChecked = row.isChecked;
+    // console.log('checkRow()');
+    if (isChecked) {
       this.checkedRowsHash[rowId] = row;
     } else {
       this.checkedRowsHash[rowId] = undefined;
     }
   },
-  checkRows: function(){
+  checkRows: function () {
     var self = this;
     canBatch.start();
-    this.rows.forEach(function(row){
+    this.rows.forEach(function (row) {
       self.checkRow(row);
     });
     canBatch.stop();
@@ -104,7 +104,7 @@ export default {
    * @prop areAllVisibleChecked {fn}
    * @return {boolean}
    */
-  //areAllVisibleChecked: function(){
+  // areAllVisibleChecked: function(){
   //  var rows = this.rows;
   //  return (
   //    rows.filter(function(a){ return a.isChecked; }).length ===
@@ -112,16 +112,16 @@ export default {
   //      // toolbar (which is used with isMatched).
   //    rows.filter(function(a){ return true || a.isMatched; }).length
   //  );
-  //},
+  // },
   /**
    * Clicking on header checkbox should loop through all visible rows and update them.
    */
-  headerCheckboxClicked: function(){
+  headerCheckboxClicked: function () {
     var isChecked = this.isHeaderChecked;
     console.log('headerCheckboxClicked: ' + isChecked);
 
     canBatch.start();
-    this.rows.filter(function(a){ return true || a.isMatched;}).forEach(function(a){
+    this.rows.filter(function (a) { return true || a.isMatched; }).forEach(function (a) {
       a.isChecked = isChecked;
     });
     canBatch.stop();

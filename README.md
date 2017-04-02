@@ -134,5 +134,6 @@ Pagination:
 
 ## Changelog
 
+- 0.8.0 Upgraded to CanJS v3 and Steal v1.
 - 0.7.2 Added changePage, hasPages.
 - 0.7.0 Added simple pagination support with helpers: next(), prev(), pages object. Provide `pagination` config option with a number of how many rows to show per page. Use `pagedRows` derived list.

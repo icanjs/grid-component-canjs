@@ -13,12 +13,12 @@ can.Component.extend({
   tag: 'grid-component-checkbox',
   viewModel: VM,
   events: {
-    'td.cell-checkbox input click': function(el, ev){
-      var row = $(el).data('row');
+    'td.cell-checkbox input click': function (el, ev) {
+      var row = el.data.row;
       console.log('TD.cell-checkbox input click', row);
       this.viewModel.checkRow(row);
     },
-    'th.cell-checkbox input click': function(el, ev){
+    'th.cell-checkbox input click': function (el, ev) {
       console.log('TH.cell-checkbox input click');
       this.viewModel.checkRows();
     }

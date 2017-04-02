@@ -32,7 +32,7 @@ var SortVmMixin = {
   rows: {
     set (rows) {
       var sortColumnName = this.sortColumnName;
-      if (sortColumnName){
+      if (sortColumnName) {
         this.sort(rows, sortColumnName, this.sortAsc);
       }
       return rows;
@@ -47,7 +47,7 @@ var SortVmMixin = {
   },
 
   /**
-   * sortBy is used use the sortBy function to trigger sorting on the column name.  
+   * sortBy is used use the sortBy function to trigger sorting on the column name.
    * All table headers will need to use it like this: `can-click="{sortBy 'columnName'}"`
    * @param {String} columnName The name of the attribute used for comparing values for sorting.
    */
@@ -59,16 +59,16 @@ var SortVmMixin = {
       this.sortColumnName = columnName;
     }
     this.sort(this.rows, columnName, this.sortAsc);
-    //updateOddness(this.scope.__rows);
+    // updateOddness(this.scope.__rows);
     canBatch.stop();
   },
 
   /**
    * Sorts the provided list on the sortKey attribute in the direction specified
    * by sortAsc.  Can pass in a sort function to override the default one, if desired.
-   * The comparator is removed from the list after sorting as a workaround to a 
+   * The comparator is removed from the list after sorting as a workaround to a
    * bug with the can.List.sort plugin at the time of implementation.
-   * 
+   *
    * @param  {can.List} list      The List to be sorted.
    * @param  {String} sortKey     The name of the attribute to be sortedin the List.
    * @param  {Boolean} sortAsc    Set to true for Ascending, false for descending order.
@@ -76,20 +76,20 @@ var SortVmMixin = {
    */
   sort (list, sortKey, sortAsc, compareFunc) {
     if (!list || !list.length) return;
-    //console.log('*** sort: %s by %s, asc=%s', list.length, sortKey, sortAsc);
+    // console.log('*** sort: %s by %s, asc=%s', list.length, sortKey, sortAsc);
 
-    compareFunc = compareFunc || function(a, b) {
-      var aVal = (sortAsc && a || b)[sortKey],
-          bVal = (sortAsc && b || a)[sortKey];
+    compareFunc = compareFunc || function (a, b) {
+      const aVal = ((sortAsc && a) || b)[sortKey];
+      const bVal = ((sortAsc && b) || a)[sortKey];
 
       // We need to handle null/undefined values separately, since any value is neither < or > than null/undefined:
-      if (aVal == null && bVal == null){
+      if (aVal == null && bVal == null) {
         return 0;
       }
-      if (aVal == null){
+      if (aVal == null) {
         return -1;
       }
-      if (bVal == null){
+      if (bVal == null) {
         return 1;
       }
 
