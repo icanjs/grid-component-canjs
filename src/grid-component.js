@@ -2,9 +2,9 @@ import Component from 'can-component';
 import DefineMap from 'can-define/map/map';
 
 import VM from './view-model';
-//import mixin from './mixins/mixin-util';
-//import mixinSort from './mixins/sort';
-//import { mixinSortHelpers } from './mixins/sort';
+import mixin from './mixins/mixin-util';
+import mixinSort from './mixins/sort';
+import { mixinSortHelpers } from './mixins/sort';
 //import mixinCheckbox from './mixins/checkbox';
 //import mixinChildRows from './mixins/child-rows';
 //import mixinPagination from './mixins/pagination';
@@ -18,7 +18,7 @@ import VM from './view-model';
 Component.extend({
   tag: 'grid-component',
   //viewModel: DefineMap.exend( mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination) ),
-  viewModel: DefineMap.extend( {seal: false}, VM ),
+  viewModel: DefineMap.extend( {seal: false}, mixin(VM, mixinSort) ),
   events: {
     'inserted': function(element){
       var self = this,
@@ -44,6 +44,6 @@ Component.extend({
         }, scrollThrottleInterval));
       }
     }
-  }
-  //helpers: Object.assign({}, mixinSortHelpers)
+  },
+  helpers: Object.assign({}, mixinSortHelpers)
 });

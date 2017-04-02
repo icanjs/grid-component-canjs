@@ -31,7 +31,7 @@ var GridVM = {
      */
     endIndex: {
       value: function(){
-        return this.attr('renderPageSize');
+        return this.renderPageSize;
       },
       type: 'number'
     },
@@ -42,9 +42,9 @@ var GridVM = {
 
     visibleRows: {
       get: function(){
-        if (this.attr('rows')) {
-          return this.attr('rows').filter(function(row){
-            return !row.attr('isHidden');
+        if (this.rows) {
+          return this.rows.filter(function(row){
+            return !row.isHidden;
           });          
         } else {
           return null;
@@ -58,16 +58,16 @@ var GridVM = {
      */
     renderedRows: {
       get: function() {
-        return this.attr('visibleRows').filter((item, i) => {
-          return i < this.attr('endIndex');
+        return this.visibleRows.filter((item, i) => {
+          return i < this.endIndex;
         });
       }
     },
 
     visibleEnabledRows: {
       get: function(){
-        return this.attr('visibleRows').filter(function(row){
-          return !row.attr('isDisabled');
+        return this.visibleRows.filter(function(row){
+          return !row.isDisabled;
         });
       }
     },
@@ -86,9 +86,13 @@ var GridVM = {
       value: null,
       // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
       set1: function(val){
-        var currentRow = this.attr('selectedRow');
-        currentRow && currentRow.attr('selected', '');
-        val && val.attr('selected', 'selected');
+        var currentRow = this.selectedRow;
+        if (currentRow) {
+          currentRow.selected = '';
+        }
+        if (val) {
+          val.selected = 'selected';
+        }
         return val;
       }
     },
@@ -109,20 +113,20 @@ var GridVM = {
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
       canBatch.start();
 
-      var index = el.attr('parent-id');
+      var index = el['parent-id'];
       if (index !== undefined) {
-        this.attr('selectedParentRow', this.attr('rows.'+index));
+        this.selectedParentRow = this.rows[index];
       } else {
-        this.attr('selectedParentRow', row);
+        this.selectedParentRow = row;
       }
 
-      if (this.attr('selectedRow')) {
-        this.attr('selectedRow.selected', '');
+      if (this.selectedRow) {
+        this.selectedRow.selected = '';
       }
-      row.attr('selected', 'selected');
+      row.selected = 'selected';
       canBatch.stop();
 
-      this.attr('selectedRow', row);
+      this.selectedRow = row;
     }
   },
 
@@ -131,15 +135,15 @@ var GridVM = {
    */
   increaseEndIndex(){
     let self = this;
-    this.attr('isLoading', true);
-    if (this.attr('endIndex') < this.attr('visibleRows.length') + this.attr('renderPageSize')){
+    this.isLoading = true;
+    if (this.endIndex < this.visibleRows.length + this.renderPageSize) {
       setTimeout(function(){
-        self.attr('endIndex', self.attr('endIndex') + self.attr('renderPageSize'));
-        console.log('new endIndex %s', self.attr('endIndex'));
-        self.attr('isLoading', false);
+        self.endIndex = self.endIndex + self.renderPageSize;
+        console.log('new endIndex %s', self.endIndex);
+        self.isLoading = false;
       }, 10);
     } else {
-      self.attr('isLoading', false);
+      self.isLoading = false;
     }
   },
 
@@ -149,15 +153,15 @@ var GridVM = {
    */
   resetEndIndex(){
     this.scrollToTop();
-    this.attr('endIndex', this.attr('renderPageSize'));
+    this.endIndex = this.renderPageSize;
   },
 
   /**
    * Scrolls grid body to the very top.
    */
   scrollToTop: function(){
-    if (this.attr('tbody')){
-      this.attr('tbody').scrollTop = 0;
+    if (this.tbody){
+      this.tbody.scrollTop = 0;
     }
   }
 };
