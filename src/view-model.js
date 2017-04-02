@@ -1,6 +1,4 @@
-  import can from 'can';
-import 'can/map/define/';
-import 'can/list/sort/';
+import canBatch from 'can-event/batch/batch';
 import _ from 'lodash';
 
 /**
@@ -109,7 +107,7 @@ var GridVM = {
   selectRow: function(row, el, ev){
     var target = ev.target.className;
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
-      can.batch.start();
+      canBatch.start();
 
       var index = el.attr('parent-id');
       if (index !== undefined) {
@@ -122,7 +120,7 @@ var GridVM = {
         this.attr('selectedRow.selected', '');
       }
       row.attr('selected', 'selected');
-      can.batch.stop();
+      canBatch.stop();
 
       this.attr('selectedRow', row);
     }

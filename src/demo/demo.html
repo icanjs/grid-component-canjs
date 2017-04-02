@@ -45,14 +45,14 @@
 </script>
 
 <script src='../../node_modules/steal/steal.js'
-        main="can/view/autorender/">
+        main="can-view-autorender/">
 
-    import can from "can";
-    import $ from "jquery";
+    import DefineList from 'can-define/list/list';
+    import canViewModel from 'can-view-model';
     import _ from "lodash";
 
-    $("#demo").viewModel().attr({
-        rows: new can.List(_.times(10, i => {
+    canViewModel(document.getElementById('demo')).set({
+        rows: new DefineList(_.times(10, function (i) {
             return {
                 region: ['Europe','America'][i % 2],
                 country: ['AUT','USA','SWE','CAN'][i % 4],
