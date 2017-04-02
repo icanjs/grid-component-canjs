@@ -1,6 +1,5 @@
-import can from 'can/';
-import 'can/map/define/';
-import 'can/list/sort/';
+import canBatch from 'can-event/batch/batch';
+import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
 /**
@@ -8,66 +7,60 @@ import _ from 'lodash';
  */
 var SortVmMixin = {
 
-  define: {
-
-    /**
-     * Indicates what column the rows are sorted by. Could be used in a template to show the sort indicator (triangle)
-     * or from parent's template to set the default sorting.
-     * @param {string} sortColumnName Column name for sorting
-     * @example
-     *  <grid-component sort-column-name="currency"></grid-component>
-     */
-    sortColumnName: {
-      value: ''
-    },
-
-    /**
-     * @param {string} sortDir A direction name to sort: TRUE for ascending, FALSE for descending.
-     */
-    sortAsc: {
-      value: true,
-      type: 'boolean'
-    },
-
-    /**
-     * We want to sort rows on set if sorting is applied.
-     */
-    rows: {
-      set(rows){
-        var sortColumnName = this.attr('sortColumnName');
-        if (sortColumnName){
-          this.sort(rows, sortColumnName, this.attr('sortAsc'));
-        }
-        return rows;
-      }
-    },
-
-    /**
-     * Computed from columns containing just column names (_attrName_ of the column definition) for sorting.
-     */
-    sortColumns: {
-      get: function(){
-        return _.map(this.attr('columns').attr(), column => { return column.attrName; });
-      }
-    }
-
+  /**
+   * Indicates what column the rows are sorted by. Could be used in a template to show the sort indicator (triangle)
+   * or from parent's template to set the default sorting.
+   * @param {string} sortColumnName Column name for sorting
+   * @example
+   *  <grid-component sort-column-name="currency"></grid-component>
+   */
+  sortColumnName: {
+    value: ''
   },
-  
+
+  /**
+   * @param {string} sortDir A direction name to sort: TRUE for ascending, FALSE for descending.
+   */
+  sortAsc: {
+    value: true,
+    type: 'boolean'
+  },
+
+  /**
+   * We want to sort rows on set if sorting is applied.
+   */
+  rows: {
+    set (rows) {
+      var sortColumnName = this.sortColumnName;
+      if (sortColumnName){
+        this.sort(rows, sortColumnName, this.sortAsc);
+      }
+      return rows;
+    }
+  },
+
+  /**
+   * Computed from columns containing just column names (_attrName_ of the column definition) for sorting.
+   */
+  get sortColumns () {
+    return _.map(this.columns, column => { return column.attrName; });
+  },
+
   /**
    * sortBy is used use the sortBy function to trigger sorting on the column name.  
    * All table headers will need to use it like this: `can-click="{sortBy 'columnName'}"`
    * @param {String} columnName The name of the attribute used for comparing values for sorting.
    */
-  sortBy: function(columnName){
-    can.batch.start();
-    if (columnName === this.attr('sortColumnName')) {
-      this.attr('sortAsc', !this.attr('sortAsc'));
+  sortBy (columnName) {
+    canBatch.start();
+    if (columnName === this.sortColumnName) {
+      this.sortAsc = !this.sortAsc;
     } else {
-      this.attr('sortColumnName', columnName);
+      this.sortColumnName = columnName;
     }
-    this.sort(this.attr('rows'), columnName, this.attr('sortAsc'));
+    this.sort(this.rows, columnName, this.sortAsc);
     //updateOddness(this.scope.__rows);
-    can.batch.stop();
+    canBatch.stop();
   },
 
   /**
@@ -81,13 +74,13 @@ var SortVmMixin = {
    * @param  {Boolean} sortAsc    Set to true for Ascending, false for descending order.
    * @param  {function} compareFunc optional function to use for the comparator.
    */
-  sort: function(list, sortKey, sortAsc, compareFunc){
+  sort (list, sortKey, sortAsc, compareFunc) {
     if (!list || !list.length) return;
     //console.log('*** sort: %s by %s, asc=%s', list.length, sortKey, sortAsc);
 
     compareFunc = compareFunc || function(a, b) {
-      var aVal = (sortAsc && a || b).attr(sortKey),
-          bVal = (sortAsc && b || a).attr(sortKey);
+      var aVal = (sortAsc && a || b)[sortKey],
+          bVal = (sortAsc && b || a)[sortKey];
 
       // We need to handle null/undefined values separately, since any value is neither < or > than null/undefined:
       if (aVal == null && bVal == null){
@@ -102,18 +95,13 @@ var SortVmMixin = {
 
       return (aVal < bVal ? -1 : (aVal > bVal ? 1 : 0));
     };
-    list.attr('comparator', compareFunc);
+    list.sort(compareFunc);
 
     list.forEach(parent => {
-      if (parent.children && parent.children.attr) {
-        parent.children.attr('comparator', compareFunc);
+      if (parent.children && parent.children instanceof DefineList) {
+        parent.children.sort(compareFunc);
       }
     });
-
-    // This is due to the sort plugin shuffling rows with equal values on any list update:
-    setTimeout(function(){
-      list.removeAttr('comparator');
-    },0);
   }
 };
 
@@ -124,10 +112,10 @@ let mixinSortHelpers = {
    * @param {String} columnName - The name of the column that will be sorted by
    * clicking on the column header.
    */
-  sortArrow: function(columnName){
+  sortArrow (columnName) {
     columnName = typeof columnName === 'function' ? columnName() : columnName;
-    if (columnName !== this.attr('sortColumnName')) return '';
-    var arrow = this.attr('sortAsc') ? '△' : '▽';
+    if (columnName !== this.sortColumnName) return '';
+    var arrow = this.sortAsc ? '△' : '▽';
     return '<span class="arrow">' + arrow + '</span>';
   }
 };

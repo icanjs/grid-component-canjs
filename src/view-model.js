@@ -1,6 +1,4 @@
-  import can from 'can';
-import 'can/map/define/';
-import 'can/list/sort/';
+import canBatch from 'can-event/batch/batch';
 import _ from 'lodash';
 
 /**
@@ -17,90 +15,91 @@ var GridVM = {
   scrollEventName: 'grid-should-load-more',
   scrollBottomDistance: 0.25,
 
-  define: {
+  /**
+   * Page size controlling the amount of rendered page of data.
+   */
+  renderPageSize: {
+    value: 200,
+    type: 'number'
+  },
 
-    /**
-     * Page size controlling the amount of rendered page of data.
-     */
-    renderPageSize: {
-      value: 200,
-      type: 'number'
+  /**
+   * Controls how many rows are rendered.
+   * @type {Object}
+   */
+  endIndex: {
+    value: function(){
+      return this.renderPageSize;
     },
+    type: 'number'
+  },
 
-    /**
-     * Controls how many rows are rendered.
-     * @type {Object}
-     */
-    endIndex: {
-      value: function(){
-        return this.attr('renderPageSize');
-      },
-      type: 'number'
-    },
+  rows: {
+    value: []
+  },
 
-    rows: {
-      value: []
-    },
-
-    visibleRows: {
-      get: function(){
-        if (this.attr('rows')) {
-          return this.attr('rows').filter(function(row){
-            return !row.attr('isHidden');
-          });          
-        } else {
-          return null;
-        }
-      }
-    },
-
-    /**
-     * Derived list of rows limited by _endIndex_.
-     * @type {Object}
-     */
-    renderedRows: {
-      get: function() {
-        return this.attr('visibleRows').filter((item, i) => {
-          return i < this.attr('endIndex');
+  visibleRows: {
+    get: function(){
+      if (this.rows) {
+        return this.rows.filter(function(row){
+          return !row.isHidden;
         });
+      } else {
+        return null;
       }
-    },
-
-    visibleEnabledRows: {
-      get: function(){
-        return this.attr('visibleRows').filter(function(row){
-          return !row.attr('isDisabled');
-        });
-      }
-    },
-
-    /**
-     * The selected parent row or the parent of the selected child row.
-     * @type {row}
-     */
-    selectedParentRow: {value: null},
-
-    /**
-     * The selected row in the grid. Used for caching which row is selected.
-     * @type {row}
-     */
-    selectedRow: {
-      value: null,
-      // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
-      set1: function(val){
-        var currentRow = this.attr('selectedRow');
-        currentRow && currentRow.attr('selected', '');
-        val && val.attr('selected', 'selected');
-        return val;
-      }
-    },
-
-    /**
-     * Holds tbody DOM element (e.g. for resetScroll).
-     */
-    tbody: {
-      type: '*'
     }
+  },
+
+  /**
+   * Derived list of rows limited by _endIndex_.
+   * @type {Object}
+   */
+  renderedRows: {
+    get: function() {
+      return this.visibleRows.filter((item, i) => {
+        return i < this.endIndex;
+      });
+    }
+  },
+
+  visibleEnabledRows: {
+    get: function(){
+      return this.visibleRows.filter(function(row){
+        return !row.isDisabled;
+      });
+    }
+  },
+
+  /**
+   * The selected parent row or the parent of the selected child row.
+   * @type {row}
+   */
+  selectedParentRow: {value: null},
+
+  /**
+   * The selected row in the grid. Used for caching which row is selected.
+   * @type {row}
+   */
+  selectedRow: {
+    value: null,
+    // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
+    set1: function(val){
+      var currentRow = this.selectedRow;
+      if (currentRow) {
+        currentRow.selected = '';
+      }
+      if (val) {
+        val.selected = 'selected';
+      }
+      return val;
+    }
+  },
+
+  /**
+   * Holds tbody DOM element (e.g. for resetScroll).
+   */
+  tbody: {
+    type: '*'
   },
 
   /**
@@ -109,22 +108,22 @@ var GridVM = {
   selectRow: function(row, el, ev){
     var target = ev.target.className;
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
-      can.batch.start();
+      canBatch.start();
 
-      var index = el.attr('parent-id');
+      var index = el['parent-id'];
       if (index !== undefined) {
-        this.attr('selectedParentRow', this.attr('rows.'+index));
+        this.selectedParentRow = this.rows[index];
       } else {
-        this.attr('selectedParentRow', row);
+        this.selectedParentRow = row;
       }
 
-      if (this.attr('selectedRow')) {
-        this.attr('selectedRow.selected', '');
+      if (this.selectedRow) {
+        this.selectedRow.selected = '';
       }
-      row.attr('selected', 'selected');
-      can.batch.stop();
+      row.selected = 'selected';
+      canBatch.stop();
 
-      this.attr('selectedRow', row);
+      this.selectedRow = row;
     }
   },
 
@@ -133,15 +132,15 @@ var GridVM = {
    */
   increaseEndIndex(){
     let self = this;
-    this.attr('isLoading', true);
-    if (this.attr('endIndex') < this.attr('visibleRows.length') + this.attr('renderPageSize')){
+    this.isLoading = true;
+    if (this.endIndex < this.visibleRows.length + this.renderPageSize) {
       setTimeout(function(){
-        self.attr('endIndex', self.attr('endIndex') + self.attr('renderPageSize'));
-        console.log('new endIndex %s', self.attr('endIndex'));
-        self.attr('isLoading', false);
+        self.endIndex = self.endIndex + self.renderPageSize;
+        console.log('new endIndex %s', self.endIndex);
+        self.isLoading = false;
       }, 10);
     } else {
-      self.attr('isLoading', false);
+      self.isLoading = false;
     }
   },
 
@@ -151,15 +150,15 @@ var GridVM = {
    */
   resetEndIndex(){
     this.scrollToTop();
-    this.attr('endIndex', this.attr('renderPageSize'));
+    this.endIndex = this.renderPageSize;
   },
 
   /**
    * Scrolls grid body to the very top.
    */
   scrollToTop: function(){
-    if (this.attr('tbody')){
-      this.attr('tbody').scrollTop = 0;
+    if (this.tbody){
+      this.tbody.scrollTop = 0;
     }
   }
 };

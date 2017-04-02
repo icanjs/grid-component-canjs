@@ -1,5 +1,5 @@
-import can from 'can';
-import 'can/map/define/';
+import Component from 'can-component';
+import DefineMap from 'can-define/map/map';
 
 import VM from './view-model';
 import mixin from './mixins/mixin-util';
@@ -15,14 +15,13 @@ import mixinPagination from './mixins/pagination';
  * @description Grid component.
  * @body
  */
-can.Component.extend({
+Component.extend({
   tag: 'grid-component',
-  viewModel: mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination),
-  //viewModel: can.Map.extend(VM),
+  viewModel: DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination)),
   events: {
-    'inserted': function(){
+    'inserted': function(element){
       var self = this,
-        tbody = this.element.find('.grid-wrapper tbody');
+        tbody = element.querySelector('.grid-wrapper tbody');
 
       // Trigger 'grid-should-load-more' EVENT on scroll when scroll position is close to the bottom (1/4 of the body height).
       if (this.viewModel.loadOnScroll){
@@ -37,7 +36,8 @@ can.Component.extend({
           var distanceFromTop = tbodyEl.scrollTop + tbodyEl.clientHeight;
           var shouldLoadMore = distanceFromTop >= Math.min(tbodyEl.scrollHeight/2, tbodyEl.scrollHeight * (1 - scrollBottomDistance));
           if (shouldLoadMore){
-            self.element.trigger(eventName);
+            // TODO: there is no jquery wrapped element anymore.
+            //element.trigger(eventName);
             self.viewModel.increaseEndIndex();
           }
         }, scrollThrottleInterval));
