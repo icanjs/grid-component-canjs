@@ -1,8 +1,11 @@
+# Grid Component built with CanJS
+
 [![Build Status](https://travis-ci.org/icanjs/grid-component.svg?branch=master)](https://travis-ci.org/icanjs/grid-component)
 [![npm version](https://badge.fury.io/js/grid-component.svg)](https://badge.fury.io/js/grid-component)
 [![Join the chat at https://gitter.im/icanjs/grid-component](https://badges.gitter.im/icanjs/grid-component.svg)](https://gitter.im/icanjs/grid-component?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-# Grid Component built with CanJS
+[![js-semistandard-style](https://cdn.rawgit.com/Flet/semistandard/master/badge.svg)](https://github.com/Flet/semistandard)
+
 
 A template based grid component that supports sorting, row selection, paged rendering and checkboxes. Built with CanJS.
 
