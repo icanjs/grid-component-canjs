@@ -1,4 +1,4 @@
-import can from 'can';
+import canBatch from 'can-event/batch/batch';
 
 /**
  * Toggle child rows.
@@ -35,27 +35,25 @@ import can from 'can';
  */
 
 export default {
-  define: {
-    /**
-     * Determine if all child rows should be visible or not.
-     * Changes all rows to match the set value.
-     * @type {Boolean}
-     */
-    allChildrenVisible: {
-      value: false,
-      set: function(value){
-        var rows = this.attr('rows');
-        if (rows && rows.length) {
-          can.batch.start();
-          rows.each(function(row){
-            if (row && row.attr) {
-              row.attr('childrenVisible', value);
-            }
-          });
-          can.batch.stop();
-        }
-        return value;
+  /**
+   * Determine if all child rows should be visible or not.
+   * Changes all rows to match the set value.
+   * @type {Boolean}
+   */
+  allChildrenVisible: {
+    value: false,
+    set: function(value){
+      var rows = this.rows;
+      if (rows && rows.length) {
+        canBatch.start();
+        rows.forEach(function(row){
+          if (row) {
+            row.childrenVisible = value;
+          }
+        });
+        canBatch.stop();
       }
+      return value;
     }
   },
 
@@ -63,7 +61,7 @@ export default {
    * Toggles child rows visibility.
    */
   toggleAllChildrenVisible: function(){
-    this.attr('allChildrenVisible', !this.attr('allChildrenVisible'));
+    this.allChildrenVisible = !this.allChildrenVisible;
   },
 
   /**
@@ -71,6 +69,6 @@ export default {
    * @param row
    */
   toggleChildrenVisible: function(row){
-    row.attr('childrenVisible', !row.attr('childrenVisible'));
+    row.childrenVisible = !row.childrenVisible;
   }
 };
