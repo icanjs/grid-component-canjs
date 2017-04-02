@@ -1,4 +1,5 @@
 import canBatch from 'can-event/batch/batch';
+import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
 export default {
@@ -6,29 +7,31 @@ export default {
    * Series of computed properties to get a subset of rows (visible / checked / etc).
    */
   // TODO REVIEW: this derived list gets redefined even if there is no changes in checked items but a new unchecked row is added.
-  get checkedRows () {
-    var last = this.checkedRowsLast; // we cannot do both: read this compute and then write it below.
-    var hasChanged = true;
-    var newCheckedRows = this.rows.length > 0 && this.rows.filter(function(row){
-        return row.isChecked;
-      }) || new can.List();
-    if (last && last.length === newCheckedRows.length){
-      hasChanged = _.reduce(last, function(acc, row, i){
-        return acc || !_.isEqual(row.get(), newCheckedRows[i].get());
-      }, false);
-    } else {
-      this.checkedRowsLast = newCheckedRows;
+  checkedRows: {
+    get () {
+      var last = this.checkedRowsLast; // we cannot do both: read this compute and then write it below.
+      var hasChanged = true;
+      var newCheckedRows = this.rows && this.rows.length > 0 && this.rows.filter(function(row){
+          return row.isChecked;
+        }) || new DefineList();
+      if (last && last.length === newCheckedRows.length){
+        hasChanged = _.reduce(last, function(acc, row, i){
+          return acc || !_.isEqual(row.get(), newCheckedRows[i].get());
+        }, false);
+      } else {
+        this.checkedRowsLast = newCheckedRows;
+      }
+      newCheckedRows.hasChanged = hasChanged;
+      return newCheckedRows;
     }
-    newCheckedRows.hasChanged = hasChanged;
-    return newCheckedRows;
   },
   get checkedVisibleRows () {
-    return this.visibleRows.filter(function(row){
+    return this.visibleRows && this.visibleRows.filter(function(row){
       return row.isChecked;
     });
   },
   get checkedVisibleEnabledRows () {
-    return this.visibleEnabledRows.filter(function(row){
+    return this.visibleEnabledRows && this.visibleEnabledRows.filter(function(row){
       return row.isChecked;
     });
   },
@@ -46,7 +49,7 @@ export default {
     set: function(newVal){
       //console.log('isHeaderChecked.SET: newVal=%s', newVal, arguments);
       canBatch.start();
-      this.visibleEnabledRows.forEach(function(row){
+      this.visibleEnabledRows && this.visibleEnabledRows.forEach(function(row){
         row.isChecked = newVal;
       });
       canBatch.stop();

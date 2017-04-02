@@ -13,7 +13,7 @@ var vm;
 
 QUnit.module('Grid viewModel', {
   beforeEach: function() {
-    vm = new (DefineMap.extend(mixin(VM, mixinSort, mixinCheckbox, mixinChildRows)))();
+    vm = new (DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinCheckbox, mixinChildRows)))();
   },
 
   afterEach: function() {
@@ -103,18 +103,18 @@ QUnit.test('Mixin pagination test 2', function(assert) {
   assert.equal(vm.rowsPerPage, 10, 'rowsPerPage is 10');
   assert.equal(vm.totalPages, 3, 'totalPages is 3');
   assert.equal(vm.hasPages, true, 'More than 1 page, show nav');
-  assert.deepEqual(vm.pagedRows, _.times(10, i => i), 'should show 1st 10 rows');
+  assert.deepEqual(vm.pagedRows.get(), _.times(10, i => i), 'should show 1st 10 rows');
   assert.equal(vm.isPrevActive, false, 'Prev is inactive');
 
   // page 1:
   vm.next();
-  assert.deepEqual(vm.pagedRows, _.times(10, i => i + 10), 'should show 2nd 10 rows');
+  assert.deepEqual(vm.pagedRows.get(), _.times(10, i => i + 10), 'should show 2nd 10 rows');
   assert.equal(vm.isNextActive, true, 'Next is active');
   assert.equal(vm.isPrevActive, true, 'Prev is active');
 
   // page 2:
   vm.next();
-  assert.deepEqual(vm.pagedRows, _.times(4, i => i + 20), 'should show last 4 rows');
+  assert.deepEqual(vm.pagedRows.get(), _.times(4, i => i + 20), 'should show last 4 rows');
   assert.equal(vm.isNextActive, false, 'Next is inactive');
 
   vm.next();

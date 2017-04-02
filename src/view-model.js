@@ -15,94 +15,91 @@ var GridVM = {
   scrollEventName: 'grid-should-load-more',
   scrollBottomDistance: 0.25,
 
-  define: {
+  /**
+   * Page size controlling the amount of rendered page of data.
+   */
+  renderPageSize: {
+    value: 200,
+    type: 'number'
+  },
 
-    /**
-     * Page size controlling the amount of rendered page of data.
-     */
-    renderPageSize: {
-      value: 200,
-      type: 'number'
+  /**
+   * Controls how many rows are rendered.
+   * @type {Object}
+   */
+  endIndex: {
+    value: function(){
+      return this.renderPageSize;
     },
+    type: 'number'
+  },
 
-    /**
-     * Controls how many rows are rendered.
-     * @type {Object}
-     */
-    endIndex: {
-      value: function(){
-        return this.renderPageSize;
-      },
-      type: 'number'
-    },
+  rows: {
+    value: []
+  },
 
-    rows: {
-      value: []
-    },
-
-    visibleRows: {
-      get: function(){
-        if (this.rows) {
-          return this.rows.filter(function(row){
-            return !row.isHidden;
-          });          
-        } else {
-          return null;
-        }
-      }
-    },
-
-    /**
-     * Derived list of rows limited by _endIndex_.
-     * @type {Object}
-     */
-    renderedRows: {
-      get: function() {
-        return this.visibleRows.filter((item, i) => {
-          return i < this.endIndex;
+  visibleRows: {
+    get: function(){
+      if (this.rows) {
+        return this.rows.filter(function(row){
+          return !row.isHidden;
         });
+      } else {
+        return null;
       }
-    },
-
-    visibleEnabledRows: {
-      get: function(){
-        return this.visibleRows.filter(function(row){
-          return !row.isDisabled;
-        });
-      }
-    },
-
-    /**
-     * The selected parent row or the parent of the selected child row.
-     * @type {row}
-     */
-    selectedParentRow: {value: null},
-
-    /**
-     * The selected row in the grid. Used for caching which row is selected.
-     * @type {row}
-     */
-    selectedRow: {
-      value: null,
-      // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
-      set1: function(val){
-        var currentRow = this.selectedRow;
-        if (currentRow) {
-          currentRow.selected = '';
-        }
-        if (val) {
-          val.selected = 'selected';
-        }
-        return val;
-      }
-    },
-
-    /**
-     * Holds tbody DOM element (e.g. for resetScroll).
-     */
-    tbody: {
-      type: '*'
     }
+  },
+
+  /**
+   * Derived list of rows limited by _endIndex_.
+   * @type {Object}
+   */
+  renderedRows: {
+    get: function() {
+      return this.visibleRows.filter((item, i) => {
+        return i < this.endIndex;
+      });
+    }
+  },
+
+  visibleEnabledRows: {
+    get: function(){
+      return this.visibleRows.filter(function(row){
+        return !row.isDisabled;
+      });
+    }
+  },
+
+  /**
+   * The selected parent row or the parent of the selected child row.
+   * @type {row}
+   */
+  selectedParentRow: {value: null},
+
+  /**
+   * The selected row in the grid. Used for caching which row is selected.
+   * @type {row}
+   */
+  selectedRow: {
+    value: null,
+    // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
+    set1: function(val){
+      var currentRow = this.selectedRow;
+      if (currentRow) {
+        currentRow.selected = '';
+      }
+      if (val) {
+        val.selected = 'selected';
+      }
+      return val;
+    }
+  },
+
+  /**
+   * Holds tbody DOM element (e.g. for resetScroll).
+   */
+  tbody: {
+    type: '*'
   },
 
   /**
