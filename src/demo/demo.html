@@ -29,12 +29,12 @@
         </thead>
 
         <tbody>
-          {{#each rows}}
-            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" ($click)="selectRow">
-              <td class="col-checkbox"><input type="checkbox" {($checked)}="isChecked"/></td>
-              <td>{{region}}</td>
-              <td>{{country}}</td>
-              <td class="amount">{{amount}}</td>
+          {{#each rows as row}}
+            <tr class="even-odd {{#if row.isHidden}}hidden{{/if}} {{#if row.selected}}selected{{/if}}" ($click)="selectRow(row, %element, %event)">
+              <td class="col-checkbox"><input type="checkbox" {($checked)}="row.isChecked"/></td>
+              <td>{{row.region}}</td>
+              <td>{{row.country}}</td>
+              <td class="amount">{{row.amount}}</td>
             </tr>
           {{/each}}
         </tbody>
@@ -48,16 +48,18 @@
         main="can-view-autorender/">
 
     import DefineList from 'can-define/list/list';
+    import DefineMap from 'can-define/map/map';
     import canViewModel from 'can-view-model';
     import _ from "lodash";
 
     canViewModel(document.getElementById('demo')).set({
         rows: new DefineList(_.times(10, function (i) {
-            return {
+            return new DefineMap({
                 region: ['Europe','America'][i % 2],
                 country: ['AUT','USA','SWE','CAN'][i % 4],
-                amount: [100, 200, 300][i % 3]
-            };
+                amount: [100, 200, 300][i % 3],
+                selected: false
+            });
         })),
         selectedRow: null
     });
