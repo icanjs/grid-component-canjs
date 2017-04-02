@@ -40,8 +40,10 @@ export default {
   /**
    * How many rows to show per page. Actual parameter.
    */
-  get rowsPerPage () {
-    return this.pagination || this.rows.length;
+  rowsPerPage: {
+    get () {
+      return this.pagination || this.rows.length;
+    }
   },
   /**
    * @param currentPage <Number> Current page number.
@@ -52,48 +54,60 @@ export default {
   /**
    * @param totalPages <Number> How many pages we have.
    */
-  get totalPages () {
-    return Math.ceil(this.rows.length / this.rowsPerPage);
+  totalPages: {
+    get () {
+      return Math.ceil(this.rows.length / this.rowsPerPage);
+    }
   },
   /**
    * If there are more than 1 pages
    */
-  get hasPages () {
-    return this.totalPages > 1;
+  hasPages: {
+    get () {
+      return this.totalPages > 1;
+    }
   },
   /**
    * @param pagedRows <can.List> A derived list of rows that has only rows belong to current page.
    */
-  get pagedRows () {
-    return this.rows.filter((row, index) => {
-      return index < this.rowsPerPage * (this.currentPage + 1)
-        && index > (this.rowsPerPage * this.currentPage - 1);
-    })
+  pagedRows: {
+    get () {
+      return this.rows.filter((row, index) => {
+        return index < this.rowsPerPage * (this.currentPage + 1)
+          && index > (this.rowsPerPage * this.currentPage - 1);
+      })
+    }
   },
   /**
    * @param isNextActive <Boolean> Indicates if the Next button should be shown/active.
    */
-  get isNextActive () {
-    return this.currentPage < this.totalPages - 1;
+  isNextActive: {
+    get () {
+      return this.currentPage < this.totalPages - 1;
+    }
   },
   /**
    * @param isPrevActive <Boolean> Indicates if the Prev button should be shown/active.
    */
-  get isPrevActive () {
-    return this.currentPage > 0;
+  isPrevActive: {
+    get () {
+      return this.currentPage > 0;
+    }
   },
   /**
    * @param pages <can.List> Array of page objects with page numbers and isActive flag showing what page is current.
    */
-  get pages () {
-    let currentPage = this.currentPage;
-    return new DefineList(_.times(this.totalPages, i => {
-      return {
-        pageNumber: i,
-        pageTitle: i + 1,
-        isActive: i === currentPage
-      }
-    }));
+  pages: {
+    get () {
+      let currentPage = this.currentPage;
+      return new DefineList(_.times(this.totalPages, i => {
+        return {
+          pageNumber: i,
+          pageTitle: i + 1,
+          isActive: i === currentPage
+        }
+      }));
+    }
   },
 
   /**
