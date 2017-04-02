@@ -3,7 +3,6 @@ import QUnit from 'steal-qunit';
 import VM from '../view-model';
 import mixin from './mixin-util';
 import mixinSort from './sort';
-import { mixinSortHelpers } from './sort';
 import mixinCheckbox from './checkbox';
 import mixinChildRows from './child-rows';
 import mixinPagination from './pagination';
@@ -12,26 +11,26 @@ import _ from 'lodash';
 var vm;
 
 QUnit.module('Grid viewModel', {
-  beforeEach: function() {
+  beforeEach: function () {
     vm = new (DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinCheckbox, mixinChildRows)))();
   },
 
-  afterEach: function() {
+  afterEach: function () {
   }
 });
 
-QUnit.test('checkedRows', function(assert) {
+QUnit.test('checkedRows', function (assert) {
   console.log(vm.rows.length);
   var count = 0;
 
   assert.equal(vm.checkedRows.length, 0, 'there should be 0 checkedRows');
 
-  vm.bind('checkedRows', function(ev, newVal, oldVal){
+  vm.bind('checkedRows', function (ev, newVal, oldVal) {
     if (newVal.hasChanged) {
-      //console.log('- Has changed!');
+      // console.log('- Has changed!');
       count++;
     }
-    //console.log('- bind change ' + count, newVal, oldVal);
+    // console.log('- bind change ' + count, newVal, oldVal);
   });
 
   vm.rows.push({isChecked: true, val: 1});
@@ -41,7 +40,6 @@ QUnit.test('checkedRows', function(assert) {
   assert.equal(vm.checkedRows.length, 2, 'there should be 2 items in checkedRows');
   assert.equal(count, 2, 'checkedRows should have changed 2 times');
 
-
   vm.set('rows', [
     {isChecked: true, val: 1},
     {isChecked: true, val: 1},
@@ -49,7 +47,7 @@ QUnit.test('checkedRows', function(assert) {
   ]);
 
   count = 0;
-  //console.log('replacing rows with the same array');
+  // console.log('replacing rows with the same array');
   vm.set('rows', [
     {isChecked: true, val: 1},
     {isChecked: true, val: 1},
@@ -57,9 +55,8 @@ QUnit.test('checkedRows', function(assert) {
   ]);
   assert.equal(count, 0, 'should be 0 changes if rows is replaced with the same array');
 
-
   count = 0;
-  //console.log('replacing rows with a different array of the same length');
+  // console.log('replacing rows with a different array of the same length');
   vm.set('rows', [
     {isChecked: true, val: 1},
     {isChecked: true, val: 2},
@@ -71,17 +68,17 @@ QUnit.test('checkedRows', function(assert) {
   vm.set('rows', []);
 
   count = 0;
-  //console.log('replacing rows with a different array of the same length');
+  // console.log('replacing rows with a different array of the same length');
   vm.rows.push({isChecked: false, val: 1});
   assert.equal(vm.checkedRows.length, 0, 'there should be 0 items in checkedRows');
   assert.equal(count, 0, 'checkedRows should have changed 0 times for an empty array');
 });
 
-QUnit.test('Mixin child-rows', function(assert) {
+QUnit.test('Mixin child-rows', function (assert) {
   vm.set('rows', [
-    {val:1, childrenVisible: false},
-    {val:2, childrenVisible: false},
-    {val:3, childrenVisible: false}
+    {val: 1, childrenVisible: false},
+    {val: 2, childrenVisible: false},
+    {val: 3, childrenVisible: false}
   ]);
   assert.notOk(vm.rows[0].childrenVisible, '1st row\' children are hidden');
   vm.toggleChildrenVisible(vm.rows[0]);
@@ -94,7 +91,7 @@ QUnit.test('Mixin child-rows', function(assert) {
   assert.equal(vm.rows.filter(a => a.childrenVisible).length, 0, 'No rows should have children visible');
 });
 
-QUnit.test('Mixin pagination test 2', function(assert) {
+QUnit.test('Mixin pagination test 2', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 10
@@ -134,7 +131,7 @@ QUnit.test('Mixin pagination test 2', function(assert) {
   assert.equal(vm.currentPage, 2, 'Change page to 2');
 });
 
-QUnit.test('Mixin pagination test 2', function(assert) {
+QUnit.test('Mixin pagination test 2', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 25

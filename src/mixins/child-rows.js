@@ -42,11 +42,11 @@ export default {
    */
   allChildrenVisible: {
     value: false,
-    set: function(value){
+    set: function (value) {
       var rows = this.rows;
       if (rows && rows.length) {
         canBatch.start();
-        rows.forEach(function(row){
+        rows.forEach(function (row) {
           if (row) {
             row.childrenVisible = value;
           }
@@ -60,7 +60,7 @@ export default {
   /**
    * Toggles child rows visibility.
    */
-  toggleAllChildrenVisible: function(){
+  toggleAllChildrenVisible: function () {
     this.allChildrenVisible = !this.allChildrenVisible;
   },
 
@@ -68,7 +68,7 @@ export default {
    * Toggles visibility of an individual row:
    * @param row
    */
-  toggleChildrenVisible: function(row){
+  toggleChildrenVisible: function (row) {
     row.childrenVisible = !row.childrenVisible;
   }
 };

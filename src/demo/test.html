@@ -4,7 +4,8 @@
   <body>
     <div id="qunit"></div>
     <div id="qunit-fixture"></div>
-    <script src="../../../node_modules/babel-core/browser-polyfill.js"></script>
-    <script src="../../../node_modules/steal/steal.js" data-main="components/grid-component/demo/test"></script>
+    <script>FuncUnit = { frameMode: true };</script>
+    <script src="../../../node_modules/babel-polyfill/dist/polyfill.min.js"></script>
+    <script src="../../../node_modules/steal/steal.js" data-main="src/demo/test"></script>
   </body>
 </html>

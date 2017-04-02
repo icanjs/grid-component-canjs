@@ -4,9 +4,10 @@
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
-    "jshint": "jshint src/grid-component.js",
+    "lint": "semistandard",
+    "lint:fix": "semistandard --fix",
     "testee": "testee test/test.html --browsers firefox",
-    "test": "npm run jshint && npm run testee",
+    "test": "npm run lint && npm run testee",
     "build": "steal-tools"
   },
   "repository": {
@@ -37,9 +38,10 @@
   },
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
+    "funcunit": "^3.2.0",
     "grid-filter": "^0.5.4",
-    "jshint": "^2.9.1",
     "multi-select": "^0.3.4",
+    "semistandard": "^10.0.0",
     "steal-qunit": "1.0.1",
     "steal-tools": "1.2.0",
     "testee": "^0.3.1"
@@ -49,8 +51,5 @@
       "steal-less",
       "steal-stache"
     ]
-  },
-  "jshintConfig": {
-    "esnext": true
   }
 }

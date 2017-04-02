@@ -1,5 +1,4 @@
 import canBatch from 'can-event/batch/batch';
-import _ from 'lodash';
 
 /**
  * Grid View Model
@@ -28,7 +27,7 @@ var GridVM = {
    * @type {Object}
    */
   endIndex: {
-    value: function(){
+    value: function () {
       return this.renderPageSize;
     },
     type: 'number'
@@ -39,9 +38,9 @@ var GridVM = {
   },
 
   visibleRows: {
-    get: function(){
+    get: function () {
       if (this.rows) {
-        return this.rows.filter(function(row){
+        return this.rows.filter(function (row) {
           return !row.isHidden;
         });
       } else {
@@ -55,7 +54,7 @@ var GridVM = {
    * @type {Object}
    */
   renderedRows: {
-    get: function() {
+    get: function () {
       return this.visibleRows.filter((item, i) => {
         return i < this.endIndex;
       });
@@ -63,8 +62,8 @@ var GridVM = {
   },
 
   visibleEnabledRows: {
-    get: function(){
-      return this.visibleRows.filter(function(row){
+    get: function () {
+      return this.visibleRows.filter(function (row) {
         return !row.isDisabled;
       });
     }
@@ -83,7 +82,7 @@ var GridVM = {
   selectedRow: {
     value: null,
     // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
-    set1: function(val){
+    set1: function (val) {
       var currentRow = this.selectedRow;
       if (currentRow) {
         currentRow.selected = '';
@@ -105,7 +104,7 @@ var GridVM = {
   /**
    * Set the selectedRow to the clicked tr element.
    */
-  selectRow: function(row, el, ev){
+  selectRow: function (row, el, ev) {
     var target = ev.target.className;
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
       canBatch.start();
@@ -130,11 +129,11 @@ var GridVM = {
   /**
    * Increases _endIndex_ by _renderPageSize_ (on scroll near bottom event).
    */
-  increaseEndIndex(){
+  increaseEndIndex () {
     let self = this;
     this.isLoading = true;
     if (this.endIndex < this.visibleRows.length + this.renderPageSize) {
-      setTimeout(function(){
+      setTimeout(function () {
         self.endIndex = self.endIndex + self.renderPageSize;
         console.log('new endIndex %s', self.endIndex);
         self.isLoading = false;
@@ -148,7 +147,7 @@ var GridVM = {
    * Resets the value of _endIndex_ to the default (e.g. on filter) and
    * scrolls to the top of the grid.
    */
-  resetEndIndex(){
+  resetEndIndex () {
     this.scrollToTop();
     this.endIndex = this.renderPageSize;
   },
@@ -156,8 +155,8 @@ var GridVM = {
   /**
    * Scrolls grid body to the very top.
    */
-  scrollToTop: function(){
-    if (this.tbody){
+  scrollToTop: function () {
+    if (this.tbody) {
       this.tbody.scrollTop = 0;
     }
   }

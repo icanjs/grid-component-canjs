@@ -73,9 +73,9 @@ export default {
   pagedRows: {
     get () {
       return this.rows.filter((row, index) => {
-        return index < this.rowsPerPage * (this.currentPage + 1)
-          && index > (this.rowsPerPage * this.currentPage - 1);
-      })
+        return index < this.rowsPerPage * (this.currentPage + 1) &&
+          index > ((this.rowsPerPage * this.currentPage) - 1);
+      });
     }
   },
   /**
@@ -105,7 +105,7 @@ export default {
           pageNumber: i,
           pageTitle: i + 1,
           isActive: i === currentPage
-        }
+        };
       }));
     }
   },
@@ -114,7 +114,7 @@ export default {
    * @method next Increases `currentPage` by one if there is a next one.
    */
   next () {
-    if (this.isNextActive){
+    if (this.isNextActive) {
       this.currentPage = this.currentPage + 1;
     }
     return false;
@@ -124,7 +124,7 @@ export default {
    * @method prev Decreases `currentPage` by one if there is a previous one.
    */
   prev () {
-    if (this.isPrevActive){
+    if (this.isPrevActive) {
       this.currentPage = this.currentPage - 1;
     }
     return false;

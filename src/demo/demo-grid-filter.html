@@ -46,17 +46,20 @@
 
 <!-- BEGIN JAVASCRIPT CODE FOR DEMO -->
 <script src="../../../node_modules/steal/steal.js"
-        main="can/view/autorender/">
+        main="can-view-autorender">
 
-  import can from 'can';
-  import $ from 'jquery';
-  import _ from 'lodash';
+  import DefineList from 'can-define/list/list';
+  import DefineMap from 'can-define/map/map';
+  import canViewModel from 'can-view-model';
+  import _ from "lodash";
+
+  window.canViewModel = canViewModel;
 
   /**
    * Sets up fixture data on the viewModel for the above template.  This is the same as setting
    * data inside the view-model.js for a grid-component.
    */
-  $('#demo').viewModel().attr({
+  canViewModel(document.getElementById('demo')).set({
     searchTerms: [],
     selectedFileTypes: [],
     fileTypes: [
@@ -68,8 +71,8 @@
     ],
 
     // The amount 30 is being used in the test - do not modify it (or update the test accordingly)!
-    data: _.times(515, i => {
-      return {
+    data: new DefineList(_.times(515, function (i) {
+      return new DefineMap({
         period: 'P05FY0' + (i%9 + 1),
         region: ['Europe','America'][i<5?0:1],
         sales: 'Sales Org',
@@ -80,9 +83,11 @@
         estListener: '4392952.04',
         fileSize: [905, 0.75][i%2],
         estPlayCount: '71963442.49',
-        isVisible: true
-      };
-    })
+        isVisible: true,
+        selected: false,
+        isChecked: false
+      });
+    }))
   });
 </script>
 <!-- END JAVASCRIPT CODE FOR DEMO -->
