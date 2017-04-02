@@ -9,12 +9,12 @@ export default {
   get checkedRows () {
     var last = this.checkedRowsLast; // we cannot do both: read this compute and then write it below.
     var hasChanged = true;
-    var newCheckedRows = this.attr('rows.length') > 0 && this.attr('rows').filter(function(row){
-        return row.attr('isChecked');
+    var newCheckedRows = this.rows.length > 0 && this.rows.filter(function(row){
+        return row.isChecked;
       }) || new can.List();
     if (last && last.length === newCheckedRows.length){
       hasChanged = _.reduce(last, function(acc, row, i){
-        return acc || !_.isEqual(row.attr(), newCheckedRows.attr(i).attr());
+        return acc || !_.isEqual(row.get(), newCheckedRows[i].get());
       }, false);
     } else {
       this.checkedRowsLast = newCheckedRows;
@@ -23,13 +23,13 @@ export default {
     return newCheckedRows;
   },
   get checkedVisibleRows () {
-    return this.attr('visibleRows').filter(function(row){
-      return row.attr('isChecked');
+    return this.visibleRows.filter(function(row){
+      return row.isChecked;
     });
   },
   get checkedVisibleEnabledRows () {
-    return this.attr('visibleEnabledRows').filter(function(row){
-      return row.attr('isChecked');
+    return this.visibleEnabledRows.filter(function(row){
+      return row.isChecked;
     });
   },
 
@@ -39,15 +39,15 @@ export default {
   isHeaderChecked: {
     get: function(){
       // TODO: when getter starts observing smth it makes a partial template being rerendered (e.g. breaks scroll listener).
-      var isChecked = this.attr('visibleEnabledRows.length') === this.attr('checkedVisibleEnabledRows.length');
+      var isChecked = this.visibleEnabledRows.length === this.checkedVisibleEnabledRows.length;
       //console.log('isHeaderChecked.GET: ' + isChecked);
       return isChecked;
     },
     set: function(newVal){
       //console.log('isHeaderChecked.SET: newVal=%s', newVal, arguments);
       canBatch.start();
-      this.attr('visibleEnabledRows').each(function(row){
-        row.attr('isChecked', newVal);
+      this.visibleEnabledRows.forEach(function(row){
+        row.isChecked = newVal;
       });
       canBatch.stop();
     }
@@ -58,10 +58,8 @@ export default {
    * its setter to be called which will uncheck all rows when user unchecks one row.
    * @prop {boolean} areAllVisibleChecked Indicates if all visible rows (after filtering) are checked
    */
-  areAllVisibleChecked: {
-    get: function(){
-      return this.attr('visibleRows.length') === this.attr('checkedVisibleRows.length');
-    }
+  get areAllVisibleChecked () {
+    return this.visibleRows.length === this.checkedVisibleRows.length;
   },
 
   /**
@@ -75,19 +73,19 @@ export default {
    * Checkbox selection feature: push selected row into a hash map.
    */
   checkRow: function(row){
-    var rowId = row.attr('id'),
-      isChecked = row.attr('isChecked');
+    var rowId = row.id,
+      isChecked = row.isChecked;
     //console.log('checkRow()');
     if (isChecked){
-      this.attr('checkedRowsHash.' + rowId , row);
+      this.checkedRowsHash[rowId] = row;
     } else {
-      this.removeAttr('checkedRowsHash.' + rowId);
+      this.checkedRowsHash[rowId] = undefined;
     }
   },
   checkRows: function(){
     var self = this;
     canBatch.start();
-    this.attr('rows').each(function(row){
+    this.rows.forEach(function(row){
       self.checkRow(row);
     });
     canBatch.stop();
@@ -98,7 +96,7 @@ export default {
    * @return {boolean}
    */
   areAllVisibleChecked: function(){
-    var rows = this.attr('rows');
+    var rows = this.rows;
     return (
       rows.filter(function(a){ return a.isChecked; }).length ===
         // TODO: think of an option because grid does not have to have a search
@@ -110,12 +108,12 @@ export default {
    * Clicking on header checkbox should loop through all visible rows and update them.
    */
   headerCheckboxClicked: function(){
-    var isChecked = this.attr('isHeaderChecked');
+    var isChecked = this.isHeaderChecked;
     console.log('headerCheckboxClicked: ' + isChecked);
 
     canBatch.start();
-    this.attr('rows').filter(function(a){ return true || a.isMatched;}).each(function(a){
-      a.attr('isChecked', isChecked);
+    this.rows.filter(function(a){ return true || a.isMatched;}).forEach(function(a){
+      a.isChecked = isChecked;
     });
     canBatch.stop();
   }
