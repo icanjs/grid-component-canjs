@@ -25,15 +25,19 @@ export default {
       return newCheckedRows;
     }
   },
-  get checkedVisibleRows () {
-    return this.visibleRows && this.visibleRows.filter(function(row){
-      return row.isChecked;
-    });
+  checkedVisibleRows: {
+    get () {
+      return this.visibleRows && this.visibleRows.filter(function(row){
+        return row.isChecked;
+      });
+    }
   },
-  get checkedVisibleEnabledRows () {
-    return this.visibleEnabledRows && this.visibleEnabledRows.filter(function(row){
-      return row.isChecked;
-    });
+  checkedVisibleEnabledRows: {
+    get () {
+      return this.visibleEnabledRows && this.visibleEnabledRows.filter(function(row){
+          return row.isChecked;
+        });
+    }
   },
 
   /**
@@ -61,8 +65,10 @@ export default {
    * its setter to be called which will uncheck all rows when user unchecks one row.
    * @prop {boolean} areAllVisibleChecked Indicates if all visible rows (after filtering) are checked
    */
-  get areAllVisibleChecked () {
-    return this.visibleRows.length === this.checkedVisibleRows.length;
+  areAllVisibleChecked: {
+    get () {
+      return this.visibleRows && this.visibleRows.length === this.checkedVisibleRows.length;
+    }
   },
 
   /**
@@ -94,19 +100,19 @@ export default {
     canBatch.stop();
   },
 
-  /**
+  /*
    * @prop areAllVisibleChecked {fn}
    * @return {boolean}
    */
-  areAllVisibleChecked: function(){
-    var rows = this.rows;
-    return (
-      rows.filter(function(a){ return a.isChecked; }).length ===
-        // TODO: think of an option because grid does not have to have a search
-        // toolbar (which is used with isMatched).
-      rows.filter(function(a){ return true || a.isMatched; }).length
-    );
-  },
+  //areAllVisibleChecked: function(){
+  //  var rows = this.rows;
+  //  return (
+  //    rows.filter(function(a){ return a.isChecked; }).length ===
+  //      // TODO: think of an option because grid does not have to have a search
+  //      // toolbar (which is used with isMatched).
+  //    rows.filter(function(a){ return true || a.isMatched; }).length
+  //  );
+  //},
   /**
    * Clicking on header checkbox should loop through all visible rows and update them.
    */

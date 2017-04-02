@@ -5,8 +5,8 @@ import VM from './view-model';
 import mixin from './mixins/mixin-util';
 import mixinSort from './mixins/sort';
 import { mixinSortHelpers } from './mixins/sort';
-//import mixinCheckbox from './mixins/checkbox';
-//import mixinChildRows from './mixins/child-rows';
+import mixinCheckbox from './mixins/checkbox';
+import mixinChildRows from './mixins/child-rows';
 //import mixinPagination from './mixins/pagination';
 
 /**
@@ -15,10 +15,13 @@ import { mixinSortHelpers } from './mixins/sort';
  * @description Grid component.
  * @body
  */
+// mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination)
+const vmConfig = mixin(VM, mixinSort, mixinCheckbox, mixinChildRows);
+console.log('vmConfig', vmConfig);
+
 Component.extend({
   tag: 'grid-component',
-  //viewModel: DefineMap.exend( mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPagination) ),
-  viewModel: DefineMap.extend( {seal: false}, mixin(VM, mixinSort) ),
+  viewModel: DefineMap.extend({seal: false}, vmConfig),
   events: {
     'inserted': function(element){
       var self = this,

@@ -52,13 +52,16 @@
     import canViewModel from 'can-view-model';
     import _ from "lodash";
 
+    window.canViewModel = canViewModel;
+
     canViewModel(document.getElementById('demo')).set({
         rows: new DefineList(_.times(10, function (i) {
             return new DefineMap({
                 region: ['Europe','America'][i % 2],
                 country: ['AUT','USA','SWE','CAN'][i % 4],
                 amount: [100, 200, 300][i % 3],
-                selected: false
+                selected: false,
+                isChecked: false
             });
         })),
         selectedRow: null
