@@ -1,4 +1,4 @@
-import can from 'can';
+import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
 /**
@@ -31,93 +31,77 @@ import _ from 'lodash';
  */
 
 export default {
-  define: {
-    /**
-     * How many rows to show per page. Config option.
-     */
-    pagination: {
-      value: 0
-    },
-    /**
-     * How many rows to show per page. Actual parameter.
-     */
-    rowsPerPage: {
-      get(){
-        return this.attr('pagination') || this.attr('rows.length');
+  /**
+   * How many rows to show per page. Config option.
+   */
+  pagination: {
+    value: 0
+  },
+  /**
+   * How many rows to show per page. Actual parameter.
+   */
+  get rowsPerPage () {
+    return this.pagination || this.rows.length;
+  },
+  /**
+   * @param currentPage <Number> Current page number.
+   */
+  currentPage: {
+    value: 0
+  },
+  /**
+   * @param totalPages <Number> How many pages we have.
+   */
+  get totalPages () {
+    return Math.ceil(this.rows.length / this.rowsPerPage);
+  },
+  /**
+   * If there are more than 1 pages
+   */
+  get hasPages () {
+    return this.totalPages > 1;
+  },
+  /**
+   * @param pagedRows <can.List> A derived list of rows that has only rows belong to current page.
+   */
+  get pagedRows () {
+    return this.rows.filter((row, index) => {
+      return index < this.rowsPerPage * (this.currentPage + 1)
+        && index > (this.rowsPerPage * this.currentPage - 1);
+    })
+  },
+  /**
+   * @param isNextActive <Boolean> Indicates if the Next button should be shown/active.
+   */
+  get isNextActive () {
+    return this.currentPage < this.totalPages - 1;
+  },
+  /**
+   * @param isPrevActive <Boolean> Indicates if the Prev button should be shown/active.
+   */
+  get isPrevActive () {
+    return this.currentPage > 0;
+  },
+  /**
+   * @param pages <can.List> Array of page objects with page numbers and isActive flag showing what page is current.
+   */
+  get pages () {
+    let currentPage = this.currentPage;
+    return new DefineList(_.times(this.totalPages, i => {
+      return {
+        pageNumber: i,
+        pageTitle: i + 1,
+        isActive: i === currentPage
       }
-    },
-    /**
-     * @param currentPage <Number> Current page number.
-     */
-    currentPage: {
-      value: 0
-    },
-    /**
-     * @param totalPages <Number> How many pages we have.
-     */
-    totalPages: {
-      get(){
-        return Math.ceil(this.attr('rows.length') / this.attr('rowsPerPage'));
-      }
-    },
-    /**
-     * If there are more than 1 pages
-     */
-    hasPages: {
-      get(){
-        return this.attr('totalPages') > 1;
-      }
-    },
-    /**
-     * @param pagedRows <can.List> A derived list of rows that has only rows belong to current page.
-     */
-    pagedRows: {
-      get(){
-        return this.attr('rows').filter((row, index) => {
-          return index < this.attr('rowsPerPage') * (this.attr('currentPage') + 1)
-            && index > (this.attr('rowsPerPage') * this.attr('currentPage') - 1);
-        })
-      }
-    },
-    /**
-     * @param isNextActive <Boolean> Indicates if the Next button should be shown/active.
-     */
-    isNextActive: {
-      get(){
-        return this.attr('currentPage') < this.attr('totalPages') - 1;
-      }
-    },
-    /**
-     * @param isPrevActive <Boolean> Indicates if the Prev button should be shown/active.
-     */
-    isPrevActive: {
-      get(){
-        return this.attr('currentPage') > 0;
-      }
-    },
-    /**
-     * @param pages <can.List> Array of page objects with page numbers and isActive flag showing what page is current.
-     */
-    pages: {
-      get(){
-        let currentPage = this.attr('currentPage');
-        return new can.List(_.times(this.attr('totalPages'), i => {
-          return {
-            pageNumber: i,
-            pageTitle: i + 1,
-            isActive: i === currentPage
-          }
-        }));
-      }
-    }
+    }));
   },
 
   /**
    * @method next Increases `currentPage` by one if there is a next one.
    */
-  next(){
-    if (this.attr('isNextActive')){
-      this.attr('currentPage', this.attr('currentPage') + 1);
+  next () {
+    if (this.isNextActive){
+      this.currentPage = this.currentPage + 1;
     }
     return false;
   },
@@ -125,9 +109,9 @@ export default {
   /**
    * @method prev Decreases `currentPage` by one if there is a previous one.
    */
-  prev(){
-    if (this.attr('isPrevActive')){
-      this.attr('currentPage', this.attr('currentPage') - 1);
+  prev () {
+    if (this.isPrevActive){
+      this.currentPage = this.currentPage - 1;
     }
     return false;
   },
@@ -135,8 +119,8 @@ export default {
   /**
    * @method change `currentPage` to correct pagenumber
    */
-  changePage(pageNumber){
-    this.attr('currentPage', pageNumber);
+  changePage (pageNumber) {
+    this.currentPage = pageNumber;
     return false;
   }
 };
