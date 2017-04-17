@@ -1,5 +1,8 @@
 <!--
   This demo shows how to use can-connect models with grid pagination done on server.
+
+  The grid component fires `on-page-click` event when user changes a page. Alternatively you can define
+  a setter for `pagination.skip` property to act on its change instead of listening to the view-model event.
 -->
 <style>
     ul li { color: gray }
@@ -12,7 +15,9 @@
 
     <div class="demo-container">
 
-    <grid-component {(rows)}="rows" {pagination}="pagination">
+    <grid-component {(rows)}="rows"
+                    {pagination}="pagination"
+                    (on-page-click)=loadPage()>
 
       <p>
         Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
@@ -103,19 +108,41 @@
     });
     let itemStore = fixture.store(itemsData, algebra);
     fixture('/items', itemStore);
+    fixture.delay = 2000;
 
-    // Load 1st page:
-    let pagination = new (DefineMap.extend({skip: 'number', limit: 'number'}))({skip: 0, limit: 10});
-    let demoEl = document.getElementById('demo-html');
-    let templateSrc = demoEl.innerHTML;
-    Item.getList(pagination.get()).then(items => {
-      stache.async(templateSrc).then(template => {
-        let frag = template(new DefineMap({
-          rows: items,
-          pagination: pagination
-        }));
-        document.body.appendChild(frag);
-      })
+    // Pagination object:
+    let pagination = new (DefineMap.extend({
+      skip: 'number',
+      limit: 'number',
+      total: 'number',
+      isLoading: 'boolean'
+    }))({skip: 0, limit: 10});
+
+    // Page view-model:
+    let pageVM = window.pageVM = new DefineMap({
+      rows: new DefineList([]),
+      pagination: pagination,
+      loadPage: loadPage
     });
 
+    let demoEl = document.getElementById('demo-html');
+    let templateSrc = demoEl.innerHTML;
+    stache.async(templateSrc).then(template => {
+      let frag = template(pageVM);
+      document.body.appendChild(frag);
+
+      // Load the 1st page:
+      pagination.isLoading = true;
+      Item.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+        pageVM.rows = items;
+      });
+    });
+
+    function loadPage(){
+      console.log('Should loadPage!');
+      let pagination = this.pagination;
+      Item.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+        this.rows = items;
+      });
+    }
 </script>

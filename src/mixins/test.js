@@ -6,6 +6,7 @@ import mixinSort from './sort';
 import mixinCheckbox from './checkbox';
 import mixinChildRows from './child-rows';
 import mixinPagination from './pagination';
+import mixinPaginationServer from './pagination-server';
 import _ from 'lodash';
 
 var vm;
@@ -142,4 +143,27 @@ QUnit.test('Mixin pagination test 2', function (assert) {
   assert.equal(vm.currentPage, 0, 'currentPage is 0');
   assert.equal(vm.totalPages, 1, 'totalPages is 1');
   assert.equal(vm.hasPages, false, 'Only 1 page, hide nav');
+});
+
+QUnit.test('Mixin server pagination', function (assert) {
+  var vm = new (DefineMap.extend(mixinPaginationServer))({
+    rows: _.times(100, i => i),
+    pagination: new (DefineMap.extend({
+      skip: 'number',
+      limit: 'number',
+      total: 'number'
+    }))({
+      skip: 0,
+      limit: 10,
+      total: 100
+    })
+  });
+
+  assert.equal(vm.rowsPerPage, 10, 'rowsPerPage is 10');
+  assert.equal(vm.currentPage, 0, 'currentPage is 0');
+  vm.pagination.skip = 10;
+  assert.equal(vm.currentPage, 1, 'currentPage is 1 after skipping 10');
+  vm.pagination.skip = 90;
+  assert.equal(vm.currentPage, 9, 'currentPage is 9 after skipping 90');
+
 });
