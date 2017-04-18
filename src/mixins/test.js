@@ -178,6 +178,4 @@ QUnit.test('Mixin server pagination', function (assert) {
   vm.changePage(9);
   assert.equal(vm.isNextActive, false, 'isNextActive false for the page 9');
   assert.equal(vm.isPrevActive, true, 'isNextActive true for the page 9');
-
-
 });

@@ -6,7 +6,7 @@ import mixin from './mixins/mixin-util';
 import mixinSort, { mixinSortHelpers } from './mixins/sort';
 import mixinCheckbox from './mixins/checkbox';
 import mixinChildRows from './mixins/child-rows';
-import mixinPagination from './mixins/pagination';
+// import mixinPagination from './mixins/pagination';
 import mixinPaginationServer from './mixins/pagination-server';
 import { events as mixinLoadOnScrollEvents } from './mixins/load-on-scroll';
 
