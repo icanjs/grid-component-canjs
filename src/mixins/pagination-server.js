@@ -39,13 +39,13 @@ import _ from 'lodash';
 
 export default {
   /**
-   * How many rows to show per page. Config option.
+   * @param {can.Map} How many rows to show per page. Config option.
    */
   pagination: {
     type: '*'
   },
   /**
-   * How many rows to show per page. Actual parameter.
+   * @param {Number} rowsPerPage How many rows to show per page. Actual parameter.
    */
   rowsPerPage: {
     get () {
@@ -62,7 +62,7 @@ export default {
     }
   },
   /**
-   * @param totalPages <Number> How many pages we have.
+   * @param {Number} totalPages How many pages we have.
    */
   totalPages: {
     get () {
@@ -70,6 +70,7 @@ export default {
     }
   },
   /**
+   * @prop {Boolean} hasPages
    * If there are more than 1 pages
    */
   hasPages: {
@@ -78,7 +79,7 @@ export default {
     }
   },
   /**
-   * @param isNextActive <Boolean> Indicates if the Next button should be shown/active.
+   * @param {Boolean} isNextActive Indicates if the Next button should be shown/active.
    */
   isNextActive: {
     get () {
@@ -86,7 +87,7 @@ export default {
     }
   },
   /**
-   * @param isPrevActive <Boolean> Indicates if the Prev button should be shown/active.
+   * @param {Boolean} isPrevActive Indicates if the Prev button should be shown/active.
    */
   isPrevActive: {
     get () {
@@ -94,7 +95,7 @@ export default {
     }
   },
   /**
-   * @param pages <can.List> Array of page objects with page numbers and isActive flag showing what page is current.
+   * @param {can.List} pages Array of page objects with page numbers and isActive flag showing what page is current.
    */
   pages: {
     get () {
@@ -109,12 +110,20 @@ export default {
     }
   },
 
+  /*
+   * Use this setter since we want to fire the event.
+   */
+  setSkipTo (value) {
+    this.pagination.skip = value;
+    this.dispatch('on-page-click');
+  },
+
   /**
    * @function next Increases `currentPage` by one if there is a next one.
    */
   next () {
     if (this.isNextActive) {
-      this.pagination.skip = this.pagination.skip + this.pagination.limit;
+      this.setSkipTo(this.pagination.skip + this.pagination.limit);
     }
     return false;
   },
@@ -124,16 +133,16 @@ export default {
    */
   prev () {
     if (this.isPrevActive) {
-      this.pagination.skip = this.pagination.skip - this.pagination.limit;
+      this.setSkipTo(this.pagination.skip - this.pagination.limit);
     }
     return false;
   },
 
   /**
-   * @function changes `pagination.skip` according to `pageNumber`
+   * @function changePage Updates `pagination.skip` according to `pageNumber`
    */
   changePage (pageNumber) {
-    this.pagination.skip = pageNumber * this.pagination.limit;
+    this.setSkipTo(pageNumber * this.pagination.limit);
     return false;
   }
 };

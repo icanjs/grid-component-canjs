@@ -161,9 +161,23 @@ QUnit.test('Mixin server pagination', function (assert) {
 
   assert.equal(vm.rowsPerPage, 10, 'rowsPerPage is 10');
   assert.equal(vm.currentPage, 0, 'currentPage is 0');
+  assert.equal(vm.hasPages, true, 'hasPages is true');
+  assert.equal(vm.isNextActive, true, 'isNextActive true for the page 0');
+  assert.equal(vm.isPrevActive, false, 'isNextActive false for the page 0');
   vm.pagination.skip = 10;
   assert.equal(vm.currentPage, 1, 'currentPage is 1 after skipping 10');
   vm.pagination.skip = 90;
   assert.equal(vm.currentPage, 9, 'currentPage is 9 after skipping 90');
+  vm.pagination.skip = 10;
+  vm.next();
+  assert.equal(vm.currentPage, 2, 'currentPage is 2 after next()');
+  vm.prev();
+  assert.equal(vm.currentPage, 1, 'currentPage is 1 after prev()');
+  vm.changePage(5);
+  assert.equal(vm.currentPage, 5, 'currentPage is 4 after changePage(5)');
+  vm.changePage(9);
+  assert.equal(vm.isNextActive, false, 'isNextActive false for the page 9');
+  assert.equal(vm.isPrevActive, true, 'isNextActive true for the page 9');
+
 
 });
