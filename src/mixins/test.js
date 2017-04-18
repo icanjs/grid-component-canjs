@@ -92,7 +92,7 @@ QUnit.test('Mixin child-rows', function (assert) {
   assert.equal(vm.rows.filter(a => a.childrenVisible).length, 0, 'No rows should have children visible');
 });
 
-QUnit.test('Mixin pagination test 2', function (assert) {
+QUnit.test('Mixin local pagination', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 10
@@ -132,7 +132,7 @@ QUnit.test('Mixin pagination test 2', function (assert) {
   assert.equal(vm.currentPage, 2, 'Change page to 2');
 });
 
-QUnit.test('Mixin pagination test 2', function (assert) {
+QUnit.test('Mixin local pagination 2', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 25
