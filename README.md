@@ -144,7 +144,7 @@ For the full demo see `src/demo/demo-pagination.html`.
 
 ### Custom view-model:
 
-To customize grid's view model you can choose any of the available mixins as well as and provide your own
+To customize grid's view model you can choose any of the available mixins as well as provide your own
 to override them.
 
 E.g. if you need only sorting and local pagination (all rows will be given to the grid)
