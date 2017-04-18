@@ -1,7 +1,7 @@
 <!--
   This demo shows how to use can-connect models with grid pagination done on server.
 
-  The grid component fires `on-page-click` event when user changes a page. Alternatively you can define
+  The grid component fires `onpage` event when user changes a page. Alternatively you can define
   a setter for `pagination.skip` property to act on its change instead of listening to the view-model event.
 -->
 <style>
@@ -17,7 +17,7 @@
 
     <grid-component {(rows)}="rows"
                     {pagination}="pagination"
-                    (on-page-click)=loadPage()>
+                    (onpage)=loadPage()>
 
       <p>
         Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
@@ -62,8 +62,7 @@
     </div>
 </script>
 
-<script src='../../node_modules/steal/steal.js'
-        main="@empty">
+<script src="../../node_modules/steal/steal.js" id="demo-src" main="@empty">
 
     import DefineList from 'can-define/list/list';
     import DefineMap from 'can-define/map/map';
@@ -108,7 +107,6 @@
     });
     let itemStore = fixture.store(itemsData, algebra);
     fixture('/items', itemStore);
-    fixture.delay = 2000;
 
     // Pagination object:
     let pagination = new (DefineMap.extend({
@@ -125,6 +123,7 @@
       loadPage: loadPage
     });
 
+    // Render template
     let demoEl = document.getElementById('demo-html');
     let templateSrc = demoEl.innerHTML;
     stache.async(templateSrc).then(template => {
@@ -134,10 +133,12 @@
       // Load the 1st page:
       pagination.isLoading = true;
       Item.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+        pageVM.pagination.total = 100;
         pageVM.rows = items;
       });
     });
 
+    // This function will be called `on-page-click` event to load the desired page:
     function loadPage(){
       console.log('Should loadPage!');
       let pagination = this.pagination;

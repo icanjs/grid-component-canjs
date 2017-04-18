@@ -4,16 +4,16 @@
  *
  * VM properties and methods to support server pagination.
  *
- * @signature '<grid-component {(rows)}="rows" {(pagination)}="pagination" (on-page-click)="loadPage()" />'
+ * @signature '<grid-component {(rows)}="rows" {(pagination)}="pagination" (onpage)="loadPage()" />'
  *
- *  After mixing in the functionality you get access to grid VM event `on-page-click` as well as updated
+ *  After mixing in the functionality you get access to grid VM event `onpage` as well as updated
  *  `pagination.skip` property. Grid will do the calculations for the page number and update `skip` property
  *  of the `pagination` accordingly.
  *
  *  @param {can.Map} pagination Contains properties: `skip`, `limit`, `total`.
  *
  *  ```
- *  <grid-component {(rows)}="items" {(pagination)}="pagination" (on-page-click)="loadPage()">
+ *  <grid-component {(rows)}="items" {(pagination)}="pagination" (onpage)="loadPage()">
  *      <table>
  *        <tbody>
  *          {{#each rows}}
@@ -33,6 +33,11 @@
  *      <button ($click)="next()">Next</button>
  *  </grid-component>
  *  ```
+ *
+ * @link ../src/demo/demo-pagination-server.html Full Page Demo
+ * ## Example
+ *
+ * @demo src/demo/alerts/demo-pagination-server.html
  */
 import DefineList from 'can-define/list/list';
 import _ from 'lodash';
@@ -115,7 +120,7 @@ export default {
    */
   setSkipTo (value) {
     this.pagination.skip = value;
-    this.dispatch('on-page-click');
+    this.dispatch('onpage');
   },
 
   /**
