@@ -6,6 +6,7 @@ import mixinSort from './sort';
 import mixinCheckbox from './checkbox';
 import mixinChildRows from './child-rows';
 import mixinPagination from './pagination';
+import mixinPaginationServer from './pagination-server';
 import _ from 'lodash';
 
 var vm;
@@ -91,7 +92,7 @@ QUnit.test('Mixin child-rows', function (assert) {
   assert.equal(vm.rows.filter(a => a.childrenVisible).length, 0, 'No rows should have children visible');
 });
 
-QUnit.test('Mixin pagination test 2', function (assert) {
+QUnit.test('Mixin local pagination', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 10
@@ -131,7 +132,7 @@ QUnit.test('Mixin pagination test 2', function (assert) {
   assert.equal(vm.currentPage, 2, 'Change page to 2');
 });
 
-QUnit.test('Mixin pagination test 2', function (assert) {
+QUnit.test('Mixin local pagination 2', function (assert) {
   var vm = new (DefineMap.extend(mixinPagination))({
     rows: _.times(24, i => i),
     pagination: 25
@@ -142,4 +143,39 @@ QUnit.test('Mixin pagination test 2', function (assert) {
   assert.equal(vm.currentPage, 0, 'currentPage is 0');
   assert.equal(vm.totalPages, 1, 'totalPages is 1');
   assert.equal(vm.hasPages, false, 'Only 1 page, hide nav');
+});
+
+QUnit.test('Mixin server pagination', function (assert) {
+  var vm = new (DefineMap.extend(mixinPaginationServer))({
+    rows: _.times(100, i => i),
+    pagination: new (DefineMap.extend({
+      skip: 'number',
+      limit: 'number',
+      total: 'number'
+    }))({
+      skip: 0,
+      limit: 10,
+      total: 100
+    })
+  });
+
+  assert.equal(vm.rowsPerPage, 10, 'rowsPerPage is 10');
+  assert.equal(vm.currentPage, 0, 'currentPage is 0');
+  assert.equal(vm.hasPages, true, 'hasPages is true');
+  assert.equal(vm.isNextActive, true, 'isNextActive true for the page 0');
+  assert.equal(vm.isPrevActive, false, 'isNextActive false for the page 0');
+  vm.pagination.skip = 10;
+  assert.equal(vm.currentPage, 1, 'currentPage is 1 after skipping 10');
+  vm.pagination.skip = 90;
+  assert.equal(vm.currentPage, 9, 'currentPage is 9 after skipping 90');
+  vm.pagination.skip = 10;
+  vm.next();
+  assert.equal(vm.currentPage, 2, 'currentPage is 2 after next()');
+  vm.prev();
+  assert.equal(vm.currentPage, 1, 'currentPage is 1 after prev()');
+  vm.changePage(5);
+  assert.equal(vm.currentPage, 5, 'currentPage is 4 after changePage(5)');
+  vm.changePage(9);
+  assert.equal(vm.isNextActive, false, 'isNextActive false for the page 9');
+  assert.equal(vm.isPrevActive, true, 'isNextActive true for the page 9');
 });

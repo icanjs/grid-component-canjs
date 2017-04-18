@@ -1,0 +1,149 @@
+<!--
+  This demo shows how to use can-connect models with grid pagination done on server.
+
+  The grid component fires `onpage` event when user changes a page. Alternatively you can define
+  a setter for `pagination.skip` property to act on its change instead of listening to the view-model event.
+-->
+<style>
+    ul li { color: gray }
+    ul li.active { font-weight: bold; color: black }
+</style>
+<script type='text/stache' id="demo-html">
+    <can-import from="src/grid-component" />
+    <can-import from="src/styles.less!" />
+    <can-import from="src/demo/styles.less!" />
+
+    <div class="demo-container">
+
+    <grid-component {(rows)}="rows"
+                    {pagination}="pagination"
+                    (onpage)=loadPage()>
+
+      <p>
+        Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
+        Selected: {{selectedRow.country}} {{selectedRow.amount}}
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="col-checkbox"><input type="checkbox" {($checked)}="isHeaderChecked"></th>
+            <th ($click)="{sortBy 'id'}">ID {{{sortArrow 'id'}}}</th>
+            <th ($click)="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
+            <th ($click)="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
+            <th ($click)="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {{#each rows}}
+            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" ($click)="selectRow">
+              <td class="col-checkbox"><input type="checkbox" {($checked)}="isChecked"/></td>
+              <td>{{id}}</td>
+              <td>{{region}}</td>
+              <td>{{country}}</td>
+              <td class="amount">{{amount}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+
+      {{#if hasPages}}
+      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      <ul>
+        {{#each pages}}
+            <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
+        {{/each}}
+      </ul>
+      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      {{/if}}
+
+    </grid-component>
+    </div>
+</script>
+
+<script src="../../node_modules/steal/steal.js" id="demo-src" main="@empty">
+
+    import DefineList from 'can-define/list/list';
+    import DefineMap from 'can-define/map/map';
+    import canViewModel from 'can-view-model';
+    import _ from 'lodash';
+    import set from 'can-set';
+    import SuperMap from 'can-connect/can/super-map/super-map';
+    import fixture from 'can-fixture';
+    import stache from 'can-stache';
+
+    window.canViewModel = canViewModel;
+    window.DefineMap = DefineMap;
+
+    // Data model and connection:
+    let Item = DefineMap.extend({
+      id: 'number',
+      region: 'string',
+      country: 'string',
+      amount: 'number',
+      selected: 'boolean',
+      isChecked: 'boolean'
+    });
+    Item.List = DefineList.extend( { '#': Item } );
+    let algebra = new set.Algebra( set.props.offsetLimit("skip","limit") );
+    SuperMap({
+      Map: Item,
+      List: Item.List,
+      url: '/items',
+      algebra
+    });
+
+    // Fixture with a store:
+    let itemsData = _.times(100, function(i){
+      return new DefineMap({
+        id: i,
+        region: ['Europe','America'][i % 2],
+        country: ['AUT','USA','SWE','CAN'][i % 4],
+        amount: [100, 200, 300][i % 3],
+        selected: false,
+        isChecked: false
+      });
+    });
+    let itemStore = fixture.store(itemsData, algebra);
+    fixture('/items', itemStore);
+
+    // Pagination object:
+    let pagination = new (DefineMap.extend({
+      skip: 'number',
+      limit: 'number',
+      total: 'number',
+      isLoading: 'boolean'
+    }))({skip: 0, limit: 10});
+
+    // Page view-model:
+    let pageVM = window.pageVM = new DefineMap({
+      rows: new DefineList([]),
+      pagination: pagination,
+      loadPage: loadPage
+    });
+
+    // Render template
+    let demoEl = document.getElementById('demo-html');
+    let templateSrc = demoEl.innerHTML;
+    stache.async(templateSrc).then(template => {
+      let frag = template(pageVM);
+      document.body.appendChild(frag);
+
+      // Load the 1st page:
+      pagination.isLoading = true;
+      Item.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+        pageVM.pagination.total = 100;
+        pageVM.rows = items;
+      });
+    });
+
+    // This function will be called `on-page-click` event to load the desired page:
+    function loadPage(){
+      console.log('Should loadPage!');
+      let pagination = this.pagination;
+      Item.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+        this.rows = items;
+      });
+    }
+</script>

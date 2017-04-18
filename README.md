@@ -56,8 +56,66 @@ To check out the demo:
 </grid-component>
 ```
 
-### Simple pagination
-See `src/demo/demo-pagination.html` for a full example.
+### Server pagination: total, limit and skip
+
+For a full demo see `src/demo/demo-pagination-server.html`.
+
+Your view model:
+```js
+import DefineMap from "can-define/map/map";
+import DefineList from "can-define/list/list";
+
+let myPageViewModel = DefineMap.extend({
+  rows: {
+    type: DefineList
+  },
+  pagination: DefineMap.extend({
+    skip: 'number',
+    limit: 'number',
+    total: 'number'
+  }),
+  loadPage () {
+    let pagination = this.pagination;
+    MyModel.getList({skip: pagination.skip, limit: pagination.limit}).then(items => {
+      this.rows = items;
+    });
+  }
+});
+```
+
+and template:
+```html
+    <grid-component {(rows)}="rows" {(pagination)}="pagination" (onpage)="loadPage()">
+      <table>
+        <tbody>
+          {{#each rows}}
+            <tr>
+              <td>{{id}}</td>
+              <td>{{title}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+      {{#if hasPages}}
+      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      <ul>
+        {{#each pages}}
+          <li class="{{#if isActive}}active{{/if}}" ($click)="changePage(pageNumber)">
+            {{pageTitle}}
+          </li>
+        {{/each}}
+      </ul>
+      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      {{/if}}
+    </grid-component>
+```
+
+### Simple local pagination: custom view-model configuration
+
+For how to define grid component with a custom view-model see the section below.
+
+For the full demo see `src/demo/demo-pagination.html`.
+
 ```html
     <grid-component {(rows)}="items" pagination="10">
       <table>
@@ -83,6 +141,32 @@ See `src/demo/demo-pagination.html` for a full example.
       {{/if}}
     </grid-component>
 ```
+
+### Custom view-model:
+
+To customize grid's view model you can choose any of the available mixins as well as and provide your own
+to override them.
+
+E.g. if you need only sorting and local pagination (all rows will be given to the grid)
+you can do:
+
+```
+import VM from 'grid-component/src/view-model';
+import mixinSort, { mixinSortHelpers } from 'grid-component/src/mixins/sort';
+import mixinPagination from 'grid-component/src/mixins/pagination';
+
+let MyCustomVM = DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinPagination));
+
+Component.extend({
+   tag: 'my-grid-component',
+   viewModel: MyCustomVM,
+   helpers: Object.assign({}, mixinSortHelpers)
+});
+```
+
+Note: can.Component allows to declare a tag only one time, so make sure you either do not import the default
+`grid-component` or name your new tag differently (e.g. `my-grid-component`).
+
 
 ## Features
 - **Sorting**. *Mixin, by default is on*.
@@ -137,6 +221,8 @@ Pagination:
 
 ## Changelog
 
+- 0.9.0 Added `pagination-server` mixin to handle server-side pagination based on `total`, `limit` and `skip` params.
+  - set `pagination-server` as a default mixin (instead of local `pagination`).
 - 0.8.0 Upgraded to CanJS v3 and Steal v1.
   - switched to Semistandard.
 - 0.7.2 Added changePage, hasPages.
