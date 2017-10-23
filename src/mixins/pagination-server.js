@@ -120,7 +120,7 @@ export default {
   },
   pagesCurrentSection: {
     get () {
-      return Math.floor(this.currentPage / this.pagesVisibleNumber)
+      return Math.floor(this.currentPage / this.pagesVisibleNumber);
     }
   },
   pagesVisible: {
@@ -128,19 +128,19 @@ export default {
       // 0 *1* 2   3 4 5    6 7 8    9 10 11    12 13 14
       // 0  1  2
       return this.pages.filter(page => {
-        return Math.floor(page.pageNumber / this.pagesVisibleNumber) === this.pagesCurrentSection
-      })
+        return Math.floor(page.pageNumber / this.pagesVisibleNumber) === this.pagesCurrentSection;
+      });
     }
   },
   isLeftEllipsisShown: {
     get () {
-      return this.pagesCurrentSection !== 0
+      return this.pagesCurrentSection !== 0;
     }
   },
   isRightEllipsisShown: {
     get () {
-      const numberOfSections = Math.ceil(this.pages.length / this.pagesVisibleNumber)
-      return this.pagesCurrentSection !== numberOfSections - 1
+      const numberOfSections = Math.ceil(this.pages.length / this.pagesVisibleNumber);
+      return this.pagesCurrentSection !== numberOfSections - 1;
     }
   },
 
