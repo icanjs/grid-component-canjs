@@ -199,19 +199,28 @@ QUnit.test('Mixin server pagination', function (assert) {
   assert.equal(vm.pages[0].pageNumber, 0, 'the 1st pages should be 0');
   assert.equal(vm.pagesCurrentSection, 0, 'currentSection should be 0');
   assert.equal(vm.pagesVisible.length, 3, 'number of pagesVisible is 3');
-  console.log('vm.pagesVisible', vm.pagesVisible)
   assert.equal(vm.pagesVisible[0].pageNumber, 0, 'the 1st pagesVisible should be 0');
+  assert.equal(vm.isLeftEllipsisShown, false, 'isLeftEllipsisShown should be false');
+  assert.equal(vm.isRightEllipsisShown, true, 'isRightEllipsisShown should be true');
 
   vm.pagination.skip = 10
   assert.equal(vm.pagesCurrentSection, 0, 'currentSection should be 0 after skip=10');
   assert.equal(vm.pagesVisible[0].pageNumber, 0, 'the 1st pagesVisible should be 0');
+  assert.equal(vm.isLeftEllipsisShown, false, 'isLeftEllipsisShown should be false');
+  assert.equal(vm.isRightEllipsisShown, true, 'isRightEllipsisShown should be true');
 
   vm.pagination.skip = 30
   assert.equal(vm.pagesCurrentSection, 1, 'currentSection should be 1 after skip=30');
   assert.equal(vm.pagesVisible[0].pageNumber, 3, 'the 1st pagesVisible should be 3');
+  assert.equal(vm.isLeftEllipsisShown, true, 'isLeftEllipsisShown should be true');
+  assert.equal(vm.isRightEllipsisShown, true, 'isRightEllipsisShown should be true');
 
   vm.pagination.skip = 60
   assert.equal(vm.pagesCurrentSection, 2, 'currentSection should be 2 after skip=60');
   assert.equal(vm.pagesVisible[0].pageNumber, 6, 'the 1st pagesVisible should be 6');
   assert.equal(vm.pagesVisible[1].pageNumber, 7, 'the 2nd pagesVisible should be 7');
+
+  vm.pagination.skip = 90
+  assert.equal(vm.isLeftEllipsisShown, true, 'isLeftEllipsisShown should be true when skip=90');
+  assert.equal(vm.isRightEllipsisShown, false, 'isRightEllipsisShown should be false when skip=90');
 });

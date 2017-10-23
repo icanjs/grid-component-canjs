@@ -132,6 +132,17 @@ export default {
       })
     }
   },
+  isLeftEllipsisShown: {
+    get () {
+      return this.pagesCurrentSection !== 0
+    }
+  },
+  isRightEllipsisShown: {
+    get () {
+      const numberOfSections = Math.ceil(this.pages.length / this.pagesVisibleNumber)
+      return this.pagesCurrentSection !== numberOfSections - 1
+    }
+  },
 
   /*
    * Use this setter since we want to fire the event.
