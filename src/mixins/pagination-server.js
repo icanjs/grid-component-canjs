@@ -116,7 +116,7 @@ export default {
   },
 
   pagesVisibleNumber: {
-    value: 3
+    value: 5
   },
   pagesCurrentSection: {
     get () {
