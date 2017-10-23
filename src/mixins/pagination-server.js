@@ -115,6 +115,24 @@ export default {
     }
   },
 
+  pagesVisibleNumber: {
+    value: 3
+  },
+  pagesCurrentSection: {
+    get () {
+      return Math.floor(this.currentPage / this.pagesVisibleNumber)
+    }
+  },
+  pagesVisible: {
+    get () {
+      // 0 *1* 2   3 4 5    6 7 8    9 10 11    12 13 14
+      // 0  1  2
+      return this.pages.filter(page => {
+        return Math.floor(page.pageNumber / this.pagesVisibleNumber) === this.pagesCurrentSection
+      })
+    }
+  },
+
   /*
    * Use this setter since we want to fire the event.
    */
