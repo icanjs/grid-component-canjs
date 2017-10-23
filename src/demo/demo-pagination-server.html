@@ -5,7 +5,7 @@
   a setter for `pagination.skip` property to act on its change instead of listening to the view-model event.
 -->
 <style>
-    ul li { color: gray }
+    ul li { color: gray; display: inline-block; padding: 0 10px; }
     ul li.active { font-weight: bold; color: black }
 </style>
 <script type='text/stache' id="demo-html">
@@ -51,9 +51,15 @@
       {{#if hasPages}}
       <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#each pages}}
+        {{#if isLeftEllipsisShown}}
+            <li>...</li>
+        {{/if}}
+        {{#each pagesVisible}}
             <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
         {{/each}}
+        {{#if isRightEllipsisShown}}
+            <li>...</li>
+        {{/if}}
       </ul>
       <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
       {{/if}}
