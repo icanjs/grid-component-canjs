@@ -115,6 +115,35 @@ export default {
     }
   },
 
+  pagesVisibleNumber: {
+    value: 5
+  },
+  pagesCurrentSection: {
+    get () {
+      return Math.floor(this.currentPage / this.pagesVisibleNumber);
+    }
+  },
+  pagesVisible: {
+    get () {
+      // 0 *1* 2   3 4 5    6 7 8    9 10 11    12 13 14
+      // 0  1  2
+      return this.pages.filter(page => {
+        return Math.floor(page.pageNumber / this.pagesVisibleNumber) === this.pagesCurrentSection;
+      });
+    }
+  },
+  isLeftEllipsisShown: {
+    get () {
+      return this.pagesCurrentSection !== 0;
+    }
+  },
+  isRightEllipsisShown: {
+    get () {
+      const numberOfSections = Math.ceil(this.pages.length / this.pagesVisibleNumber);
+      return this.pagesCurrentSection !== numberOfSections - 1;
+    }
+  },
+
   /*
    * Use this setter since we want to fire the event.
    */

@@ -110,6 +110,29 @@ and template:
     </grid-component>
 ```
 
+or if there are too many pages and we want to show only a section of pages (issue https://github.com/icanjs/grid-component/issues/13):
+
+```
+      {{#if hasPages}}
+      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      <ul>
+        {{#if isLeftEllipsisShown}}
+           <li>...</li>
+        {{/if}}
+
+        {{#each pagesVisible}}
+           <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
+        {{/each}}
+
+        {{#if isRightEllipsisShown}}
+           <li>...</li>
+        {{/if}}
+      </ul>
+      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      {{/if}}
+```
+
+
 ### Simple local pagination: custom view-model configuration
 
 For how to define grid component with a custom view-model see the section below.
@@ -169,11 +192,14 @@ Note: can.Component allows to declare a tag only one time, so make sure you eith
 
 
 ## Features
-- **Sorting**. *Mixin, by default is on*.
-- **Simple pagination**. *Mixin, by default is on*. Includes `pagination` numeric config property of how many rows are shown per page, methods: `next`, `prev`, `changePage`.
+- **Sorting**. *Mixin, by default is ON*.
+- **Simple pagination**. *Mixin, by default is off*. Includes `pagination` numeric config property of how many rows are shown per page, methods: `next`, `prev`, `changePage`.
+- **Server pagination**. *Mixin, by default is ON*:
+  - `pages`
+  - `pagesVisibleNumber`, `pagesVisible`, `isLeftEllipsisShown`, `isRightEllipsisShown`
 - Row selection.
-- Checkbox row selection. *Mixin, by default is on*.
-- Expandable child rows. *Mixin, by default is on*.
+- Checkbox row selection. *Mixin, by default is ON*.
+- Expandable child rows. *Mixin, by default is ON*.
 - **Filtering** (with external grid-filter component)
 - Scroll-near-bottom events. To use for loading/showing more rows on scroll.
 - **Paged rendering**. A performance enhancement for cases when there are a lot of rows (n x 10K), when grid renders
@@ -221,6 +247,7 @@ Pagination:
 
 ## Changelog
 
+- 0.10.0 Added `pagesVisible`, `isLeftEllipsisShown` and `isRightEllipsisShown` to `pagination-server` mixin.
 - 0.9.0 Added `pagination-server` mixin to handle server-side pagination based on `total`, `limit` and `skip` params.
   - set `pagination-server` as a default mixin (instead of local `pagination`).
 - 0.8.0 Upgraded to CanJS v3 and Steal v1.
