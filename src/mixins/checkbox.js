@@ -75,7 +75,10 @@ export default {
    * @prop {object} checkedRowsHash A hash map with selected row ids as keys and row items as values
    */
   checkedRowsHash: {
-    value: {}
+    type: '*',
+    value () {
+      return {};
+    }
   },
 
   /***
