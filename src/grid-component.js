@@ -41,7 +41,11 @@ import { events as mixinLoadOnScrollEvents } from './mixins/load-on-scroll';
  */
 Component.extend({
   tag: 'grid-component',
-  viewModel: DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPaginationServer)),
+  ViewModel: DefineMap.extend(
+    'GridComponentVM',
+    {seal: false},
+    mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPaginationServer)
+  ),
   events: Object.assign({}, mixinLoadOnScrollEvents),
   helpers: Object.assign({}, mixinSortHelpers)
 });
