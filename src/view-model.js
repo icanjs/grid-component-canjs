@@ -34,7 +34,9 @@ var GridVM = {
   },
 
   rows: {
-    value: []
+    value: function () {
+      return [];
+    }
   },
 
   visibleRows: {
