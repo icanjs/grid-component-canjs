@@ -9,10 +9,18 @@ var GridVM = {
    * Listen to scroll event on tbody and trigger scrollEventName event when scroll position is close to the bottom (scrollBottomDistance of the body height).
    * We throttle scroll events on scrollThrottleInterval ms.
    */
-  loadOnScroll: false,
-  scrollThrottleInterval: 300,
-  scrollEventName: 'grid-should-load-more',
-  scrollBottomDistance: 0.25,
+  loadOnScroll: {
+    value: false
+  },
+  scrollThrottleInterval: {
+    value: 300
+  },
+  scrollEventName: {
+    value: 'grid-should-load-more'
+  },
+  scrollBottomDistance: {
+    value: 0.25
+  },
 
   /**
    * Page size controlling the amount of rendered page of data.
