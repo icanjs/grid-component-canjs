@@ -13,7 +13,7 @@
     <table>
       <thead>
       <tr>
-        <th class="col-checkbox"><input type="checkbox" el:checked:bind="isHeaderChecked"></th>
+        <th class="col-checkbox"><input type="checkbox" checked:bind="isHeaderChecked"></th>
         <th on:click="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
         <th on:click="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
         <th on:click="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
@@ -23,7 +23,7 @@
       <tbody>
       {{#each rows}}
         <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" on:click="selectRow">
-          <td class="col-checkbox"><input type="checkbox" el:checked:bind="isChecked"/></td>
+          <td class="col-checkbox"><input type="checkbox" checked:bind="isChecked"/></td>
           <td>{{region}}</td>
           <td>{{country}}</td>
           <td class="amount">{{amount}}</td>

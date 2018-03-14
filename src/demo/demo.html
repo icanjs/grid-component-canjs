@@ -21,17 +21,17 @@
       <table>
         <thead>
           <tr>
-            <th class="col-checkbox"><input type="checkbox" el:checked:bind="isHeaderChecked"></th>
+            <th class="col-checkbox"><input type="checkbox" checked:bind="isHeaderChecked"></th>
             <th on:click="{sortBy('region')}">Region {{{sortArrow('region')}}}</th>
-            <th on:click="{sortBy 'country'}">Country {{{sortArrow('country')}}}</th>
-            <th on:click="{sortBy 'amount'}" class="amount">Amount {{{sortArrow('amount')}}}</th>
+            <th on:click="{sortBy('country')}">Country {{{sortArrow('country')}}}</th>
+            <th on:click="{sortBy('amount')}" class="amount">Amount {{{sortArrow('amount')}}}</th>
           </tr>
         </thead>
 
         <tbody>
           {{#each(rows, row=value)}}
             <tr class="even-odd {{#if row.isHidden}}hidden{{/if}} {{#if row.selected}}selected{{/if}}" on:click="../selectRow(row, scope.element, scope.event)">
-              <td class="col-checkbox"><input type="checkbox" el:checked:bind="row.isChecked"/></td>
+              <td class="col-checkbox"><input type="checkbox" checked:bind="row.isChecked"/></td>
               <td>{{row.region}}</td>
               <td>{{row.country}}</td>
               <td class="amount">{{row.amount}}</td>
