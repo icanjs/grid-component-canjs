@@ -1,4 +1,4 @@
-import queues from "can-queues";
+import queues from 'can-queues';
 
 /**
  * Grid View Model

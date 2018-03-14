@@ -1,6 +1,6 @@
 import can from 'can';
 import 'can/map/define/';
-import './styles.less!';
+import './styles.less';
 import 'helpers/no-binding';
 import VM from './view-model';
 

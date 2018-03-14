@@ -1,8 +1,8 @@
 import DefineList from 'can-define/list/list';
 import DefineMap from 'can-define/map/map';
 import 'src/grid-component';
-import 'src/styles.less!';
-import 'src/demo/styles.less!';
+import 'src/styles.less';
+import 'src/demo/styles.less';
 import template from './demo-public.stache';
 import _ from 'lodash';
 

@@ -1,4 +1,4 @@
-import queues from "can-queues";
+import queues from 'can-queues';
 import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 

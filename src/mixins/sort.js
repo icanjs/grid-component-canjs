@@ -1,4 +1,4 @@
-import queues from "can-queues";
+import queues from 'can-queues';
 import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
@@ -52,7 +52,7 @@ var SortVmMixin = {
    * @param {String} columnName The name of the attribute used for comparing values for sorting.
    */
   sortBy (columnName) {
-    // queues.batch.start();
+    queues.batch.start();
     if (columnName === this.sortColumnName) {
       this.sortAsc = !this.sortAsc;
     } else {
@@ -60,7 +60,7 @@ var SortVmMixin = {
     }
     this.sort(this.rows, columnName, this.sortAsc);
     // updateOddness(this.scope.__rows);
-    // queues.batch.stop();
+    queues.batch.stop();
   },
 
   /**
