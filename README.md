@@ -11,6 +11,10 @@ A template based grid component that supports sorting, row selection, paged rend
 
 Feel free to [open an issue](https://github.com/icanjs/grid-component/issues) or chat with us [on gitter](https://gitter.im/icanjs/grid-component).
 
+> Latest version `0.11.0` requires CanJS v4.
+>
+> For CanJS v3 use `grid-component@0.10.3`
+
 ![Grid Demo](./assets/demo.png)
 
 ## Installation
