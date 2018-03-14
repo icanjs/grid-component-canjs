@@ -29,7 +29,7 @@
     "can-compute": "^4.0.3",
     "can-construct": "^3.3.1",
     "can-define": "^2.0.3",
-    "can-event": "^3.3.0",
+    "can-queues": "^1.0.1",
     "can-stache": "^4.2.3",
     "can-stache-bindings": "^4.1.0",
     "can-util": "^3.11.5",

@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from "can-queues";
 
 /**
  * Grid View Model
@@ -117,7 +117,7 @@ var GridVM = {
   selectRow: function (row, el, ev) {
     var target = ev.target.className;
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
-      canBatch.start();
+      queues.batch.start();
 
       var index = el['parent-id'];
       if (index !== undefined) {
@@ -130,7 +130,7 @@ var GridVM = {
         this.selectedRow.selected = '';
       }
       row.selected = 'selected';
-      canBatch.stop();
+      queues.batch.stop();
 
       this.selectedRow = row;
     }

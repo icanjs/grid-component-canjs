@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from "can-queues";
 
 /**
  * Toggle child rows.
@@ -45,13 +45,13 @@ export default {
     set: function (value) {
       var rows = this.rows;
       if (rows && rows.length) {
-        canBatch.start();
+        queues.batch.start();
         rows.forEach(function (row) {
           if (row) {
             row.childrenVisible = value;
           }
         });
-        canBatch.stop();
+        queues.batch.stop();
       }
       return value;
     }
