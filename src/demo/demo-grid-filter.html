@@ -4,40 +4,43 @@
     width: initial!important;
   }
 </style>
-<script type="text/stache" id="demo" can-autorender>
-  <can-import from="src/grid-component" />
-  <can-import from="src/styles.less!" />
-  <can-import from="src/demo/styles.less!" />
+<div id="demo"></div>
+<script type="text/stache" id="demo-html">
   <can-import from="grid-filter/" />
-	<can-import from="multi-select" />
+  <can-import from="multi-select" />
+  <can-import from="src/grid-component" />
+  <can-import from="src/styles.less" />
+  <can-import from="src/demo/styles.less" />
+  <can-import from="src/demo/example.stache!" @value:to="scope.vars.gridExample" />
 
   <h3>Grid Filtering Demo</h3>
-  <h4>With selected fileTypes binding: {{#each selectedFileTypes}} {{.}}, {{/each}}</h4>
+  <h4>With selected fileTypes binding: {{#each(selectedFileTypes)}} {{.}}, {{/each}}</h4>
   <h4>With search-terms binding: {{#searchTerms}} {{.}}, {{/searchTerms}}</h4>
   <div class="demo-container">
-    <grid-component rows="{data}"
-                    render-page-size="200"
-                    sort-column-name="currency"
-                    load-on-scroll="true"
-                    sort-asc="false"> {{! sortAsc by default is true }}
+    <grid-component rows:from="data"
+                    renderPageSize:from="200"
+                    sortColumnName:from="'currency'"
+                    loadOnScroll:from="'true'"
+                    sortAsc:from="'false'"> {{! sortAsc by default is true }}
       <div class="grid-tools">
 
         Show {{visibleRows.length}} of {{rows.length}} (Rendered {{renderedRows.length}})
         <span class="multi-select">
           <label>File Type:</label>
           <multi-select class="file-type-selector" select-all selected-values="{selectedFileTypes}">
-            {{#each fileTypes}}
+            {{#each(fileTypes)}}
               <option value="{{fileTypeId}}">{{name}}</option>
             {{/each}}
           </multi-select>
         </span>
 
-        <grid-filter rows="{rows}"
-                     search-terms="{searchTerms}"
+        <grid-filter rows:from="rows"
+                     searchTerms:from="searchTerms"
                      columns=""></grid-filter>
       </div>
       <div class="grid-wrapper">
-        {{>example.stache}}
+        <!--{{> ../exampleTpl}}-->
+        {{> scope.vars@gridExample}}
       </div>
     </grid-component>
   </div>
@@ -46,12 +49,15 @@
 
 <!-- BEGIN JAVASCRIPT CODE FOR DEMO -->
 <script src="../../../node_modules/steal/steal.js"
-        main="can-view-autorender">
+  main="@empty">
 
+  import $ from 'jquery'
+  import stache from 'can-stache'
   import DefineList from 'can-define/list/list';
   import DefineMap from 'can-define/map/map';
   import canViewModel from 'can-view-model';
-  import _ from "lodash";
+  import _ from 'lodash';
+  import exampleTpl from 'src/demo/example.stache!'
 
   window.canViewModel = canViewModel;
 
@@ -59,7 +65,8 @@
    * Sets up fixture data on the viewModel for the above template.  This is the same as setting
    * data inside the view-model.js for a grid-component.
    */
-  canViewModel(document.getElementById('demo')).set({
+  const vm = new DefineMap({
+    exampleTpl,
     searchTerms: [],
     selectedFileTypes: [],
     fileTypes: [
@@ -89,5 +96,8 @@
       });
     }))
   });
+  stache.async($('#demo-html').html()).then(template => {
+    $('#demo').html(template(vm))
+  })
 </script>
 <!-- END JAVASCRIPT CODE FOR DEMO -->

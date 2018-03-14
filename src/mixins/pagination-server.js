@@ -24,13 +24,13 @@
  *          {{/each}}
  *        </tbody>
  *      </table>
- *      <button ($click)="prev()">Prev</button>
+ *      <button on:click="prev()">Prev</button>
  *      <ul>
  *        {{#each pages}}
  *          <li class="{{#if isActive}}active{{/if}}">{{pageNumber}}</li>
  *        {{/each}}
  *      </ul>
- *      <button ($click)="next()">Next</button>
+ *      <button on:click="next()">Next</button>
  *  </grid-component>
  *  ```
  *
@@ -116,7 +116,7 @@ export default {
   },
 
   pagesVisibleNumber: {
-    value: 5
+    default: 5
   },
   pagesCurrentSection: {
     get () {

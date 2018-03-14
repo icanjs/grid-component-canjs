@@ -13,17 +13,17 @@
     <table>
       <thead>
       <tr>
-        <th class="col-checkbox"><input type="checkbox" {($checked)}="isHeaderChecked"></th>
-        <th ($click)="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
-        <th ($click)="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
-        <th ($click)="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
+        <th class="col-checkbox"><input type="checkbox" checked:bind="isHeaderChecked"></th>
+        <th on:click="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
+        <th on:click="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
+        <th on:click="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
       </tr>
       </thead>
 
       <tbody>
       {{#each rows}}
-        <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" ($click)="selectRow">
-          <td class="col-checkbox"><input type="checkbox" {($checked)}="isChecked"/></td>
+        <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" on:click="selectRow">
+          <td class="col-checkbox"><input type="checkbox" checked:bind="isChecked"/></td>
           <td>{{region}}</td>
           <td>{{country}}</td>
           <td class="amount">{{amount}}</td>

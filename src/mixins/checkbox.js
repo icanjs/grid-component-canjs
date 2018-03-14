@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from 'can-queues';
 import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
@@ -52,11 +52,11 @@ export default {
     },
     set: function (newVal) {
       // console.log('isHeaderChecked.SET: newVal=%s', newVal, arguments);
-      canBatch.start();
+      queues.batch.start();
       this.visibleEnabledRows && this.visibleEnabledRows.forEach(function (row) {
         row.isChecked = newVal;
       });
-      canBatch.stop();
+      queues.batch.stop();
     }
   },
 
@@ -76,7 +76,7 @@ export default {
    */
   checkedRowsHash: {
     type: '*',
-    value () {
+    default () {
       return {};
     }
   },
@@ -96,11 +96,11 @@ export default {
   },
   checkRows: function () {
     var self = this;
-    canBatch.start();
+    queues.batch.start();
     this.rows.forEach(function (row) {
       self.checkRow(row);
     });
-    canBatch.stop();
+    queues.batch.stop();
   },
 
   /*
@@ -123,10 +123,10 @@ export default {
     var isChecked = this.isHeaderChecked;
     console.log('headerCheckboxClicked: ' + isChecked);
 
-    canBatch.start();
+    queues.batch.start();
     this.rows.filter(function (a) { return true || a.isMatched; }).forEach(function (a) {
       a.isChecked = isChecked;
     });
-    canBatch.stop();
+    queues.batch.stop();
   }
 };

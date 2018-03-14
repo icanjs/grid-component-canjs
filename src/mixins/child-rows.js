@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from 'can-queues';
 
 /**
  * Toggle child rows.
@@ -8,7 +8,7 @@ import canBatch from 'can-event/batch/batch';
  *      <table>
  *        <thead>
  *          <tr class="{{#if allChildrenVisible}}open{{/if}}">
- *            <th class="expandable-parent" ($click)="toggleAllChildrenVisible(rows)">
+ *            <th class="expandable-parent" on:click="toggleAllChildrenVisible(rows)">
  *              <span class="open-toggle"></span>
  *            </th>
  *          </tr>
@@ -41,17 +41,17 @@ export default {
    * @type {Boolean}
    */
   allChildrenVisible: {
-    value: false,
+    default: false,
     set: function (value) {
       var rows = this.rows;
       if (rows && rows.length) {
-        canBatch.start();
+        queues.batch.start();
         rows.forEach(function (row) {
           if (row) {
             row.childrenVisible = value;
           }
         });
-        canBatch.stop();
+        queues.batch.stop();
       }
       return value;
     }

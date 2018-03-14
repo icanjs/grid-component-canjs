@@ -18,13 +18,13 @@ import _ from 'lodash';
  *          {{/each}}
  *        </tbody>
  *      </table>
- *      <button ($click)="prev()">Prev</button>
+ *      <button on:click="prev()">Prev</button>
  *      <ul>
  *        {{#each pages}}
  *          <li class="{{#if isActive}}active{{/if}}">{{pageNumber}}</li>
  *        {{/each}}
  *      </ul>
- *      <button ($click)="next()">Next</button>
+ *      <button on:click="next()">Next</button>
  *    </grid-component>
  *
  * ```
@@ -35,7 +35,7 @@ export default {
    * How many rows to show per page. Config option.
    */
   pagination: {
-    value: 0
+    default: 0
   },
   /**
    * How many rows to show per page. Actual parameter.
@@ -49,7 +49,7 @@ export default {
    * @param currentPage <Number> Current page number.
    */
   currentPage: {
-    value: 0
+    default: 0
   },
   /**
    * @param totalPages <Number> How many pages we have.

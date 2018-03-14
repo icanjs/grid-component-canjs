@@ -16,7 +16,7 @@
   var vm = new (can.Map.extend({
     define: {
       data: {
-        value: [{id:1, isVisible: true},{id:2, isVisible: true},{id:3, isVisible: true},{id:4, isVisible: true},{id:5, isVisible: true}]
+        default: [{id:1, isVisible: true},{id:2, isVisible: true},{id:3, isVisible: true},{id:4, isVisible: true},{id:5, isVisible: true}]
       },
       filteredData: {
         get: function(){
@@ -34,7 +34,7 @@
         }
       },
       endIndex: {
-        value: 500
+        default: 500
       }
     }
   }))();

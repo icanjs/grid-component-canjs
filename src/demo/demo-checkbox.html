@@ -2,8 +2,8 @@
 <script type="text/stache" id="demo" can-autorender>
   <can-import from="components/grid-component/" />
   <can-import from="components/grid-component/grid-filter/" />
-  <can-import from="components/grid-component/styles.less!" />
-  <can-import from="components/grid-component/demo/styles.less!" />
+  <can-import from="components/grid-component/styles.less" />
+  <can-import from="components/grid-component/demo/styles.less" />
 
   <h3>Grid With Checkboxes</h3>
   <p>All rows stat</p>
@@ -59,15 +59,15 @@
     define: {
       isVisible: {
         type: 'boolean',
-        value: true
+        default: true
       },
       isChecked: {
         type: 'boolean',
-        value: false
+        default: false
       },
       isDisabled: {
         type: 'boolean',
-        value: false
+        default: false
       }
     }
   });

@@ -3,7 +3,7 @@ import DefineMap from 'can-define/map/map';
 
 import VM from './view-model';
 import mixin from './mixins/mixin-util';
-import mixinSort, { mixinSortHelpers } from './mixins/sort';
+import mixinSort from './mixins/sort';
 import mixinCheckbox from './mixins/checkbox';
 import mixinChildRows from './mixins/child-rows';
 // import mixinPagination from './mixins/pagination';
@@ -46,6 +46,5 @@ Component.extend({
     {seal: false},
     mixin(VM, mixinSort, mixinCheckbox, mixinChildRows, mixinPaginationServer)
   ),
-  events: Object.assign({}, mixinLoadOnScrollEvents),
-  helpers: Object.assign({}, mixinSortHelpers)
+  events: Object.assign({}, mixinLoadOnScrollEvents)
 });

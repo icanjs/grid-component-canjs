@@ -1,6 +1,6 @@
 {
   "name": "grid-component",
-  "version": "0.10.3",
+  "version": "0.11.0",
   "description": "Grid Component",
   "main": "src/grid-component.js",
   "scripts": {
@@ -25,38 +25,33 @@
   },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
-    "can-component": "^3.0.7",
-    "can-compute": "^3.0.8",
-    "can-construct": "^3.1.1",
-    "can-define": "^1.0.17",
-    "can-event": "^3.3.0",
-    "can-stache": "^3.0.22",
-    "can-stache-bindings": "^3.0.14",
-    "can-util": "^3.3.6",
-    "can-view-autorender": "^3.0.4",
-    "can-view-model": "^3.1.3",
-    "lodash": ">=3.9.1",
-    "steal": "^1.4.5",
-    "steal-less": "^1.2.0",
-    "steal-stache": "^3.0.5"
+    "can-component": "^4.0.0",
+    "can-compute": "^4.0.0",
+    "can-construct": "^3.0.0",
+    "can-define": "^2.0.0",
+    "can-queues": "^1.0.0",
+    "can-stache": "^4.0.0",
+    "can-stache-bindings": "^4.0.0",
+    "can-util": "^3.0.0",
+    "can-view-autorender": "^4.0.0",
+    "can-view-model": "^4.0.0",
+    "lodash": ">=3.0.0",
+    "steal": "^1.6.0",
+    "steal-less": "^1.0.0",
+    "steal-stache": "^4.0.0"
   },
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
-    "can-connect": "^1.3.10",
-    "can-fixture": "^1.0.13",
-    "can-set": "^1.2.0",
+    "can-connect": "^2.0.4",
+    "can-fixture": "^2.0.3",
+    "can-set": "^1.5.2",
     "funcunit": "^3.2.2",
     "grid-filter": "^0.5.4",
+    "jquery": "^3.3.1",
     "multi-select": "^0.3.4",
-    "semistandard": "^10.0.0",
+    "semistandard": "^12.0.1",
     "steal-qunit": "1.0.1",
-    "steal-tools": "1.3.0",
-    "testee": "^0.4.0"
-  },
-  "steal": {
-    "plugins": [
-      "steal-less",
-      "steal-stache"
-    ]
+    "steal-tools": "1.11.5",
+    "testee": "^0.7.0"
   }
 }

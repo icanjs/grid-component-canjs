@@ -1,16 +1,16 @@
 <!-- BEGIN STACHE TEMPLATE FOR DEMO -->
 <script type="text/stache" id="demo" can-autorender>
-  <can-import from="bootstrap.css!" />
-  <can-import from="global.less!" />
+  <can-import from="bootstrap.css" />
+  <can-import from="global.less" />
   <can-import from="components/grid-component/" />
-  <can-import from="components/grid-component/styles.less!" />
-  <can-import from="components/grid-component/demo/styles.less!" />
+  <can-import from="components/grid-component/styles.less" />
+  <can-import from="components/grid-component/demo/styles.less" />
   <can-import from="components/grid-component/grid-filter/" />
 	<can-import from="multi-select" />
 
   <h3>Grid Filtering Demo</h3>
   <div>selectedValues: [{{#each selectedFileTypeValues}} {{.}}, {{/each}}]</div>
-  <div>selected: [{{#each selected}} <span style="font-weight:bold; font-size: 16px;">{</span> value: {{value}}, text: '{{text}}' <span style="font-weight:bold; font-size: 16px;">}</span>, {{/each}}]</div>
+  <div>selected: [{{#each selected}} <span style="font-weight:bold; font-size: 16px;">{</span> default: {{value}}, text: '{{text}}' <span style="font-weight:bold; font-size: 16px;">}</span>, {{/each}}]</div>
   <div class="grid-container">
     <grid-component rows="{rows}">
       <div class="grid-tools">

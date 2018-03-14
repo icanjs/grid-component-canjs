@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from 'can-queues';
 
 /**
  * Grid View Model
@@ -10,23 +10,23 @@ var GridVM = {
    * We throttle scroll events on scrollThrottleInterval ms.
    */
   loadOnScroll: {
-    value: false
+    default: false
   },
   scrollThrottleInterval: {
-    value: 300
+    default: 300
   },
   scrollEventName: {
-    value: 'grid-should-load-more'
+    default: 'grid-should-load-more'
   },
   scrollBottomDistance: {
-    value: 0.25
+    default: 0.25
   },
 
   /**
    * Page size controlling the amount of rendered page of data.
    */
   renderPageSize: {
-    value: 200,
+    default: 200,
     type: 'number'
   },
 
@@ -35,14 +35,14 @@ var GridVM = {
    * @type {Object}
    */
   endIndex: {
-    value: function () {
+    default: function () {
       return this.renderPageSize;
     },
     type: 'number'
   },
 
   rows: {
-    value: function () {
+    default: function () {
       return [];
     }
   },
@@ -83,14 +83,16 @@ var GridVM = {
    * The selected parent row or the parent of the selected child row.
    * @type {row}
    */
-  selectedParentRow: {value: null},
+  selectedParentRow: {
+    default: null
+  },
 
   /**
    * The selected row in the grid. Used for caching which row is selected.
    * @type {row}
    */
   selectedRow: {
-    value: null,
+    default: null,
     // TODO: check: cant use setter here due to a bug in canjs: https://github.com/canjs/canjs/issues/2191
     set1: function (val) {
       var currentRow = this.selectedRow;
@@ -117,7 +119,7 @@ var GridVM = {
   selectRow: function (row, el, ev) {
     var target = ev.target.className;
     if (target !== 'expandable-parent' && target !== 'open-toggle' && ev.target.nodeName !== 'INPUT') {
-      canBatch.start();
+      queues.batch.start();
 
       var index = el['parent-id'];
       if (index !== undefined) {
@@ -130,7 +132,7 @@ var GridVM = {
         this.selectedRow.selected = '';
       }
       row.selected = 'selected';
-      canBatch.stop();
+      queues.batch.stop();
 
       this.selectedRow = row;
     }

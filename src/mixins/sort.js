@@ -1,4 +1,4 @@
-import canBatch from 'can-event/batch/batch';
+import queues from 'can-queues';
 import DefineList from 'can-define/list/list';
 import _ from 'lodash';
 
@@ -15,14 +15,14 @@ var SortVmMixin = {
    *  <grid-component sort-column-name="currency"></grid-component>
    */
   sortColumnName: {
-    value: ''
+    default: ''
   },
 
   /**
    * @param {string} sortDir A direction name to sort: TRUE for ascending, FALSE for descending.
    */
   sortAsc: {
-    value: true,
+    default: true,
     type: 'boolean'
   },
 
@@ -52,7 +52,7 @@ var SortVmMixin = {
    * @param {String} columnName The name of the attribute used for comparing values for sorting.
    */
   sortBy (columnName) {
-    canBatch.start();
+    queues.batch.start();
     if (columnName === this.sortColumnName) {
       this.sortAsc = !this.sortAsc;
     } else {
@@ -60,7 +60,7 @@ var SortVmMixin = {
     }
     this.sort(this.rows, columnName, this.sortAsc);
     // updateOddness(this.scope.__rows);
-    canBatch.stop();
+    queues.batch.stop();
   },
 
   /**
@@ -102,10 +102,8 @@ var SortVmMixin = {
         parent.children.sort(compareFunc);
       }
     });
-  }
-};
+  },
 
-let mixinSortHelpers = {
   /**
    * The sortArrow helper is used to put a sort-direction arrow inside the header
    * of a column on the grid.
@@ -121,5 +119,3 @@ let mixinSortHelpers = {
 };
 
 export default SortVmMixin;
-
-export { mixinSortHelpers };

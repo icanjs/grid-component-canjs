@@ -11,6 +11,10 @@ A template based grid component that supports sorting, row selection, paged rend
 
 Feel free to [open an issue](https://github.com/icanjs/grid-component/issues) or chat with us [on gitter](https://gitter.im/icanjs/grid-component).
 
+> Latest version `0.11.0` requires CanJS v4.
+>
+> For CanJS v3 use `grid-component@0.10.3`
+
 ![Grid Demo](./assets/demo.png)
 
 ## Installation
@@ -29,23 +33,23 @@ To check out the demo:
 ```html
 <can-import from="grid-filter" />
 
-<grid-component {(rows)}="items">
+<grid-component rows:from="items">
 
   <div class="grid-tools">
-    <grid-filter {(rows)}="rows"></grid-filter>
+    <grid-filter rows:from="rows"></grid-filter>
   </div>
 
   <table>
     <thead>
       <tr>
-        <th ($click)="{sortBy 'title'}">Title {{{sortArrow 'title'}}}</th>
-        <th ($click)="{sortBy 'amount'}">Amount {{{sortArrow 'amount'}}}</th>
+        <th on:click="{sortBy('title')}">Title {{{sortArrow('title')}}}</th>
+        <th on:click="{sortBy('amount')}">Amount {{{sortArrow('amount')}}}</th>
       </tr>
     </thead>
 
     <tbody>
-      {{#each rows}}
-        <tr class="{{#if isHidden}}hidden{{/if}}">
+      {{#each(rows)}}
+        <tr class="{{#if(isHidden)}}hidden{{/if}}">
           <td>{{title}}</td>
           <td>{{amount}}</td>
         </tr>
@@ -85,10 +89,10 @@ let myPageViewModel = DefineMap.extend({
 
 and template:
 ```html
-    <grid-component {(rows)}="rows" {(pagination)}="pagination" (onpage)="loadPage()">
+    <grid-component rows:from="rows" pagination:from="pagination" on:vm:onpage="loadPage()">
       <table>
         <tbody>
-          {{#each rows}}
+          {{#each(rows)}}
             <tr>
               <td>{{id}}</td>
               <td>{{title}}</td>
@@ -96,16 +100,16 @@ and template:
           {{/each}}
         </tbody>
       </table>
-      {{#if hasPages}}
-      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      {{#if(hasPages)}}
+      <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-          <li class="{{#if isActive}}active{{/if}}" ($click)="changePage(pageNumber)">
+          <li class="{{#if(isActive)}}active{{/if}}" on:click="changePage(pageNumber)">
             {{pageTitle}}
           </li>
         {{/each}}
       </ul>
-      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      <button on:click="next()" {{^if(isNextActive)}} disabled {{/if}}>Next</button>
       {{/if}}
     </grid-component>
 ```
@@ -113,22 +117,22 @@ and template:
 or if there are too many pages and we want to show only a section of pages (issue https://github.com/icanjs/grid-component/issues/13):
 
 ```
-      {{#if hasPages}}
-      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      {{#if(hasPages)}}
+      <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#if isLeftEllipsisShown}}
+        {{#if(isLeftEllipsisShown)}}
            <li>...</li>
         {{/if}}
 
-        {{#each pagesVisible}}
-           <li class="{{#if isActive}}active{{/if}}" ($click)=changePage(pageNumber)>{{pageTitle}}</li>
+        {{#each(pagesVisible)}}
+           <li class="{{#if(isActive)}}active{{/if}}" on:click=changePage(pageNumber)>{{pageTitle}}</li>
         {{/each}}
 
         {{#if isRightEllipsisShown}}
            <li>...</li>
         {{/if}}
       </ul>
-      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      <button on:click="next()" {{^if(isNextActive)}} disabled {{/if}}>Next</button>
       {{/if}}
 ```
 
@@ -140,10 +144,10 @@ For how to define grid component with a custom view-model see the section below.
 For the full demo see `src/demo/demo-pagination.html`.
 
 ```html
-    <grid-component {(rows)}="items" pagination="10">
+    <grid-component rows:from="items" pagination:from="10">
       <table>
         <tbody>
-          {{#each pagedRows}}
+          {{#each(pagedRows)}}
             <tr>
               <td>{{id}}</td>
               <td>{{title}}</td>
@@ -151,16 +155,16 @@ For the full demo see `src/demo/demo-pagination.html`.
           {{/each}}
         </tbody>
       </table>
-      {{#if hasPages}}
-      <button ($click)="prev()" {{^if isPrevActive}} disabled {{/if}}>Prev</button>
+      {{#if(hasPages)}}
+      <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-          <li class="{{#if isActive}}active{{/if}}" ($click)="changePage(pageNumber)">
+          <li class="{{#if(isActive)}}active{{/if}}" on:click="changePage(pageNumber)">
             {{pageTitle}}
           </li>
         {{/each}}
       </ul>
-      <button ($click)="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      <button on:click="next()" {{^if(isNextActive)}} disabled {{/if}}>Next</button>
       {{/if}}
     </grid-component>
 ```
@@ -175,15 +179,14 @@ you can do:
 
 ```
 import VM from 'grid-component/src/view-model';
-import mixinSort, { mixinSortHelpers } from 'grid-component/src/mixins/sort';
+import mixinSort from 'grid-component/src/mixins/sort';
 import mixinPagination from 'grid-component/src/mixins/pagination';
 
 let MyCustomVM = DefineMap.extend({seal: false}, mixin(VM, mixinSort, mixinPagination));
 
 Component.extend({
    tag: 'my-grid-component',
-   viewModel: MyCustomVM,
-   helpers: Object.assign({}, mixinSortHelpers)
+   viewModel: MyCustomVM
 });
 ```
 
@@ -247,6 +250,7 @@ Pagination:
 
 ## Changelog
 
+- 0.11.0 Upgraded to CanJS v4.
 - 0.10.0 Added `pagesVisible`, `isLeftEllipsisShown` and `isRightEllipsisShown` to `pagination-server` mixin.
 - 0.9.0 Added `pagination-server` mixin to handle server-side pagination based on `total`, `limit` and `skip` params.
   - set `pagination-server` as a default mixin (instead of local `pagination`).
