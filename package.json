@@ -25,20 +25,20 @@
   },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
-    "can-component": "^4.0.4",
-    "can-compute": "^4.0.3",
-    "can-construct": "^3.3.1",
-    "can-define": "^2.0.3",
-    "can-queues": "^1.0.1",
-    "can-stache": "^4.2.3",
-    "can-stache-bindings": "^4.1.0",
-    "can-util": "^3.11.5",
+    "can-component": "^4.0.0",
+    "can-compute": "^4.0.0",
+    "can-construct": "^3.0.0",
+    "can-define": "^2.0.0",
+    "can-queues": "^1.0.0",
+    "can-stache": "^4.0.0",
+    "can-stache-bindings": "^4.0.0",
+    "can-util": "^3.0.0",
     "can-view-autorender": "^4.0.0",
-    "can-view-model": "^4.0.1",
-    "lodash": "^4.17.5",
-    "steal": "^1.9.1",
-    "steal-less": "^1.2.2",
-    "steal-stache": "^4.1.0"
+    "can-view-model": "^4.0.0",
+    "lodash": ">=3.0.0",
+    "steal": "^1.6.0",
+    "steal-less": "^1.0.0",
+    "steal-stache": "^4.0.0"
   },
   "devDependencies": {
     "babel-polyfill": "^6.16.0",
@@ -53,11 +53,5 @@
     "steal-qunit": "1.0.1",
     "steal-tools": "1.11.5",
     "testee": "^0.7.0"
-  },
-  "steal": {
-    "plugins": [
-      "steal-less",
-      "steal-stache"
-    ]
   }
 }
