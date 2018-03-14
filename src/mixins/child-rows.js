@@ -8,7 +8,7 @@ import queues from "can-queues";
  *      <table>
  *        <thead>
  *          <tr class="{{#if allChildrenVisible}}open{{/if}}">
- *            <th class="expandable-parent" ($click)="toggleAllChildrenVisible(rows)">
+ *            <th class="expandable-parent" on:click="toggleAllChildrenVisible(rows)">
  *              <span class="open-toggle"></span>
  *            </th>
  *          </tr>
@@ -41,7 +41,7 @@ export default {
    * @type {Boolean}
    */
   allChildrenVisible: {
-    value: false,
+    default: false,
     set: function (value) {
       var rows = this.rows;
       if (rows && rows.length) {

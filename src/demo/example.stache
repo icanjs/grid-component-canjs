@@ -15,7 +15,7 @@
   <thead>
     <tr>
       {{#if hasCheckboxes}}
-        <th class="cell-checkbox"><input type="checkbox" {($checked)}="isHeaderChecked"></th>
+        <th class="cell-checkbox"><input type="checkbox" el:checked:bind="isHeaderChecked"></th>
       {{/if}}
 
       {{! TODO: review (too verbose) }}
@@ -40,7 +40,7 @@
     {{#each renderedRows}}
       <tr class="{{^if isVisible}}hidden{{/if}}">
         {{#if hasCheckboxes}}
-          <td class="cell-checkbox"><input type="checkbox" {($checked)}="isChecked" {{#isDisabled}}disabled{{/isDisabled}} {{data "row"}}></td>
+          <td class="cell-checkbox"><input type="checkbox" el:checked:bind="isChecked" {{#isDisabled}}disabled{{/isDisabled}} {{data "row"}}></td>
         {{/if}}
 
         <td>{{period}}</td>

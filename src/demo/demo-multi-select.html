@@ -10,7 +10,7 @@
 
   <h3>Grid Filtering Demo</h3>
   <div>selectedValues: [{{#each selectedFileTypeValues}} {{.}}, {{/each}}]</div>
-  <div>selected: [{{#each selected}} <span style="font-weight:bold; font-size: 16px;">{</span> value: {{value}}, text: '{{text}}' <span style="font-weight:bold; font-size: 16px;">}</span>, {{/each}}]</div>
+  <div>selected: [{{#each selected}} <span style="font-weight:bold; font-size: 16px;">{</span> default: {{value}}, text: '{{text}}' <span style="font-weight:bold; font-size: 16px;">}</span>, {{/each}}]</div>
   <div class="grid-container">
     <grid-component rows="{rows}">
       <div class="grid-tools">
