@@ -15,9 +15,9 @@
 
     <div class="demo-container">
 
-    <grid-component {(rows)}="rows"
-                    {pagination}="pagination"
-                    (onpage)=loadPage()>
+    <grid-component rows:from="rows"
+                    pagination:from="pagination"
+                    on:onpage="loadPage()">
 
       <p>
         Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
@@ -36,8 +36,8 @@
         </thead>
 
         <tbody>
-          {{#each rows}}
-            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if(selected)}}selected{{/if}}" on:click="selectRow">
+          {{#each(rows, row=value)}}
+            <tr class="even-odd {{#if(isHidden)}}hidden{{/if}} {{#if(selected)}}selected{{/if}}" on:click="../selectRow(row, scope.element, scope.event)">
               <td class="col-checkbox"><input type="checkbox" checked:bind="isChecked"/></td>
               <td>{{id}}</td>
               <td>{{region}}</td>
@@ -48,16 +48,16 @@
         </tbody>
       </table>
 
-      {{#if hasPages}}
+      {{#if(hasPages)}}
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#if isLeftEllipsisShown}}
+        {{#if(isLeftEllipsisShown)}}
             <li>...</li>
         {{/if}}
-        {{#each pagesVisible}}
-            <li class="{{#if isActive}}active{{/if}}" on:click=changePage(pageNumber)>{{pageTitle}}</li>
+        {{#each(pagesVisible)}}
+            <li class="{{#if isActive}}active{{/if}}" on:click="../changePage(pageNumber)">{{pageTitle}}</li>
         {{/each}}
-        {{#if isRightEllipsisShown}}
+        {{#if(isRightEllipsisShown)}}
             <li>...</li>
         {{/if}}
       </ul>
@@ -89,7 +89,8 @@
       country: 'string',
       amount: 'number',
       selected: 'boolean',
-      isChecked: 'boolean'
+      isChecked: 'boolean',
+      isHidden: 'boolean'
     });
     Item.List = DefineList.extend( { '#': Item } );
     let algebra = new set.Algebra( set.props.offsetLimit("skip","limit") );
@@ -108,7 +109,8 @@
         country: ['AUT','USA','SWE','CAN'][i % 4],
         amount: [100, 200, 300][i % 3],
         selected: false,
-        isChecked: false
+        isChecked: false,
+        isHidden: false
       });
     });
     let itemStore = fixture.store(itemsData, algebra);

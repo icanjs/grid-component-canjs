@@ -23,6 +23,11 @@
   "bugs": {
     "url": "https://github.com/icanjs/grid-component/issues"
   },
+  "steal": {
+    "plugins": [
+      "steal-less"
+    ]
+  },
   "homepage": "https://github.com/icanjs/grid-component#readme",
   "dependencies": {
     "can-component": "^4.0.0",

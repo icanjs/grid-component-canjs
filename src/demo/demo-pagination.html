@@ -10,7 +10,7 @@
 
     <div class="demo-container">
 
-    <grid-component {(rows)}="rows" pagination="10">
+    <grid-component rows:from="rows" pagination:from="10">
 
       <p>
         Rows: {{rows.length}}, checked: {{checkedVisibleRows.length}}<br>
@@ -25,16 +25,16 @@
         <thead>
           <tr>
             <th class="col-checkbox"><input type="checkbox" checked:bind="isHeaderChecked"></th>
-            <th on:click="{sortBy 'id'}">ID {{{sortArrow 'id'}}}</th>
-            <th on:click="{sortBy 'region'}">Region {{{sortArrow 'region'}}}</th>
-            <th on:click="{sortBy 'country'}">Country {{{sortArrow 'country'}}}</th>
-            <th on:click="{sortBy 'amount'}" class="amount">Amount {{{sortArrow 'amount'}}}</th>
+            <th on:click="sortBy('id')">ID {{{sortArrow('id')}}}</th>
+            <th on:click="sortBy('region')">Region {{{sortArrow('region')}}}</th>
+            <th on:click="sortBy('country')">Country {{{sortArrow('country')}}}</th>
+            <th on:click="sortBy('amount')" class="amount">Amount {{{sortArrow('amount')}}}</th>
           </tr>
         </thead>
 
         <tbody>
-          {{#each(pagedRows)}}
-            <tr class="even-odd {{#if isHidden}}hidden{{/if}} {{#if selected}}selected{{/if}}" on:click="selectRow">
+          {{#each(pagedRows, row=value)}}
+            <tr class="even-odd {{#if(isHidden)}}hidden{{/if}} {{#if(selected)}}selected{{/if}}" on:click="../selectRow(row, scope.element, scope.event)">
               <td class="col-checkbox"><input type="checkbox" checked:bind="isChecked"/></td>
               <td>{{id}}</td>
               <td>{{region}}</td>
@@ -48,11 +48,11 @@
       {{#if(hasPages)}}
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#each pages}}
-            <li class="{{#if isActive}}active{{/if}}" on:click=changePage(pageNumber)>{{pageTitle}}</li>
+        {{#each(pages)}}
+            <li class="{{#if isActive}}active{{/if}}" on:click="../changePage(pageNumber)">{{pageTitle}}</li>
         {{/each}}
       </ul>
-      <button on:click="next()" {{^if isNextActive}} disabled {{/if}}>Next</button>
+      <button on:click="next()" {{^if(isNextActive)}} disabled {{/if}}>Next</button>
       {{/if}}
 
     </grid-component>
