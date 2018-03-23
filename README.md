@@ -103,7 +103,7 @@ and template:
       {{#if(hasPages)}}
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#each pages}}
+        {{#each(pages)}}
           <li class="{{#if(isActive)}}active{{/if}}" on:click="../changePage(pageNumber)">
             {{pageTitle}}
           </li>
@@ -158,7 +158,7 @@ For the full demo see `src/demo/demo-pagination.html`.
       {{#if(hasPages)}}
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
-        {{#each pages}}
+        {{#each(pages)}}
           <li class="{{#if(isActive)}}active{{/if}}" on:click="../changePage(pageNumber)">
             {{pageTitle}}
           </li>
