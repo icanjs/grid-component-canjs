@@ -104,7 +104,7 @@ and template:
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-          <li class="{{#if(isActive)}}active{{/if}}" on:click="changePage(pageNumber)">
+          <li class="{{#if(isActive)}}active{{/if}}" on:click="../changePage(pageNumber)">
             {{pageTitle}}
           </li>
         {{/each}}
@@ -125,7 +125,7 @@ or if there are too many pages and we want to show only a section of pages (issu
         {{/if}}
 
         {{#each(pagesVisible)}}
-           <li class="{{#if(isActive)}}active{{/if}}" on:click=changePage(pageNumber)>{{pageTitle}}</li>
+           <li class="{{#if(isActive)}}active{{/if}}" on:click="../changePage(pageNumber)">{{pageTitle}}</li>
         {{/each}}
 
         {{#if isRightEllipsisShown}}
@@ -159,7 +159,7 @@ For the full demo see `src/demo/demo-pagination.html`.
       <button on:click="prev()" {{^if(isPrevActive)}} disabled {{/if}}>Prev</button>
       <ul>
         {{#each pages}}
-          <li class="{{#if(isActive)}}active{{/if}}" on:click="changePage(pageNumber)">
+          <li class="{{#if(isActive)}}active{{/if}}" on:click="../changePage(pageNumber)">
             {{pageTitle}}
           </li>
         {{/each}}
